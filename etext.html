@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Fluency: 60-Minute eText</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --illini-blue: #13294b;
+      --illini-orange: #e84a27;
+      --light-gray: #f5f5f5;
+      --medium-gray: #666666;
+      --dark-gray: #333333;
+      --border-radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: var(--light-gray);
+      color: var(--dark-gray);
+      line-height: 1.6;
+    }
+
+    .page-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    header {
+      background-color: var(--illini-blue);
+      color: white;
+      padding: 1.5rem 1rem;
+      margin: -1.5rem -1rem 2rem;
+    }
+
+    header .title {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.6rem;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    h2, h3 {
+      color: var(--illini-blue);
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      margin: 0.4rem 0;
+    }
+
+    .pill {
+      display: inline-block;
+      background-color: white;
+      color: var(--illini-blue);
+      border-radius: 999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      margin-top: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .nav-links {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      color: #ffffff;
+      text-decoration: underline;
+      margin-right: 0.75rem;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border-radius: var(--border-radius);
+      padding: 1rem 1rem 1.2rem;
+      margin: 1.25rem 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border: 1px solid #e0e0e0;
+    }
+
+    .card-header {
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: var(--illini-blue);
+    }
+
+    .card-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--medium-gray);
+      margin-bottom: 0.25rem;
+    }
+
+    .note {
+      border-left: 4px solid var(--illini-orange);
+      padding-left: 0.75rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      color: var(--medium-gray);
+    }
+
+    .highlight {
+      font-weight: 600;
+      color: var(--illini-blue);
+    }
+
+    .inline-tag {
+      display: inline-block;
+      background-color: #fff3ec;
+      color: var(--illini-orange);
+      border-radius: 999px;
+      padding: 0.05rem 0.5rem;
+      font-size: 0.75rem;
+      margin-right: 0.25rem;
+    }
+
+    .section-meta {
+      font-size: 0.85rem;
+      color: var(--medium-gray);
+      margin-bottom: 0.5rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      resize: vertical;
+      padding: 0.5rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      border-radius: 4px;
+      border: 1px solid #cccccc;
+    }
+
+    .step-badge {
+      display: inline-block;
+      background-color: var(--illini-blue);
+      color: white;
+      border-radius: 999px;
+      padding: 0.1rem 0.6rem;
+      font-size: 0.75rem;
+      margin-right: 0.3rem;
+    }
+
+    .steps p {
+      margin: 0.35rem 0;
+    }
+
+    .button-row {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 0.25rem 0.7rem;
+      font-size: 0.8rem;
+      border: 1px solid var(--illini-blue);
+      background: transparent;
+      color: var(--illini-blue);
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover {
+      background-color: rgba(19,41,75,0.05);
+    }
+
+    details {
+      margin-top: 0.6rem;
+      background-color: #fafafa;
+      border-radius: 4px;
+      border: 1px solid #dddddd;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--illini-blue);
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▶ ";
+      font-size: 0.75rem;
+    }
+
+    details[open] summary::before {
+      content: "▼ ";
+    }
+
+    .footer-nav {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #dddddd;
+      font-size: 0.85rem;
+      color: var(--medium-gray);
+    }
+
+    .footer-nav a {
+      color: var(--illini-blue);
+      text-decoration: underline;
+      margin-right: 0.75rem;
+    }
+
+    @media (min-width: 700px) {
+      header {
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      header .title {
+        padding: 0 1rem;
+      }
+
+      .page-wrapper {
+        padding: 2rem 1.5rem 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">
+      <h1>AI Fluency: 60-Minute eText</h1>
+      <p class="subtitle">
+        A focused introduction to working productively and responsibly with generative AI in academic and professional contexts.
+      </p>
+      <div class="pill">Estimated time: 55–65 minutes</div>
+      <nav class="nav-links" aria-label="Section navigation">
+        <a href="#orientation">Orientation</a>
+        <a href="#genai-basics">GenAI Basics</a>
+        <a href="#collaboration">Collaboration</a>
+        <a href="#customization">Customization</a>
+        <a href="#multimodal">Multimodal</a>
+        <a href="#tools">Tool Choices</a>
+        <a href="#responsible-use">Responsible Use</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrapper">
+    <!-- 0. Orientation -->
+    <section id="orientation">
+      <h2>0. Orientation</h2>
+      <p class="section-meta">Approximate time: 2 minutes</p>
+      <p>
+        This eText is a compressed version of the full AI Fluency certificate. In about an hour, you will walk through the most important concepts and practices for using generative AI in your work at the university. The aim is not to turn you into an AI specialist, but to give you a practical mental model, a small set of reliable strategies, and a few simple activities you can reuse on your own.
+      </p>
+      <p>
+        By the end, you should be able to explain what generative AI is doing under the hood in everyday language, work with AI tools as collaborators rather than as answer machines, customize systems so they behave more consistently, and decide when to use text, images, video, or other modalities. You will also reflect on how to use these tools responsibly within an academic community.
+      </p>
+    </section>
+
+    <!-- 1. What GenAI Is / Isn’t -->
+    <section id="genai-basics">
+      <h2>1. What Generative AI Is — and What It Isn’t</h2>
+      <p class="section-meta">Approximate time: 12 minutes</p>
+      <p>
+        Generative AI systems are pattern recognizers. They are trained on large collections of text, images, audio, or other data. During training, the model learns statistical regularities: which words often follow other words, what visual features tend to co-occur in certain types of images, and so on. When you type a prompt, the model responds by predicting what comes next in a way that is consistent with those patterns. It does not look up answers from a fixed book of facts. It predicts plausible continuations based on the examples it has seen.
+      </p>
+      <p>
+        Because of this design, generative AI can be very good at tasks where “plausible continuation” is useful. It can generate new ideas, propose alternative phrasings, rewrite text for different audiences, and organize information in different structures. It can suggest outline options for a report or help you draft an email that matches a particular tone. It can also translate between modalities, such as turning text descriptions into images or summarizing long documents into shorter explanations.
+      </p>
+      <p>
+        However, the same pattern-prediction mechanism creates limits. The model does not have beliefs, goals, or understanding in the way humans do. It does not “know” whether a statement is actually true. It does not have an internal sense of ethics or context. It simply continues patterns in a way that often looks intelligent to us. When you treat the system as a digital brain or a subject-matter expert, you are likely to overtrust its outputs and miss important errors.
+      </p>
+
+      <div class="card" aria-label="Common constraints card">
+        <div class="card-label">Key Idea</div>
+        <div class="card-header">Typical Constraints to Keep in View</div>
+        <p>
+          One important constraint is <span class="highlight">hallucination</span>, where the system generates a fluent and confident answer that is simply not true. This can appear as fabricated references, incorrect statistics, or invented quotes that sound reasonable but are not grounded in real sources. Another constraint is <span class="highlight">bias</span>, which arises because the model reflects patterns in the data it was trained on. Stereotypes and imbalances in that data can find their way into the outputs.
+        </p>
+        <p>
+          Models also operate with <span class="highlight">context limits</span>. They can only consider a certain amount of text or information at once, which means they might drop nuance from earlier in the conversation or fail to connect all relevant details. In addition, the systems are sensitive to the clarity of your prompt. When your instructions are ambiguous or underspecified, the output can be vague, misaligned with your goals, or focused on the wrong aspects of the problem.
+        </p>
+        <p class="note">
+          A quick self-check: as you use AI, ask yourself whether you are treating it as a pattern predictor or as something more. That simple question often reveals whether you are at risk of overtrusting the output.
+        </p>
+      </div>
+
+      <p>
+        Take a moment to connect this to your own work. Think of one task where “pattern prediction” is clearly helpful, such as brainstorming language or reorganizing text. Then think of a task where relying on pattern prediction alone would be risky, such as grading, making hiring decisions, or interpreting ambiguous data. Keeping that distinction in mind will help you choose when to involve AI and when to rely on human expertise.
+      </p>
+    </section>
+
+    <!-- 2. Iterative Collaboration -->
+    <section id="collaboration">
+      <h2>2. Iterative Collaboration: Working With AI</h2>
+      <p class="section-meta">Approximate time: 12 minutes</p>
+      <p>
+        A common way to interact with AI tools is to type a single prompt and accept whatever comes back. In this course, we treat that approach as incomplete. Instead, we focus on <span class="highlight">iterative collaboration</span>, where you gradually refine both your prompt and the AI’s responses through a series of exchanges. You are not just asking for an answer; you are steering a conversation.
+      </p>
+      <p>
+        A useful starting point is to think in terms of direction rather than destination. Instead of instructing the model to “write this document for me,” you might ask it to help you explore the space of possibilities. For example, you could ask for three different framings of a topic, several outline options, or alternative ways to explain a concept to different audiences. This preserves your role as the decision-maker while using the model to expand the range of options on the table.
+      </p>
+      <p>
+        It is also helpful to ask for reasoning steps rather than just final results. When you ask the model to show its reasoning, explain the assumptions it is making, or walk through its logic step by step, you give yourself something to evaluate. This makes it easier to spot weak points, incorrect assumptions, or interpretations that do not fit your context. It also turns the interaction into a more transparent process rather than a black box that spits out answers.
+      </p>
+      <p>
+        Uncertainty can become a deliberate tool rather than something to avoid. You can explicitly invite the model to surface potential blind spots by asking what you might be missing, how someone might reasonably disagree, or what additional information would help strengthen your decision. In this way, the AI becomes a partner in perspective-taking, as long as you remain responsible for deciding which suggestions are actually relevant or trustworthy.
+      </p>
+      <p>
+        Some tasks remain better suited to human leadership. Ethical decisions, complex interpretations of data, evaluations of people, and high-stakes choices that cannot easily be reversed should not be outsourced to AI. You can use the model to generate scenarios, pose questions, or reframe the problem, but the final judgment should rest with people who understand the full context and the consequences.
+      </p>
+
+      <!-- Interactive Element #1 -->
+      <div class="card" aria-label="Interactive refinement activity">
+        <div class="card-label">Interactive Activity</div>
+        <div class="card-header">Refinement Sprint</div>
+        <p>
+          Use this activity the next time you work with an AI tool. It is designed to turn a one-off prompt into a short, focused iteration.
+        </p>
+        <p>
+          First, paste a paragraph, assignment description, email draft, or other piece of writing you are currently working on into the box below. This does not need to be perfect. It is simply a starting point for refinement.
+        </p>
+        <label for="refinement-text" class="sr-only">Text for refinement activity</label>
+        <textarea id="refinement-text" placeholder="Paste or type a short piece of text you’d like to refine with AI."></textarea>
+        <div class="steps" aria-label="Refinement steps">
+          <p>
+            <span class="step-badge">Step 1</span>
+            Ask the AI: “Give me three different ways to improve the clarity, structure, or audience fit of this text. Briefly explain the rationale for each option.”
+          </p>
+          <p>
+            <span class="step-badge">Step 2</span>
+            Choose one of the suggested options that seems promising. Then ask: “Please show me how this specific revision would look if applied to my text.”
+          </p>
+          <p>
+            <span class="step-badge">Step 3</span>
+            Once you have a revised version, ask: “What risks, misunderstandings, or unintended consequences might this revision introduce, and how could I mitigate them?”
+          </p>
+        </div>
+        <p class="note">
+          The goal here is not for AI to “fix” your writing by itself. The goal is to practice steering, comparing alternatives, and checking for risks before you adopt the suggestions.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. Customizing AI for Consistency -->
+    <section id="customization">
+      <h2>3. Customizing AI for Consistency</h2>
+      <p class="section-meta">Approximate time: 12 minutes</p>
+      <p>
+        Once you are comfortable collaborating with AI in an iterative way, the next step is to make that collaboration more predictable. Customization is about giving the system stable guidance so that you do not have to reinvent your prompts every time. It is also about making sure the model aligns with your typical audiences, tone, and workflows instead of drifting with each new conversation.
+      </p>
+      <p>
+        One form of customization happens at the prompt level. This is when you include situational details directly in your request: who the audience is, what constraints you care about, what style you want, and how the output should be structured. These instructions only apply to the current interaction, which makes them flexible and easy to adjust. Prompt-level customization is ideal when you are experimenting or when the situation is unique enough that you do not want a permanent rule.
+      </p>
+      <p>
+        A second form of customization involves persistent personalization. Many tools allow you to set standing instructions, preferences, or memory. You can specify, for example, that you usually write for undergraduates, that you prefer concise explanations followed by examples, or that accessibility considerations should always be addressed. These settings shape how the AI responds by default, saving time and creating consistency across sessions. Because they persist, however, they should be chosen carefully and reviewed periodically, especially when your context changes.
+      </p>
+      <p>
+        A third layer of customization relies on your own documents and data, often called retrieval-augmented generation. Here, you give the system syllabi, policy documents, reports, datasets, or other materials that are specific to your course, unit, or research. Instead of relying on generalized training data, the model can pull information from sources you control and then synthesize or explain it. This approach is powerful when accuracy matters and when institutional context is essential, such as aligning drafts with campus policies or summarizing a set of internal documents.
+      </p>
+      <p>
+        Customization raises ethical responsibilities. You should avoid uploading sensitive data into systems that are not approved for that level of information and make sure you understand your institution’s guidance on data security. When AI contributes to work that others will see, consider documenting how it was used so that reviewers, students, or colleagues are not misled about authorship or process. Finally, be aware that persistent settings can become outdated. A customization that made sense for last semester’s context may not be appropriate for a new course, policy, or role.
+      </p>
+    </section>
+
+    <!-- 4. Multimodal AI -->
+    <section id="multimodal">
+      <h2>4. Multimodal AI Fluency</h2>
+      <p class="section-meta">Approximate time: 10 minutes</p>
+      <p>
+        Generative AI is no longer limited to text input and text output. Many systems now accept images, audio, video, and combinations of these, and they can produce new media in response. You can generate illustrations from a textual description, ask for alternative versions of a chart, convert recorded speech into written summaries, or script and synthesize short videos based on prompts. These multimodal capabilities extend how you think about communication, not just how you think about writing.
+      </p>
+      <p>
+        In practice, this means you can use AI to support accessibility by creating alternative formats for complex materials, such as audio summaries of dense readings or visuals that help explain difficult concepts. You can also prototype designs, diagrams, or storyboards more quickly than with traditional tools. Instead of spending hours in a graphics application, you can explore several conceptual directions through generated images, then refine the ones that work.
+      </p>
+      <p>
+        At the same time, multimodal AI intensifies questions about accuracy and trust. Images and videos created by AI can be compelling, but they can also misrepresent reality or blur the line between authentic and synthetic media. An AI-generated figure or chart that looks authoritative may be based on fabricated data. A synthetic voice or video can imitate real people in ways that raise serious ethical concerns. For academic and professional work, this means that visual and audio content should often be treated as claims that need verification, just like text.
+      </p>
+      <p>
+        A useful rule of thumb is to distinguish between aesthetic or exploratory uses, where you are exploring possibilities or conveying concepts, and evidentiary uses, where media are serving as proof or documentation. For exploration, multimodal AI can be highly effective and comparatively low risk. For anything that functions as evidence, human verification and clear documentation of the media’s origins are essential.
+      </p>
+
+      <!-- Interactive Element #2 -->
+      <div class="card" aria-label="Multimodal modality match activity">
+        <div class="card-label">Interactive Activity</div>
+        <div class="card-header">Modality Match</div>
+        <p>
+          Consider the four tasks below. For each one, decide which modality or combination of modalities you would use with an AI tool. Make your choices before opening the suggested answers.
+        </p>
+        <p>
+          Task A: You want to explain a complex process to new students who are unfamiliar with the terminology and may benefit from seeing the steps rather than just reading them.
+        </p>
+        <p>
+          Task B: You need an accessibility-friendly version of a dense PDF so that learners can access the content in multiple ways, including those who prefer listening to information.
+        </p>
+        <p>
+          Task C: You are exploring ideas for a new logo or visual mark for a program and want to quickly compare different conceptual directions without committing to a final design.
+        </p>
+        <p>
+          Task D: You are preparing a grant proposal that relies on accurate representation of data, methods, and outcomes. The materials must be trustworthy and well-documented.
+        </p>
+
+        <details>
+          <summary>Show suggested matches and reasoning</summary>
+          <p>
+            For Task A, a short explanatory video or a sequence of annotated images is often effective. An AI tool can help you generate visual walkthroughs or diagrams that break the process into steps, making it easier for new students to follow.
+          </p>
+          <p>
+            For Task B, a combination of audio and simplified text works well. You might use AI to summarize the key ideas from the PDF into plainer language and then create an audio narration of that summary. This gives learners multiple ways to engage with the material.
+          </p>
+          <p>
+            For Task C, image generation is a natural fit. You can prompt an image model with different prompts that describe your program’s goals, values, or metaphors you want to invoke, then inspect the variations and decide which design directions to explore further.
+          </p>
+          <p>
+            For Task D, text remains central, with strong human oversight. AI can assist with structuring the proposal, clarifying language, or drafting sections, but you should treat visuals and data representations with caution. Any graphs, tables, or figures should be grounded in real data and checked carefully, and the narrative should be reviewed to ensure it aligns with institutional and funder requirements.
+          </p>
+        </details>
+        <p class="note">
+          Notice when AI helps you explore and communicate, and when it should support rather than replace your careful handling of evidence.
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. Tool Landscape -->
+    <section id="tools">
+      <h2>5. Tool Landscape: Choosing the Right AI</h2>
+      <p class="section-meta">Approximate time: 8 minutes</p>
+      <p>
+        The AI ecosystem includes many tools with overlapping capabilities. You do not need to master all of them to be effective. Instead, it helps to understand a few broad patterns and then map specific tools onto those patterns. The key question is not “Which tool is the best in general?” but rather “Which tool is a good fit for this particular task, in this particular context?”
+      </p>
+      <p>
+        General-purpose conversational models such as ChatGPT excel at brainstorming, drafting, revising, and multimodal creation in a wide variety of domains. They are flexible and good for early-stage thinking as well as polished drafts, as long as you remain in the loop to check for accuracy and alignment. Microsoft Copilot adds similar capabilities inside familiar productivity tools like Word, Excel, and Outlook, which can be particularly helpful if much of your work already lives in those environments.
+      </p>
+      <p>
+        Claude is known for handling long documents and complex reasoning tasks. It can be useful when you need to analyze, summarize, or reorganize large amounts of text, such as reports or compiled research. Gemini integrates closely with the Google ecosystem, making it a natural fit if your courses or projects rely heavily on Docs, Slides, Sheets, or other Google tools. It also supports multimodal input, allowing you to work across text, images, and in some cases video.
+      </p>
+      <p>
+        NotebookLM focuses on acting as a research assistant for your own uploaded materials. Instead of querying the open web, you connect specific documents or collections and then ask questions, request summaries, or seek connections across them. This can be especially helpful for literature reviews, grant preparation, or course design based on a set of reference materials. At the institutional level, tools like Illinois Chat are purpose-built for internal use. They are designed with campus policies and data protection in mind and are typically the safest option for work involving sensitive or institutional information.
+      </p>
+      <p>
+        A practical way to choose is to look first at your workflow and constraints. If you need deep reasoning over long documents, tools like Claude or Gemini may be good candidates. If you are working inside the Microsoft Office suite and want AI to interact with your existing files and emails, Copilot is a strong match. If you are teaching or collaborating in the Google ecosystem, Gemini’s integration can reduce friction. When your work involves internal or confidential data, a campus-supported tool such as Illinois Chat is often the correct starting point. As you experiment, notice which tools feel natural for your common tasks, and build a small personal toolkit rather than trying to keep up with every new release.
+      </p>
+    </section>
+
+    <!-- 6. Best Practices -->
+    <section id="responsible-use">
+      <h2>6. Best Practices and Responsible Use</h2>
+      <p class="section-meta">Approximate time: 6 minutes</p>
+      <p>
+        Effective use of AI involves both technical skill and judgment about when and how to apply that skill. A first principle is to keep humans in the loop. AI can expand the range of possibilities, help you think more broadly, and accelerate routine drafting, but it should not be left to make important decisions on its own. You remain responsible for aligning work with disciplinary standards, campus policy, and ethical expectations.
+      </p>
+      <p>
+        Because generative AI can produce convincing but incorrect content, checking for accuracy is not optional. This includes verifying claims, inspecting numbers, and confirming references. In some cases, a quick search or a comparison against authoritative sources is sufficient. In others, especially in research or policy contexts, you may need more careful validation. The effort you invest in verification should match the stakes of the task.
+      </p>
+      <p>
+        Transparency about AI involvement is also part of responsible practice. When you use AI in ways that materially shape the content you share with others, consider documenting that use. In teaching, this might involve explaining how AI was used to draft or revise materials. In scholarship, it might involve acknowledging AI assistance in appropriate sections. In administrative work, it might take the form of internal notes that clarify how a document was produced.
+      </p>
+      <p>
+        Data security is another important dimension. If a document or dataset is not something you would comfortably send through unsecured channels, it is not something to paste into just any AI system. Follow institutional guidance about which tools are approved for which types of data, and default to campus-supported solutions when you are uncertain. When in doubt, keep sensitive information outside of general-purpose consumer tools.
+      </p>
+      <p>
+        Finally, treat AI as something you can integrate into your workflows gradually. Start with low-risk, low-stakes tasks where failures are manageable and experiments are informative. As you gain experience, you can build repeatable patterns that save time and mental energy. Over time, you will develop your own sense of where AI reliably adds value and where human expertise and deliberation must remain central.
+      </p>
+    </section>
+
+    <!-- 7. Wrap-Up Reflection -->
+    <section id="wrap-up">
+      <h2>7. Wrap-Up Reflection</h2>
+      <p class="section-meta">Approximate time: 3 minutes</p>
+      <p>
+        To consolidate what you have read, take a moment to connect these ideas to your own work, teaching, or studies. The goal is to define a first, concrete next step rather than to summarize everything.
+      </p>
+      <p>
+        Use the prompt below and respond in three or four sentences:
+      </p>
+      <div class="card">
+        <p class="highlight">
+          Reflection Prompt
+        </p>
+        <p>
+          “How might I use AI this semester to expand possibility without outsourcing judgment? What is one specific workflow or activity where I will deliberately combine AI assistance with my own expertise and decision-making?”
+        </p>
+        <label for="reflection-text" class="sr-only">Reflection response</label>
+        <textarea id="reflection-text" placeholder="Draft your short reflection here. You may reuse this text in assignments, discussions, or personal planning."></textarea>
+      </div>
+      <p>
+        If this eText is part of a course or workshop, you may be invited to share your reflection, complete a short knowledge check, or respond to a feedback survey. Those follow-up pieces help instructors refine future offerings and help you clarify how you want to use AI in practice.
+      </p>
+    </section>
+
+    <footer class="footer-nav" aria-label="Footer navigation">
+      <p>
+        Navigate to another section:
+      </p>
+      <p>
+        <a href="#orientation">Orientation</a>
+        <a href="#genai-basics">GenAI Basics</a>
+        <a href="#collaboration">Collaboration</a>
+        <a href="#customization">Customization</a>
+        <a href="#multimodal">Multimodal AI</a>
+        <a href="#tools">Tool Landscape</a>
+        <a href="#responsible-use">Responsible Use</a>
+        <a href="#wrap-up">Wrap-Up</a>
+      </p>
+    </footer>
+  </main>
+</body>
+</html>
