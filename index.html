@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Projects Gallery - CITL Demos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #13294B 0%, #1e3a5f 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #E84A27;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .search-filter {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 500px;
+            padding: 0.75rem 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #E84A27;
+            box-shadow: 0 0 0 3px rgba(232, 74, 39, 0.2);
+        }
+
+        .filter-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #E84A27;
+            border-color: #E84A27;
+            transform: translateY(-2px);
+        }
+
+        .tag-btn {
+            background: rgba(232, 74, 39, 0.2);
+            border-color: #E84A27;
+            font-size: 0.85rem;
+        }
+
+        .tag-btn:hover,
+        .tag-btn.active {
+            background: #E84A27;
+            border-color: #E84A27;
+        }
+
+        .category-section {
+            margin-bottom: 3rem;
+        }
+
+        .category-header {
+            color: #E84A27;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #E84A27;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .count-badge {
+            background: #E84A27;
+            color: white;
+            font-size: 0.9rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: normal;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(232, 74, 39, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #13294B 0%, #E84A27 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.05) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(-50%, -50%); }
+            100% { transform: translate(0%, 0%); }
+        }
+
+        .card-icon {
+            position: relative;
+            z-index: 1;
+            font-size: 4rem;
+            opacity: 0.9;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            color: #13294B;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-tag {
+            background: rgba(232, 74, 39, 0.1);
+            color: #E84A27;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(232, 74, 39, 0.3);
+        }
+
+        .card-path {
+            color: #999;
+            font-size: 0.75rem;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .card-link {
+            margin-top: auto;
+            padding: 0.75rem;
+            background: #13294B;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .card-link:hover {
+            background: #E84A27;
+            transform: scale(1.02);
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            color: #E84A27;
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        footer a {
+            color: #E84A27;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                width: 100%;
+            }
+
+            .filter-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 AI Projects Gallery</h1>
+            <div class="subtitle">Center for Innovation in Teaching & Learning</div>
+            <p class="description">
+                Interactive web applications and educational resources created with generative AI coding assistants. 
+                These demonstrations showcase what's possible using AI tools for educational technology development.
+            </p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number" id="totalProjects">0</span>
+                <span class="stat-label">Projects</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="totalCategories">0</span>
+                <span class="stat-label">Categories</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="totalTags">0</span>
+                <span class="stat-label">Tags</span>
+            </div>
+        </div>
+
+        <div class="search-filter">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search projects...">
+        </div>
+
+        <div class="filter-section">
+            <label class="filter-label">📁 Filter by Category</label>
+            <div class="filter-buttons" id="categoryButtons"></div>
+        </div>
+
+        <div class="filter-section" id="tagFilterSection" style="display: none;">
+            <label class="filter-label">🏷️ Filter by Tag</label>
+            <div class="filter-buttons" id="tagButtons"></div>
+        </div>
+
+        <div id="gallery"></div>
+
+        <footer>
+            <p>Created with AI • University of Illinois • <a href="mailto:jwentwor@illinois.edu">jwentwor@illinois.edu</a></p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                <a href="https://github.com/JimWentworth/GenAI" target="_blank">View on GitHub</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const data = 
+{
+  "demos": [
+    {
+      "path": "Canvas/canvas-cc-creator.html",
+      "title": "Canvas Common Cartridge - File Upload",
+      "description": "",
+      "category": "Canvas",
+      "tags": [
+        "Canvas"
+      ],
+      "filename": "canvas-cc-creator.html"
+    },
+    {
+      "path": "Canvas/canvas-cc-packager.html",
+      "title": "Canvas Common Cartridge Packager - Multi-Page",
+      "description": "",
+      "category": "Canvas",
+      "tags": [
+        "Canvas"
+      ],
+      "filename": "canvas-cc-packager.html"
+    },
+    {
+      "path": "Canvas/Canvas_Page.html",
+      "title": "Canvas Page",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "Canvas_Page.html"
+    },
+    {
+      "path": "Canvas/canvas_page2.html",
+      "title": "Link Portal",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "canvas_page2.html"
+    },
+    {
+      "path": "Canvas/web_resources/week10.html",
+      "title": "Week 10: Cross-Case Checkpoint 2 \u2014 Bias, overfitting, false leads",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week10.html"
+    },
+    {
+      "path": "Canvas/web_resources/week11.html",
+      "title": "Week 11: Case 3 (Your Final Path) \u2014 Closing the loop",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week11.html"
+    },
+    {
+      "path": "Canvas/web_resources/week12.html",
+      "title": "Week 12: Case 3 Deep Dive \u2014 Blind spots and strengths",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week12.html"
+    },
+    {
+      "path": "Canvas/web_resources/week13.html",
+      "title": "Week 13: Case 3 Wrap \u2014 Final Case File",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week13.html"
+    },
+    {
+      "path": "Canvas/web_resources/week14.html",
+      "title": "Week 14: The Network of Clues \u2014 Putting models together",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week14.html"
+    },
+    {
+      "path": "Canvas/web_resources/week15.html",
+      "title": "Week 15: The Reveal \u2014 What was actually learned?",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week15.html"
+    },
+    {
+      "path": "Canvas/web_resources/week01.html",
+      "title": "Week 1: Opening the Case \u2014 What does it mean to \"see\" a pattern?",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week01.html"
+    },
+    {
+      "path": "Canvas/web_resources/week02.html",
+      "title": "Week 2: The Shared Case File \u2014 Features, labels, targets",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week02.html"
+    },
+    {
+      "path": "Canvas/web_resources/week03.html",
+      "title": "Week 3: Case 1 (Student-Selected Path) \u2014 Core Concepts",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week03.html"
+    },
+    {
+      "path": "Canvas/web_resources/week04.html",
+      "title": "Week 4: Case 1 Deep Dive \u2014 Evidence and uncertainty",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week04.html"
+    },
+    {
+      "path": "Canvas/web_resources/week05.html",
+      "title": "Week 5: Case 1 Wrap \u2014 Your first Case File",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week05.html"
+    },
+    {
+      "path": "Canvas/web_resources/week06.html",
+      "title": "Week 6: Cross-Case Checkpoint 1 \u2014 Sharing what you've seen",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week06.html"
+    },
+    {
+      "path": "Canvas/web_resources/week07.html",
+      "title": "Week 7: Case 2 (Your Second Path) \u2014 New lens, same data",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week07.html"
+    },
+    {
+      "path": "Canvas/web_resources/week08.html",
+      "title": "Week 8: Case 2 Deep Dive \u2014 Interpreting behavior",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week08.html"
+    },
+    {
+      "path": "Canvas/web_resources/week09.html",
+      "title": "Week 9: Case 2 Wrap \u2014 Finishing your second Case File",
+      "description": "",
+      "category": "Canvas",
+      "tags": [],
+      "filename": "week09.html"
+    },
+    {
+      "path": "Course-Design/Faculty_AI_Course_Design_Library.html",
+      "title": "AI for Faculty Course Design - University of Illinois",
+      "description": "",
+      "category": "Course-Design",
+      "tags": [
+        "Claude",
+        "Course Design"
+      ],
+      "filename": "Faculty_AI_Course_Design_Library.html"
+    },
+    {
+      "path": "Course-Design/Blooms-Sorterv1.html",
+      "title": "Bloom's Taxonomy Verb Selector",
+      "description": "",
+      "category": "Course-Design",
+      "tags": [
+        "Course Design",
+        "Interactive"
+      ],
+      "filename": "Blooms-Sorterv1.html"
+    },
+    {
+      "path": "Course-Design/workload-calculator.html",
+      "title": "CITL Student Workload Calculator",
+      "description": "",
+      "category": "Course-Design",
+      "tags": [],
+      "filename": "workload-calculator.html"
+    },
+    {
+      "path": "Course-Design/qm_check.html",
+      "title": "QM Standards Checklist",
+      "description": "",
+      "category": "Course-Design",
+      "tags": [],
+      "filename": "qm_check.html"
+    },
+    {
+      "path": "Demos/read_aloud_cognitive_concern_highlight.html",
+      "title": "Read-Aloud (Highlighted): The Cognitive Concern",
+      "description": "",
+      "category": "Demos",
+      "tags": [],
+      "filename": "read_aloud_cognitive_concern_highlight.html"
+    },
+    {
+      "path": "H5P-Library/17_adaptive_followup.html",
+      "title": "Adaptive Follow\u2011Up",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "17_adaptive_followup.html"
+    },
+    {
+      "path": "H5P-Library/27_audio_prompt_response.html",
+      "title": "Audio Prompt + Typed Response",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "27_audio_prompt_response.html"
+    },
+    {
+      "path": "H5P-Library/08_bias_probe_next_word.html",
+      "title": "Bias Probe \u2014 Next-Word Demo (Simulated)",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "08_bias_probe_next_word.html"
+    },
+    {
+      "path": "H5P-Library/22_categorize_buckets.html",
+      "title": "Categorize into Buckets",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "22_categorize_buckets.html"
+    },
+    {
+      "path": "H5P-Library/26_chat_simulation_role_prompt.html",
+      "title": "Chat Simulation \u2014 Role Prompting",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "26_chat_simulation_role_prompt.html"
+    },
+    {
+      "path": "H5P-Library/23_concept_map_builder.html",
+      "title": "Concept Map Builder",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "23_concept_map_builder.html"
+    },
+    {
+      "path": "H5P-Library/15_confidence_question.html",
+      "title": "Confidence-Based Questioning",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "15_confidence_question.html"
+    },
+    {
+      "path": "H5P-Library/11_pairs_click_match.html",
+      "title": "Definition Pairs \u2014 Click to Match",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "11_pairs_click_match.html"
+    },
+    {
+      "path": "H5P-Library/12_ethics_self_check.html",
+      "title": "Ethics Self\u2011Check",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "12_ethics_self_check.html"
+    },
+    {
+      "path": "H5P-Library/09_flashcards_model_tool_agent.html",
+      "title": "Flashcards \u2014 Model vs Tool vs Agent",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "09_flashcards_model_tool_agent.html"
+    },
+    {
+      "path": "H5P-Library/01_mcq_basics.html",
+      "title": "GenAI Basics \u2014 Multiple Choice",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "01_mcq_basics.html"
+    },
+    {
+      "path": "H5P-Library/20_generate_evaluate_compare.html",
+      "title": "Generate & Evaluate \u2014 Compare & Revise",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "20_generate_evaluate_compare.html"
+    },
+    {
+      "path": "H5P-Library/02_true_false_guardrails.html",
+      "title": "Guardrails \u2014 True or False",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "02_true_false_guardrails.html"
+    },
+    {
+      "path": "H5P-Library/10_hotspots_risks.html",
+      "title": "Hotspots \u2014 Where the Risks Live",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "10_hotspots_risks.html"
+    },
+    {
+      "path": "H5P-Library/13_image_mcq.html",
+      "title": "Image-Based Multiple Choice",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "13_image_mcq.html"
+    },
+    {
+      "path": "H5P-Library/21_timeline_milestones.html",
+      "title": "Interactive Timeline \u2014 GenAI Milestones",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "21_timeline_milestones.html"
+    },
+    {
+      "path": "H5P-Library/25_interactive_video.html",
+      "title": "Interactive Video \u2014 Pause & Respond",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "25_interactive_video.html"
+    },
+    {
+      "path": "H5P-Library/04_fill_in_blank.html",
+      "title": "Key Terms \u2014 Fill in the Blank",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "04_fill_in_blank.html"
+    },
+    {
+      "path": "H5P-Library/03_drag_match_terms.html",
+      "title": "Match Terms \u2014 Drag & Drop",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "03_drag_match_terms.html"
+    },
+    {
+      "path": "H5P-Library/07_prompt_improvement_lab.html",
+      "title": "Prompt Improvement Lab",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "07_prompt_improvement_lab.html"
+    },
+    {
+      "path": "H5P-Library/19_scenario_reflection_journal.html",
+      "title": "Scenario Reflection Journal",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "19_scenario_reflection_journal.html"
+    },
+    {
+      "path": "H5P-Library/06_scenario_branching.html",
+      "title": "Scenario \u2014 Using AI for Research",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "06_scenario_branching.html"
+    },
+    {
+      "path": "H5P-Library/14_select_all_apply.html",
+      "title": "Select-All-That-Apply",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "14_select_all_apply.html"
+    },
+    {
+      "path": "H5P-Library/18_short_answer_keywords.html",
+      "title": "Short Answer \u2014 Keyword Check",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "18_short_answer_keywords.html"
+    },
+    {
+      "path": "H5P-Library/05_sort_workflow.html",
+      "title": "Sort the GenAI Workflow",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "05_sort_workflow.html"
+    },
+    {
+      "path": "H5P-Library/24_step_by_step_accordion.html",
+      "title": "Step-by-Step Reveal",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "24_step_by_step_accordion.html"
+    },
+    {
+      "path": "H5P-Library/16_timed_quickfire.html",
+      "title": "Timed Quickfire Quiz",
+      "description": "",
+      "category": "H5P-Library",
+      "tags": [],
+      "filename": "16_timed_quickfire.html"
+    },
+    {
+      "path": "LLMs/llm_explorer.html",
+      "title": "AI Model Explorer",
+      "description": "",
+      "category": "Llms",
+      "tags": [],
+      "filename": "llm_explorer.html"
+    },
+    {
+      "path": "LLMs/llm_context_window_comparison.html",
+      "title": "LLM Context Windows vs. Human Working Memory",
+      "description": "",
+      "category": "Llms",
+      "tags": [],
+      "filename": "llm_context_window_comparison.html"
+    },
+    {
+      "path": "ai-workshop-master.html",
+      "title": "AI Essentials Workshop - University of Illinois",
+      "description": "",
+      "category": "Main",
+      "tags": [],
+      "filename": "ai-workshop-master.html"
+    },
+    {
+      "path": "Models/AI_model_explorer.html",
+      "title": "AI Model Explorer",
+      "description": "",
+      "category": "Models",
+      "tags": [
+        "Interactive",
+        "Claude",
+        "Fluency"
+      ],
+      "filename": "AI_model_explorer.html"
+    },
+    {
+      "path": "Models/model_flipcards.html",
+      "title": "AI Models \u2014 Flip Cards (Accessible)",
+      "description": "",
+      "category": "Models",
+      "tags": [],
+      "filename": "model_flipcards.html"
+    },
+    {
+      "path": "Models/model_flipcards_accessible.html",
+      "title": "AI Models \u2014 Flip Cards (Accessible)",
+      "description": "",
+      "category": "Models",
+      "tags": [],
+      "filename": "model_flipcards_accessible.html"
+    },
+    {
+      "path": "Models/model_taxonomy.html",
+      "title": "AI Models: Four Lenses for a Clear Taxonomy",
+      "description": "",
+      "category": "Models",
+      "tags": [],
+      "filename": "model_taxonomy.html"
+    },
+    {
+      "path": "Models/model_taxonomy4.html",
+      "title": "AI Models: Four Lenses for a Clear Taxonomy",
+      "description": "",
+      "category": "Models",
+      "tags": [],
+      "filename": "model_taxonomy4.html"
+    },
+    {
+      "path": "Models/model_taxonomy7.html",
+      "title": "AI Models: Four Lenses \u2014 Overview \u2022 Table \u2022 Quiz",
+      "description": "",
+      "category": "Models",
+      "tags": [],
+      "filename": "model_taxonomy7.html"
+    },
+    {
+      "path": "Models/genai-model-taxonomy.html",
+      "title": "GenAI Model Taxonomy Playground",
+      "description": "",
+      "category": "Models",
+      "tags": [],
+      "filename": "genai-model-taxonomy.html"
+    },
+    {
+      "path": "Prompting/bias_testing_script.html",
+      "title": "Beginner Bias\u2011Testing Scripts for LLMs",
+      "description": "Copy\u2011ready prompts to probe bias, compare temperature effects, and reflect on outputs.",
+      "category": "Prompting",
+      "tags": [
+        "Prompting",
+        "Fluency"
+      ],
+      "filename": "bias_testing_script.html"
+    },
+    {
+      "path": "Prompting/beginner_bias_testing_scripts.html",
+      "title": "Beginner Bias\u2011Testing Scripts for LLMs",
+      "description": "Copy\u2011ready prompts to probe bias, compare temperature effects, and reflect on outputs.",
+      "category": "Prompting",
+      "tags": [],
+      "filename": "beginner_bias_testing_scripts.html"
+    },
+    {
+      "path": "Prompting/pattern_match_exercise.html",
+      "title": "Pattern Match: Constraint & Optimization Reasoning",
+      "description": "Interactive exercise: match real-life scenarios to common reasoning patterns (CSP, knapsack, critical path, etc.).",
+      "category": "Prompting",
+      "tags": [],
+      "filename": "pattern_match_exercise.html"
+    },
+    {
+      "path": "Prompting/problem-solving-patterns-UIUC-standalone-single-select.html",
+      "title": "Problem-Solving Patterns \u2014 Minimal UIUC App",
+      "description": "",
+      "category": "Prompting",
+      "tags": [],
+      "filename": "problem-solving-patterns-UIUC-standalone-single-select.html"
+    },
+    {
+      "path": "Prompting/prompt-patterns-flipcards.html",
+      "title": "Prompt Engineering Patterns",
+      "description": "",
+      "category": "Prompting",
+      "tags": [],
+      "filename": "prompt-patterns-flipcards.html"
+    },
+    {
+      "path": "Prompting/uncertainty_prompts.html",
+      "title": "Reducing Hallucinations: Prompt Patterns to Elicit Uncertainty",
+      "description": "A shareable reference of prompt strategies that encourage AI systems to admit uncertainty and avoid fabrication.",
+      "category": "Prompting",
+      "tags": [
+        "Prompting",
+        "Fluency"
+      ],
+      "filename": "uncertainty_prompts.html"
+    },
+    {
+      "path": "Tools/ai-tools-flipcards.html",
+      "title": "AI Fluency - Tool Profiles",
+      "description": "",
+      "category": "Tools",
+      "tags": [
+        "ChatGPT",
+        "Fluency",
+        "Interactive"
+      ],
+      "filename": "ai-tools-flipcards.html"
+    },
+    {
+      "path": "Tools/ai_tools_cards.html",
+      "title": "AI Fluency Toolkit",
+      "description": "",
+      "category": "Tools",
+      "tags": [],
+      "filename": "ai_tools_cards.html"
+    },
+    {
+      "path": "Tools/GenAI_Tools.html",
+      "title": "Generative AI Tool Spotlight Series",
+      "description": "",
+      "category": "Tools",
+      "tags": [
+        "Interactive",
+        "Demos",
+        "Claude"
+      ],
+      "filename": "GenAI_Tools.html"
+    },
+    {
+      "path": "Training/individualized_learning.html",
+      "title": "AI-Supported Individualized Pathways for Neurodiverse Learners",
+      "description": "",
+      "category": "Training",
+      "tags": [],
+      "filename": "individualized_learning.html"
+    },
+    {
+      "path": "Training/glossary.html",
+      "title": "GenAI Glossary",
+      "description": "",
+      "category": "Training",
+      "tags": [],
+      "filename": "glossary.html"
+    },
+    {
+      "path": "training/genai_workshop_final.html",
+      "title": "Hands-On Introduction to GenAI",
+      "description": "",
+      "category": "Training",
+      "tags": [
+        "Workshop",
+        "Fluency",
+        "Claude"
+      ],
+      "filename": "genai_workshop_final.html"
+    },
+    {
+      "path": "training/genai_workshop.html",
+      "title": "Hands-On Introduction to GenAI",
+      "description": "",
+      "category": "Training",
+      "tags": [
+        "Workshop",
+        "Fluency",
+        "Claude"
+      ],
+      "filename": "genai_workshop.html"
+    }
+  ],
+  "allTags": [
+    "Canvas",
+    "ChatGPT",
+    "Claude",
+    "Course Design",
+    "Demos",
+    "Fluency",
+    "Interactive",
+    "Prompting",
+    "Workshop"
+  ],
+  "iconOverrides": {}
+};
+
+        const demos = data.demos;
+        const allTags = data.allTags;
+        const iconOverrides = data.iconOverrides || {};
+
+        // Default icon mapping
+        const defaultIconMap = {
+            'Main': '🏠',
+            'Ai Frameworks': '🤖',
+            'Canvas Course': '📚',
+            'Chatgpt': '💬',
+            'Course Design': '✏️',
+            'Gpt Tester': '🧪',
+            'Interactions': '🎮',
+            'Llms': '🧠',
+            'Manus': '📖',
+            'Mind Map': '🗺️',
+            'Study Master': '📝',
+            'Verb Sorter': '📊',
+            'Viscom Concepts': '🎨',
+            'Visual Literacy': '👁️',
+            'Workload Calculator': '⏱️'
+        };
+
+        // Merge custom icons with defaults
+        const iconMap = {...defaultIconMap, ...iconOverrides};
+
+        let currentCategoryFilter = 'All';
+        let currentTagFilter = null;
+
+        function getIcon(category) {
+            return iconMap[category] || '📄';
+        }
+
+        function createCard(demo) {
+            const icon = getIcon(demo.category);
+            const tagsHTML = demo.tags && demo.tags.length > 0 
+                ? `<div class="card-tags">${demo.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}</div>`
+                : '';
+            const descHTML = demo.description 
+                ? `<div class="card-description">${demo.description}</div>`
+                : '';
+            
+            return `
+                <div class="card" data-category="${demo.category}" data-title="${demo.title.toLowerCase()}" data-path="${demo.path.toLowerCase()}" data-tags="${(demo.tags || []).join(',')}">
+                    <div class="card-image">
+                        <div class="card-icon">${icon}</div>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">${demo.title}</h3>
+                        ${descHTML}
+                        ${tagsHTML}
+                        <div class="card-path">${demo.path}</div>
+                        <a href="${demo.path}" class="card-link" target="_blank">Open Demo →</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function groupByCategory(demos) {
+            const groups = {};
+            demos.forEach(demo => {
+                if (!groups[demo.category]) {
+                    groups[demo.category] = [];
+                }
+                groups[demo.category].push(demo);
+            });
+            return groups;
+        }
+
+        function renderGallery(categoryFilter = 'All', tagFilter = null, searchTerm = '') {
+            const gallery = document.getElementById('gallery');
+            const groups = groupByCategory(demos);
+            
+            let html = '';
+            let visibleCount = 0;
+
+            Object.keys(groups).sort().forEach(category => {
+                if (categoryFilter !== 'All' && categoryFilter !== category) return;
+
+                const categoryDemos = groups[category].filter(demo => {
+                    if (tagFilter && (!demo.tags || !demo.tags.includes(tagFilter))) {
+                        return false;
+                    }
+                    
+                    if (searchTerm) {
+                        const search = searchTerm.toLowerCase();
+                        const matchesSearch = demo.title.toLowerCase().includes(search) || 
+                               demo.path.toLowerCase().includes(search) ||
+                               (demo.description && demo.description.toLowerCase().includes(search)) ||
+                               (demo.tags && demo.tags.some(tag => tag.toLowerCase().includes(search)));
+                        if (!matchesSearch) return false;
+                    }
+                    
+                    return true;
+                });
+
+                if (categoryDemos.length === 0) return;
+
+                visibleCount += categoryDemos.length;
+
+                html += `
+                    <div class="category-section">
+                        <h2 class="category-header">
+                            ${getIcon(category)} ${category}
+                            <span class="count-badge">${categoryDemos.length}</span>
+                        </h2>
+                        <div class="grid">
+                            ${categoryDemos.map(demo => createCard(demo)).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            gallery.innerHTML = html || '<p style="color: white; text-align: center; padding: 3rem;">No projects found matching your filters.</p>';
+            
+            document.getElementById('totalProjects').textContent = visibleCount;
+        }
+
+        function createCategoryButtons() {
+            const categories = ['All', ...new Set(demos.map(d => d.category))].sort();
+            const categoryButtons = document.getElementById('categoryButtons');
+            
+            categoryButtons.innerHTML = categories.map(cat => 
+                `<button class="filter-btn ${cat === 'All' ? 'active' : ''}" data-filter="${cat}">
+                    ${cat === 'All' ? '🌟 ' : getIcon(cat) + ' '}${cat}
+                </button>`
+            ).join('');
+
+            document.getElementById('totalCategories').textContent = categories.length - 1;
+
+            categoryButtons.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentCategoryFilter = btn.dataset.filter;
+                    categoryButtons.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderGallery(currentCategoryFilter, currentTagFilter, document.getElementById('searchBox').value);
+                });
+            });
+        }
+
+        function createTagButtons() {
+            if (allTags.length === 0) return;
+            
+            const tagSection = document.getElementById('tagFilterSection');
+            const tagButtons = document.getElementById('tagButtons');
+            
+            tagSection.style.display = 'block';
+            
+            tagButtons.innerHTML = `
+                <button class="filter-btn tag-btn active" data-tag="">🌟 All</button>
+                ${allTags.map(tag => 
+                    `<button class="filter-btn tag-btn" data-tag="${tag}">🏷️ ${tag}</button>`
+                ).join('')}
+            `;
+
+            document.getElementById('totalTags').textContent = allTags.length;
+
+            tagButtons.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentTagFilter = btn.dataset.tag || null;
+                    tagButtons.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderGallery(currentCategoryFilter, currentTagFilter, document.getElementById('searchBox').value);
+                });
+            });
+        }
+
+        document.getElementById('searchBox').addEventListener('input', (e) => {
+            renderGallery(currentCategoryFilter, currentTagFilter, e.target.value);
+        });
+
+        createCategoryButtons();
+        createTagButtons();
+        renderGallery();
+    </script>
+</body>
+</html>
