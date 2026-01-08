@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tool Highlight: Google Gemini in the Browser</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --illini-blue: #13294B;
+      --illini-orange: #E84A27;
+      --bg-light: #f7f7f9;
+      --card-border: #e0e0e0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+    }
+
+    h1, h2, h3 {
+      color: var(--illini-blue);
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #d0d0d0;
+      padding: 0.2rem 0.75rem;
+      background: #fafafa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-section {
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.25rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--card-border);
+      background: #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-number {
+      background: var(--illini-blue);
+      color: #ffffff;
+      border-radius: 999px;
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--illini-blue);
+    }
+
+    ol, ul {
+      padding-left: 1.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .note-box {
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      margin: 1rem 0 0;
+    }
+
+    .note-label {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--illini-orange);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    details {
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e0e0e0;
+      background: #fbfbfc;
+      padding: 0.4rem 0.75rem 0.75rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--illini-blue);
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▸ ";
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-right: 0.1rem;
+      transform: translateY(-1px);
+    }
+
+    details[open] summary::before {
+      content: "▾ ";
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .card {
+      border-radius: 0.6rem;
+      border: 1px dashed #d5d5d5;
+      background: #ffffff;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .card h3 {
+      font-size: 0.95rem;
+      margin: 0 0 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: var(--illini-blue);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #555;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+<main class="page">
+
+<header>
+  <h1>Tool Highlight: Google Gemini in the Browser</h1>
+  <p class="subtitle">
+    Google’s general-purpose AI assistant, accessible at gemini.google.com.
+  </p>
+  <p class="tagline">
+    In this walkthrough, you’ll go from logging in with your Illinois-linked Google account, to
+    using Gemini in the browser for chat, drafting, and light research, with an eye toward how
+    it complements NotebookLM.
+  </p>
+
+  <div class="pill-row">
+    <span class="pill">Browser-based chat</span>
+    <span class="pill">Google account sign-in</span>
+    <span class="pill">Workspace-aware (when enabled)</span>
+  </div>
+</header>
+
+<!-- STEP 0 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">0</div>
+    <div class="step-title">What Gemini is (and how it differs from NotebookLM)</div>
+  </div>
+  <p>
+    <strong>Gemini</strong> is Google’s general-purpose AI assistant. In the browser, it lives at
+    <strong>gemini.google.com</strong> and can help with writing, planning, brainstorming, coding,
+    and answering questions, often using up-to-date web information.:contentReference[oaicite:0]{index=0}
+  </p>
+  <ul>
+    <li>
+      <strong>Gemini:</strong> a broad, web-connected assistant that can chat, generate, and
+      reason across many tasks. It can connect to your Google Workspace (Gmail, Drive, Docs, etc.)
+      when enabled by your institution.:contentReference[oaicite:1]{index=1}
+    </li>
+    <li>
+      <strong>NotebookLM:</strong> a “notebook” that’s grounded only in the sources you load into
+      each notebook, ideal for deep reading and study of a defined corpus.:contentReference[oaicite:2]{index=2}
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Campus lens</div>
+    <p>
+      In this certificate, a useful mental model is:
+      <strong>Gemini = fast generalist + web</strong>,
+      <strong>NotebookLM = focused researcher + your sources</strong>.
+      You’ll likely use both, but for different jobs.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">1</div>
+    <div class="step-title">Sign in at gemini.google.com</div>
+  </div>
+
+  <ol>
+    <li>Open a browser and go to <strong>https://gemini.google.com</strong>. :contentReference[oaicite:3]{index=3}</li>
+    <li>
+      Click <strong>Sign in</strong>.
+      Use your <strong>Illinois-linked Google account</strong> if your institution provides one
+      (for example, <em>NetID@illinois.edu</em> through Google Workspace for Education).
+    </li>
+    <li>
+      Complete any SSO / multi-factor steps as prompted. You should land on the Gemini home
+      screen with a large prompt box and suggested starters.
+    </li>
+    <li>
+      If Gemini for Workspace isn’t enabled on your campus account, you may see a message that
+      certain features are unavailable or that you need an eligible subscription. In that case,
+      you can either:
+      <ul>
+        <li>Check campus documentation or IT for status, or</li>
+        <li>Use a <strong>personal Google account</strong> for low-risk, non-sensitive tasks only.</li>
+      </ul>
+      :contentReference[oaicite:4]{index=4}
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Safety tip</div>
+    <p>
+      Even when signed in with an institutionally managed account, avoid pasting highly sensitive
+      data (detailed student records, confidential HR documents, unpublished research with IP
+      constraints) directly into Gemini. Use it for drafts, scaffolding, and exploration.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 2 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">2</div>
+    <div class="step-title">Tour the Gemini browser interface</div>
+  </div>
+  <p>
+    The web interface has evolved (Google has been iterating rapidly), but most recent versions
+    share a similar layout: a central chat canvas and a sidebar for organization.:contentReference[oaicite:5]{index=5}
+  </p>
+
+  <ul>
+    <li>
+      <strong>Main chat canvas:</strong> The large area where you type prompts and see responses.
+      You’ll see starter suggestions (“Brainstorm ideas,” “Write a summary,” etc.) and a mode
+      selector for different types of tasks.
+    </li>
+    <li>
+      <strong>Left sidebar:</strong> Recent chats, pinned conversations, and (in newer versions)
+      folders like <em>Chats</em>, <em>Gems</em>, and <em>My Stuff</em> for files, uploads, and
+      other artifacts.:contentReference[oaicite:6]{index=6}
+    </li>
+    <li>
+      <strong>Top bar:</strong> Model or plan indicator (e.g., Gemini free vs. Advanced),
+      account info, and quick links to Google AI Studio or Workspace integrations.
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Mental model</div>
+    <p>
+      Treat gemini.google.com as your <strong>general-purpose thinking space</strong>:
+      you can experiment freely with prompts, then move stable workflows into
+      NotebookLM, Google Docs, or other tools once you know what works.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 3 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">3</div>
+    <div class="step-title">Warm up: Explanations, nuance, and self-critique</div>
+  </div>
+
+  <p>
+    Before connecting Gemini to any of your files, explore how it explains concepts and
+    handles nuance.
+  </p>
+
+  <ol>
+    <li>
+      In a new chat, ask for a core concept explanation:<br />
+      <em>“Explain large language models to a first-year undergraduate in 3 short paragraphs.”</em>
+    </li>
+    <li>
+      Immediately ask for limitations:<br />
+      <em>“List 4 limitations or risks of using large language models in grading or assessment.”</em>
+    </li>
+    <li>
+      Ask for different framings:<br />
+      <em>“Now explain the same idea for faculty who are worried about academic integrity.”</em>
+    </li>
+    <li>
+      Push Gemini to critique itself:<br />
+      <em>“What might be misleading, incomplete, or oversimplified in your explanation?”</em>
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: Explanation comparison</summary>
+    <p style="margin-top:0.5rem;">
+      Pick one topic from this certificate (e.g., hallucinations, prompt engineering, or
+      retrieval-augmented generation). Ask Gemini to explain it, then:
+    </p>
+    <ul>
+      <li>Highlight where it’s strong and where it glosses over important details.</li>
+      <li>Write one short paragraph in your own words correcting or deepening the answer.</li>
+      <li>Ask Gemini to integrate your paragraph and compare the result.</li>
+    </ul>
+  </details>
+</section>
+
+<!-- STEP 4 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">4</div>
+    <div class="step-title">Use Gemini for web-grounded research (with caution)</div>
+  </div>
+
+  <p>
+    Gemini can perform multi-step web research, especially through features like
+    <strong>Deep Research</strong>, to synthesize information from multiple sources.:contentReference[oaicite:7]{index=7}
+  </p>
+
+  <ol>
+    <li>
+      Ask a research-style question, such as:<br />
+      <em>“What are emerging policies on generative AI use in higher education in the U.S.?
+      Summarize patterns across at least 5 institutions.”</em>
+    </li>
+    <li>
+      If available in your region/account, enable or select <strong>Deep Research</strong>
+      when prompted. Gemini will take longer and show that it is reading multiple sources.
+    </li>
+    <li>
+      Once you get an answer, look for:
+      <ul>
+        <li>Embedded citations or links to external sources.</li>
+        <li>Specific claims you can verify independently.</li>
+        <li>Places where the answer is generic or vague.</li>
+      </ul>
+    </li>
+    <li>
+      Follow up with:<br />
+      <em>“For each claim, name the specific source and quote the relevant passage in your own
+      words.”</em>
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Research stance</div>
+    <p>
+      Use Gemini to narrow your reading list and surface candidate sources, not to replace
+      primary reading. It’s a front-end research assistant, not a substitute for your own
+      literature review.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 5 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">5</div>
+    <div class="step-title">Upload files and connect to Google Workspace</div>
+  </div>
+
+  <p>
+    Gemini supports <strong>file uploads</strong> directly in the browser, and in many
+    institutional setups it can also connect to your <strong>Google Workspace</strong> files
+    (Drive, Docs, Gmail) if admins enable that connection.:contentReference[oaicite:8]{index=8}
+  </p>
+
+  <ol>
+    <li>
+      In Gemini’s chat, look for the <strong>Attach</strong> or <strong>Upload</strong> icon
+      near the prompt box.
+    </li>
+    <li>
+      Upload a single document that’s appropriate for cloud AI processing, such as:
+      <ul>
+        <li>a course syllabus or assignment prompt,</li>
+        <li>a policy or guidelines document,</li>
+        <li>a draft memo or report.</li>
+      </ul>
+    </li>
+    <li>
+      Ask questions like:
+      <ul>
+        <li>“Summarize the key decisions and responsibilities in this document in 5 bullets.”</li>
+        <li>“What assumptions does this policy make about access, technology, or time?”</li>
+        <li>“Suggest 3 ways to rephrase this for students in clearer language.”</li>
+      </ul>
+    </li>
+    <li>
+      If your Workspace admin has enabled it, you may see options to let Gemini
+      access your Drive or Gmail directly. Turn these on only if you understand the
+      implications and your institution approves.:contentReference[oaicite:9]{index=9}
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Data boundaries</div>
+    <p>
+      Gemini’s Workspace integrations can summarize Docs, Slides, and Sheets or help draft Gmail
+      messages, but they respect your existing permissions. Use them for productivity, not for
+      bypassing sharing rules or reviewing content you shouldn’t see.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 6 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">6</div>
+    <div class="step-title">Shape the conversation with roles, tasks, and iterations</div>
+  </div>
+
+  <p>
+    Like other large language models, Gemini responds best when you specify <strong>role,
+    task, audience, constraints, and iteration style</strong>.
+  </p>
+
+  <ol>
+    <li>
+      Start with a role and task:<br />
+      <em>“You are an instructional designer at a public research university. Help me draft
+      guidance for instructors on responsible generative AI use in take-home assignments.”</em>
+    </li>
+    <li>
+      Add audience and constraints:<br />
+      <em>“Write 2 options under 250 words each, in accessible student-facing language, with
+      one concrete example in each.”</em>
+    </li>
+    <li>
+      Ask Gemini to show its reasoning:<br />
+      <em>“Explain why you structured each option this way and what tradeoffs you see.”</em>
+    </li>
+    <li>
+      Iterate:<br />
+      <em>“Option 1 is closest to what I need. Shorten it by 30%, keep the example, and add one
+      sentence on academic honesty.”</em>
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: Reusable prompt pattern</summary>
+    <p style="margin-top:0.5rem;">
+      Choose a recurring task (e.g., drafting announcements, designing assignment prompts,
+      planning workshops). Build a prompt that includes:
+    </p>
+    <ul>
+      <li>Role</li>
+      <li>Audience</li>
+      <li>Constraints (length, tone, structure)</li>
+      <li>Request for reasoning and revision</li>
+    </ul>
+    <p>
+      Save this as a reusable pattern you can paste into Gemini or adapt in other tools.
+    </p>
+  </details>
+</section>
+
+<!-- STEP 7 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">7</div>
+    <div class="step-title">Gems (custom agents) and Workspace tie-ins</div>
+  </div>
+
+  <p>
+    In recent updates, Google has introduced <strong>Gems</strong> — customizable Gemini
+    “personas” or agents that can be tailored for specific tasks (e.g., tutoring, copywriting,
+    study help). These can appear inside the Gemini web app and, increasingly, in Workspace apps
+    like Docs, Sheets, and Gmail.:contentReference[oaicite:10]{index=10}
+  </p>
+
+  <ul>
+    <li>
+      <strong>Prebuilt Gems:</strong> Task-specific assistants (study helper, writing coach,
+      data explainer) you can launch directly from the sidebar.
+    </li>
+    <li>
+      <strong>Custom Gems:</strong> Agents you or your institution define with instructions and
+      example behaviors. In some setups, these can be surfaced inside Docs, Sheets, and Gmail
+      side panels.
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">How to treat Gems</div>
+    <p>
+      Think of Gems as <strong>pre-configured versions of Gemini</strong>. They may have extra
+      context or specialized behaviors, but the core principle doesn’t change:
+      you still need to review outputs, apply domain judgment, and respect data boundaries.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 8 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">8</div>
+    <div class="step-title">Wrap-up: Where Gemini fits in your AI toolkit</div>
+  </div>
+
+  <p>
+    Gemini in the browser is strongest when you need:
+  </p>
+
+  <ul>
+    <li>Fast brainstorming and drafting across many topics</li>
+    <li>Web-grounded overviews and comparisons (with verification)</li>
+    <li>Lightweight file-based help for non-sensitive documents</li>
+    <li>A bridge into Google Workspace (Docs, Sheets, Slides, Gmail) when enabled</li>
+  </ul>
+
+  <p>
+    As you move between Gemini, NotebookLM, Copilot, and other tools in this certificate,
+    keep asking:
+    <em>“Is this a fast generalist question for Gemini, or a deep, source-specific question
+    for NotebookLM or another grounded tool?”</em>
+  </p>
+</section>
+
+<div class="footer-note">
+  This page focuses on the browser-based Gemini experience at
+  <strong>gemini.google.com</strong>. Google updates Gemini frequently, so buttons and layouts
+  may shift, but the core workflow &mdash; chat, iterate, then connect to your documents when
+  appropriate &mdash; remains the same.
+</div>
+
+</main>
+</body>
+</html>

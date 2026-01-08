@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>AI Fluency Certificate Glossary</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem 3rem;
+    color: #1a1a1a;
+    background-color: #ffffff;
+  }
+
+  h1 {
+    color: #13294B; /* Illinois Blue */
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p.intro {
+    margin-bottom: 1.5rem;
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+
+  .glossary-container {
+    border-top: 3px solid #13294B;
+    padding-top: 1rem;
+  }
+
+  details {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    background-color: #f9fafb;
+  }
+
+  summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: #13294B;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .term-label {
+    font-size: 0.95rem;
+  }
+
+  .chevron {
+    font-size: 0.9rem;
+    margin-left: 0.75rem;
+  }
+
+  details[open] {
+    background-color: #f3f5f8;
+    border-color: #13294B;
+  }
+
+  details[open] .chevron {
+    transform: rotate(90deg);
+  }
+
+  details div.content {
+    padding: 0 1rem 0.9rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .module-tag {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background-color: #13294B;
+    color: #fff;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+  }
+
+  .module-tag.m1 { background-color: #13294B; } /* Understanding GenAI */
+  .module-tag.m2 { background-color: #E84A27; } /* Iterative Collaboration */
+  .module-tag.m3 { background-color: #4B9CD3; } /* Customization */
+  .module-tag.m4 { background-color: #7A3E9D; } /* Multimodal */
+
+  .note {
+    font-size: 0.85rem;
+    color: #555;
+    margin-top: 0.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      scroll-behavior: auto !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>AI Fluency Certificate Glossary</h1>
+<div class="tagline">University of Illinois · AI Fluency</div>
+<p class="intro">
+Use this glossary to clarify key concepts and decision-points that appear across the AI Fluency certificate.
+Select a term to expand its definition and see where it primarily shows up in the curriculum.
+</p>
+
+<div class="glossary-container">
+
+  <!-- Agent / Custom Agent / GPT -->
+  <details>
+    <summary>
+      <span class="term-label">Agent / Custom Agent / GPT</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A configured AI workflow designed to perform a recurring task using stored instructions, files, or retrieval.
+      Agents are most useful when you want predictable, repeatable outputs instead of one-off prompts.
+      <div class="module-tag m3">Module 3 – Customization</div>
+    </div>
+  </details>
+
+  <!-- Bias -->
+  <details>
+    <summary>
+      <span class="term-label">Bias (Model Bias)</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Systematic distortions in an AI model’s outputs caused by patterns in its training data.
+      Bias is a statistical artifact, not a moral intention, but it still carries real-world consequences
+      that users must anticipate and manage.
+      <div class="module-tag m1">Module 1 – Understanding GenAI</div>
+    </div>
+  </details>
+
+  <!-- Branching a Chat -->
+  <details>
+    <summary>
+      <span class="term-label">Branching a Chat</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Starting a new conversation from an earlier point so you can explore a different direction
+      without overwriting or losing the original thread. Branching helps avoid cross-contamination
+      of context when you want to test alternate approaches.
+      <div class="module-tag m2">Module 2 – Iterative Collaboration</div>
+    </div>
+  </details>
+
+  <!-- Context Window -->
+  <details>
+    <summary>
+      <span class="term-label">Context Window</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      The maximum amount of input (measured in tokens) that the model can “see” at once.
+      Larger context windows allow you to include longer documents, multiple examples,
+      or extended instructions in a single interaction.
+      <div class="module-tag m1">Module 1 – Understanding GenAI</div>
+    </div>
+  </details>
+
+  <!-- Creative Steering -->
+  <details>
+    <summary>
+      <span class="term-label">Creative Steering</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Using prompts not merely to correct the model, but to actively shape direction:
+      adjusting framing, constraints, and perspectives to guide idea exploration.
+      <div class="module-tag m2">Module 2 – Iterative Collaboration</div>
+    </div>
+  </details>
+
+  <!-- Custom Instructions -->
+  <details>
+    <summary>
+      <span class="term-label">Custom Instructions</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Persistent settings that tell an AI system how to respond across conversations:
+      your role, goals, audiences, tone, or constraints. They’re powerful for consistency
+      but must be managed carefully to avoid unintended influence or privacy risks.
+      <div class="module-tag m3">Module 3 – Customization</div>
+    </div>
+  </details>
+
+  <!-- Data Protection / Campus-Safe AI -->
+  <details>
+    <summary>
+      <span class="term-label">Data Protection Agreement / Campus-Safe AI</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Institutional agreements and tools (such as Illinois Chat) that ensure AI use complies
+      with privacy, security, and regulatory requirements (e.g., FERPA, HIPAA, GDPR).
+      These distinguish sensitive internal work from casual, commercial use.
+      <div class="module-tag m3">Module 3 – Customization</div>
+    </div>
+  </details>
+
+  <!-- Diffusion Model -->
+  <details>
+    <summary>
+      <span class="term-label">Diffusion Model</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A generative model for images, audio, or video that learns to reverse noise.
+      During generation, it starts from random static and iteratively “denoises” toward
+      an output guided by a prompt.
+      <div class="module-tag m4">Module 4 – Multimodal GenAI</div>
+    </div>
+  </details>
+
+  <!-- Divergent Thinking -->
+  <details>
+    <summary>
+      <span class="term-label">Divergent Thinking (with AI)</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Using AI to expand the space of possibilities—generating multiple options,
+      framings, or hypotheses before narrowing down. Especially useful in low-risk,
+      exploratory phases of work.
+      <div class="module-tag m2">Module 2 – Iterative Collaboration</div>
+    </div>
+  </details>
+
+  <!-- Generative AI -->
+  <details>
+    <summary>
+      <span class="term-label">Generative AI</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A class of models that create new content—text, images, audio, video—
+      by predicting likely patterns based on training data.
+      They simulate understanding by pattern prediction rather than true comprehension.
+      <div class="module-tag m1">Module 1 – Understanding GenAI</div>
+    </div>
+  </details>
+
+  <!-- Hallucination -->
+  <details>
+    <summary>
+      <span class="term-label">Hallucination</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A confident but incorrect output generated by the model.
+      Hallucinations are especially likely when the model is asked for specific facts
+      that are not in its training data or current context.
+      <div class="module-tag m1">Module 1 – Understanding GenAI</div>
+    </div>
+  </details>
+
+  <!-- Human Judgment Boundary -->
+  <details>
+    <summary>
+      <span class="term-label">Human Judgment Boundary</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      The line between tasks AI can safely assist with (drafting, organizing, rephrasing, exploring)
+      and tasks that must remain human-led (ethical decisions, grading, policy choices,
+      high-stakes interpretation).
+      <div class="module-tag m2">Module 2 – Iterative Collaboration</div>
+      <div class="note">This boundary is not fixed; it depends on context, risk, and institutional norms.</div>
+    </div>
+  </details>
+
+  <!-- Iterative Prompting -->
+  <details>
+    <summary>
+      <span class="term-label">Iterative Prompting</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Treating AI interaction as a stepwise process: refining prompts, asking follow-up questions,
+      and revising outputs rather than expecting a single perfect response.
+      <div class="module-tag m2">Module 2 – Iterative Collaboration</div>
+    </div>
+  </details>
+
+  <!-- LLM -->
+  <details>
+    <summary>
+      <span class="term-label">LLM (Large Language Model)</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A model trained on large text corpora to predict the next token in a sequence.
+      LLMs are pattern-completion engines: they generate fluent language without human-like understanding.
+      <div class="module-tag m1">Module 1 – Understanding GenAI</div>
+    </div>
+  </details>
+
+  <!-- Memory -->
+  <details>
+    <summary>
+      <span class="term-label">Memory (Model Memory)</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A feature in some tools that stores information about you or your preferences
+      across sessions. It can support convenience and consistency but raises privacy
+      and data-governance considerations.
+      <div class="module-tag m3">Module 3 – Customization</div>
+    </div>
+  </details>
+
+  <!-- Multimodal Model -->
+  <details>
+    <summary>
+      <span class="term-label">Multimodal Model</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A model that can take in and/or generate more than one type of data
+      (e.g., text, images, audio, sometimes video). Multimodal models enable workflows
+      like analyzing documents, images, or charts directly.
+      <div class="module-tag m4">Module 4 – Multimodal GenAI</div>
+    </div>
+  </details>
+
+  <!-- Pattern Prediction -->
+  <details>
+    <summary>
+      <span class="term-label">Pattern Prediction</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      The core mechanism of LLMs and related models: given previous tokens and context,
+      predict the most likely next token. “Intelligence” is emergent from pattern-matching,
+      not understanding or intent.
+      <div class="module-tag m1">Module 1 – Understanding GenAI</div>
+    </div>
+  </details>
+
+  <!-- Persistent Workspace / Project Folder -->
+  <details>
+    <summary>
+      <span class="term-label">Persistent Workspace / Project Folder</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A structured, durable environment where the model can access past conversations,
+      files, and instructions. Ideal for complex projects that require consistency,
+      but less suitable for quick, one-off experimentation.
+      <div class="module-tag m3">Module 3 – Customization</div>
+    </div>
+  </details>
+
+  <!-- Prompt Pattern / Template -->
+  <details>
+    <summary>
+      <span class="term-label">Prompt Pattern / Template</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A reusable prompt structure for recurring tasks (e.g., “role, task, audience, format, constraints”).
+      Patterns reduce cognitive load and produce more consistent, predictable outputs.
+      <div class="module-tag m3">Module 3 – Customization</div>
+    </div>
+  </details>
+
+  <!-- Prompt-Level Customization -->
+  <details>
+    <summary>
+      <span class="term-label">Prompt-Level Customization</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Shaping the model’s behavior within a single interaction by specifying roles,
+      goals, examples, tone, and constraints directly in the prompt—without changing
+      global settings.
+      <div class="module-tag m3">Module 3 – Customization</div>
+    </div>
+  </details>
+
+  <!-- RAG -->
+  <details>
+    <summary>
+      <span class="term-label">RAG (Retrieval-Augmented Generation)</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A method where the system retrieves relevant documents or chunks you provide
+      and then generates responses grounded in that retrieved material. This can
+      reduce hallucinations and support document-based reasoning.
+      <div class="module-tag m3">Module 3 – Customization</div>
+    </div>
+  </details>
+
+  <!-- Reasoning Steps -->
+  <details>
+    <summary>
+      <span class="term-label">Reasoning Steps</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Asking the model to outline how it arrived at an answer (e.g., “show your steps”
+      or “explain your reasoning”) rather than providing only the final result. Helps
+      with transparency and quality control.
+      <div class="module-tag m2">Module 2 – Iterative Collaboration</div>
+    </div>
+  </details>
+
+  <!-- Scope of AI Assistance -->
+  <details>
+    <summary>
+      <span class="term-label">Scope of AI Assistance</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      The defined boundaries of what parts of a task AI is allowed to handle
+      (drafting, summarizing, reformatting) versus what stays firmly in human hands
+      (evaluation, final decisions, accountability).
+      <div class="module-tag m2">Module 2 – Iterative Collaboration</div>
+    </div>
+  </details>
+
+  <!-- Temporary Chat -->
+  <details>
+    <summary>
+      <span class="term-label">Temporary Chat / Clean-Slate Chat</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A conversation that does not draw on long-term memory or persistent customization.
+      Best used for privacy-sensitive work, experimentation, or divergent thinking
+      where you want minimal hidden context.
+      <div class="module-tag m3">Module 3 – Customization</div>
+    </div>
+  </details>
+
+  <!-- Token -->
+  <details>
+    <summary>
+      <span class="term-label">Token</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A unit of text used by language models—roughly a word or sub-word piece.
+      Context limits, costs, and many technical constraints are expressed in tokens.
+      <div class="module-tag m1">Module 1 – Understanding GenAI</div>
+    </div>
+  </details>
+
+  <!-- Tool Ecosystem -->
+  <details>
+    <summary>
+      <span class="term-label">Tool Ecosystem (Copilot, ChatGPT, Gemini, Claude, Firefly, NotebookLM, Illinois Chat, etc.)</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      The set of AI tools used across the certificate, each with distinct strengths,
+      licensing models, and data-handling practices—for example:
+      drafting in Copilot, document-grounded work in NotebookLM, secure internal
+      work in Illinois Chat, or image generation in Firefly.
+      <div class="module-tag m4">Module 4 – Multimodal GenAI</div>
+    </div>
+  </details>
+
+  <!-- Use Case Boundary -->
+  <details>
+    <summary>
+      <span class="term-label">Use Case Boundary</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      A decision point for whether a given task should be:
+      <ul>
+        <li>Handled primarily by AI,</li>
+        <li>Handled primarily by humans, or</li>
+        <li>Handled collaboratively.</li>
+      </ul>
+      This boundary is central for responsible use in teaching, research, and administration.
+      <div class="module-tag m2">Module 2 – Iterative Collaboration</div>
+    </div>
+  </details>
+
+  <!-- Workflow Integration -->
+  <details>
+    <summary>
+      <span class="term-label">Workflow Integration</span>
+      <span class="chevron" aria-hidden="true">▶</span>
+    </summary>
+    <div class="content">
+      Embedding AI into existing processes—such as literature reviews, curriculum design,
+      communications, or administrative planning—rather than treating AI as a separate,
+      one-off chatbot activity.
+      <div class="module-tag m2">Module 2 – Iterative Collaboration</div>
+      <div class="note">
+        A key indicator of fluency is when AI steps are deliberately placed at points
+        in a workflow where they add value without replacing judgment.
+      </div>
+    </div>
+  </details>
+
+</div>
+
+</body>
+</html>

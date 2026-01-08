@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tool Highlight: Adobe Firefly in the Browser</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --illini-blue: #13294B;
+      --illini-orange: #E84A27;
+      --bg-light: #f7f7f9;
+      --card-border: #e0e0e0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+    }
+
+    h1, h2, h3 {
+      color: var(--illini-blue);
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #d0d0d0;
+      padding: 0.2rem 0.75rem;
+      background: #fafafa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-section {
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.25rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--card-border);
+      background: #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-number {
+      background: var(--illini-blue);
+      color: #ffffff;
+      border-radius: 999px;
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--illini-blue);
+    }
+
+    ol, ul {
+      padding-left: 1.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .note-box {
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      margin: 1rem 0 0;
+    }
+
+    .note-label {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--illini-orange);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    details {
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e0e0e0;
+      background: #fbfbfc;
+      padding: 0.4rem 0.75rem 0.75rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--illini-blue);
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▸ ";
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-right: 0.1rem;
+      transform: translateY(-1px);
+    }
+
+    details[open] summary::before {
+      content: "▾ ";
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .card {
+      border-radius: 0.6rem;
+      border: 1px dashed #d5d5d5;
+      background: #ffffff;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .card h3 {
+      font-size: 0.95rem;
+      margin: 0 0 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: var(--illini-blue);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #555;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+<main class="page">
+
+<header>
+  <h1>Tool Highlight: Adobe Firefly in the Browser</h1>
+  <p class="subtitle">
+    A web-based creative space for generating and editing images with generative AI.
+  </p>
+  <p class="tagline">
+    In this walkthrough, you’ll go from logging in at firefly.adobe.com to using core browser tools:
+    Text to Image, Generative Fill, and Generative Expand to extend your canvas.
+  </p>
+
+  <div class="pill-row">
+    <span class="pill">Browser-based</span>
+    <span class="pill">Text to image</span>
+    <span class="pill">Generative Fill</span>
+    <span class="pill">Extend canvas</span>
+  </div>
+</header>
+
+<!-- STEP 0 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">0</div>
+    <div class="step-title">What Firefly is (and why it matters)</div>
+  </div>
+  <p>
+    Adobe Firefly is a suite of generative AI tools available directly in the browser at
+    <strong>firefly.adobe.com</strong>. It can generate and edit images, video, and audio using
+    natural language prompts and intuitive controls. It’s designed as a creative co-pilot, not a
+    replacement for human judgment. 
+  </p>
+  <ul>
+    <li>
+      <strong>Web app first:</strong> You can use Firefly entirely in the browser without installing
+      Photoshop or other desktop apps.:contentReference[oaicite:0]{index=0}
+    </li>
+    <li>
+      <strong>Commercially safe (per Adobe):</strong> Firefly models are trained on licensed and
+      permissioned content (Adobe Stock, open-licensed, public domain), and are marketed as safe
+      for commercial use, especially on qualifying plans.:contentReference[oaicite:1]{index=1}
+    </li>
+    <li>
+      <strong>Credit-based system:</strong> Free accounts get a limited number of generative credits
+      per month; paid plans include more.:contentReference[oaicite:2]{index=2}
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Campus lens</div>
+    <p>
+      Firefly is helpful for mockups, study visuals, and teaching materials. You still need to
+      follow campus and copyright policies when using generated images in publications, marketing,
+      or course materials.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">1</div>
+    <div class="step-title">Sign in at firefly.adobe.com</div>
+  </div>
+
+  <ol>
+    <li>Open a browser and go to <strong>https://firefly.adobe.com</strong>. :contentReference[oaicite:3]{index=3}</li>
+    <li>
+      Click <strong>Sign in</strong>. Use either:
+      <ul>
+        <li>Your Illinois-linked Adobe account (if provided by campus), or</li>
+        <li>A personal Adobe ID for non-sensitive, non-institutional work.</li>
+      </ul>
+    </li>
+    <li>
+      Complete any two-factor steps. Once logged in, you’ll see the Firefly home page with tiles
+      like <em>Text to Image</em>, <em>Generative Fill</em>, and <em>AI Photo Editor</em>.
+    </li>
+    <li>
+      If you use other Adobe tools (Photoshop, Express), the same account helps Firefly sync
+      content across apps via Creative Cloud.:contentReference[oaicite:4]{index=4}
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Safety tip</div>
+    <p>
+      For graded student work, HR content, or other sensitive materials, avoid uploading anything
+      you wouldn’t be comfortable storing in a third-party cloud service, even with Adobe’s
+      protections.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 2 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">2</div>
+    <div class="step-title">Tour the Firefly web interface</div>
+  </div>
+  <p>
+    The exact layout may change as Adobe updates Firefly, but the browser app usually centers on
+    three concepts: <strong>generation tools</strong>, <strong>editing tools</strong>, and (in
+    newer versions) <strong>Boards</strong>.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Home tiles:</strong> Launchers for tools like <em>Text to Image</em>,
+      <em>Text Effects</em>, <em>Generative Fill</em>, and video/audio generators.:contentReference[oaicite:5]{index=5}
+    </li>
+    <li>
+      <strong>Navigation sidebar:</strong> Links to <em>Home</em>, <em>Boards</em> (canvas-style
+      ideation space), and sometimes <em>Quick Actions</em> like Remove Background or Resize.:contentReference[oaicite:6]{index=6}
+    </li>
+    <li>
+      <strong>Top bar:</strong> Account/plan info, generative credits, model selection (e.g., Adobe
+      Firefly vs. partner models like Google Imagen or OpenAI image), and help/tutorials.:contentReference[oaicite:7]{index=7}
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Mental model</div>
+    <p>
+      Think of Firefly as three layers:
+      <strong>ideation</strong> (Text to Image, Boards),
+      <strong>editing</strong> (Generative Fill, Extend Canvas),
+      and <strong>production tweaks</strong> (background removal, resizing, quick effects).
+    </p>
+  </div>
+</section>
+
+<!-- STEP 3 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">3</div>
+    <div class="step-title">Start with Text to Image</div>
+  </div>
+
+  <p>
+    Text to Image is the quickest way to get something visual from a concept, course topic, or
+    workshop theme.
+  </p>
+
+  <ol>
+    <li>On the Firefly home page, click <strong>Text to Image</strong>.:contentReference[oaicite:8]{index=8}</li>
+    <li>
+      In the prompt box, describe what you want, including:
+      <ul>
+        <li>Subject: “a student studying in the library”</li>
+        <li>Style: “flat illustration, limited color palette”</li>
+        <li>Use: “for a syllabus header”</li>
+      </ul>
+      Example: <em>“Flat illustration of a diverse group of students studying together at a table
+      in a bright library, simple shapes and limited Illinois color palette, for a syllabus
+      header.”</em>
+    </li>
+    <li>
+      Adjust <strong>Style</strong>, <strong>Lighting</strong>, <strong>Color</strong>, or
+      <strong>Composition</strong> in the settings pane and click <strong>Generate</strong>.:contentReference[oaicite:9]{index=9}
+    </li>
+    <li>
+      Review the four variations. Use:
+      <ul>
+        <li><strong>Refresh</strong> to regenerate variations</li>
+        <li><strong>Style presets</strong> to quickly switch aesthetics (photo, watercolor, etc.)</li>
+        <li><strong>Download</strong> when you have a useful draft</li>
+      </ul>
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: Concept-to-visual exercise</summary>
+    <p style="margin-top:0.5rem;">
+      Pick one abstract topic from your discipline (e.g., “algorithmic bias,” “peer review,”
+      “student help-seeking”). Create:
+    </p>
+    <ul>
+      <li>One serious, informational image</li>
+      <li>One playful or metaphorical image</li>
+    </ul>
+    <p>
+      Reflect: Which is more effective for your audience? Where could each go wrong?
+    </p>
+  </details>
+</section>
+
+<!-- STEP 4 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">4</div>
+    <div class="step-title">Use Generative Fill to add, remove, or replace</div>
+  </div>
+
+  <p>
+    Generative Fill lets you upload a photo or Firefly-generated image and then add, remove, or
+    replace content using brushes and prompts.:contentReference[oaicite:10]{index=10}
+  </p>
+
+  <ol>
+    <li>From the Firefly home page, click <strong>Generative Fill</strong>.</li>
+    <li>
+      Upload an image (e.g., a campus scene, a workshop photo) or choose a sample asset.
+    </li>
+    <li>
+      Use the selection brush to highlight an area:
+      <ul>
+        <li><strong>Remove objects:</strong> Brush over a distracting sign or person and click
+          <em>Generate</em> with no prompt.</li>
+        <li><strong>Add objects:</strong> Select an area and prompt, e.g.,
+          <em>“add a small potted plant on the table.”</em></li>
+        <li><strong>Replace background:</strong> Select background and prompt,
+          <em>“soft gradient background in Illinois colors.”</em>:contentReference[oaicite:11]{index=11}</li>
+      </ul>
+    </li>
+    <li>
+      Scroll through variations, pick the best one, and export when you’re satisfied—or roll back
+      changes if something feels off.
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Ethics check</div>
+    <p>
+      Avoid altering images of real people in ways that misrepresent events or individuals
+      (e.g., adding people to meetings they never attended). For instruction, clearly label
+      edited images as demonstrations.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 5 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">5</div>
+    <div class="step-title">Extend your canvas with Generative Expand</div>
+  </div>
+
+  <p>
+    Sometimes you have a good image but not the right aspect ratio. Firefly’s
+    <strong>Generative Expand</strong> (extend canvas) lets you enlarge the image and fill in the
+    new space with coherent content.:contentReference[oaicite:12]{index=12}
+  </p>
+
+  <ol>
+    <li>
+      Either:
+      <ul>
+        <li>Start from <strong>Generative Fill</strong> and open an image, or</li>
+        <li>Use a Board or image-editing view where you see an <strong>Extend</strong> or
+          <strong>Generative Expand</strong> option on the canvas.</li>
+      </ul>
+    </li>
+    <li>
+      Choose <strong>Expand</strong> / <strong>Extend canvas</strong>. Drag the handles to widen or
+      heighten your image (for example, from 4:3 to 16:9 to fit a slide or video frame).
+    </li>
+    <li>
+      Option A: Leave the prompt blank and let Firefly auto-complete the edges
+      based on the existing image.<br />
+      Option B: Add a prompt to control the extension, e.g.,
+      <em>“extend the sky and city skyline, soft sunset colors, no new people.”</em>
+    </li>
+    <li>
+      Click <strong>Generate</strong>. Review the expanded variations:
+      <ul>
+        <li>Check for obvious seams or artifacts at the boundaries.</li>
+        <li>Zoom in on text, faces, or important objects; regenerate if they look distorted.</li>
+      </ul>
+    </li>
+    <li>
+      When satisfied, download the extended image for use in slides, banners, or web headers.
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: Slide/header prep</summary>
+    <p style="margin-top:0.5rem;">
+      Take an existing image you use in teaching, a syllabus, or a website:
+    </p>
+    <ul>
+      <li>Use Generative Expand to create a wider version suitable for a slide or banner.</li>
+      <li>Leave one side relatively simple so you have space for text.</li>
+      <li>Compare the original and extended versions for visual continuity and clarity.</li>
+    </ul>
+  </details>
+</section>
+
+<!-- STEP 6 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">6</div>
+    <div class="step-title">Experiment with Text Effects (optional but fun)</div>
+  </div>
+
+  <p>
+    Text Effects lets you generate stylized lettering where the letters are “filled” with
+    patterns or imagery based on your prompt—for example, “AI” made of circuit boards or
+    “Welcome” made of books.:contentReference[oaicite:13]{index=13}
+  </p>
+
+  <ol>
+    <li>On the Firefly home page, choose <strong>Text Effects</strong> (name may vary slightly).</li>
+    <li>Type your text, e.g., <em>“AI Fluency”</em>.</li>
+    <li>
+      In the prompt box, describe the effect, such as:
+      <em>“letters made out of books and notebooks, simple, clean, minimal background.”</em>
+    </li>
+    <li>
+      Adjust style settings (3D vs flat, photography vs illustration) and click
+      <strong>Generate</strong>.
+    </li>
+    <li>
+      Export a version that would work as a title slide or section divider in your course.
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Use with intention</div>
+    <p>
+      It’s easy to overdo visual effects. Aim for readability and accessibility: avoid
+      low-contrast combinations and overly busy textures behind small text.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 7 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">7</div>
+    <div class="step-title">Wrap-up: Where Firefly fits in your AI toolkit</div>
+  </div>
+
+  <p>
+    Firefly in the browser is strongest when you need <strong>visual</strong> help:
+    concept art, teaching graphics, mockups, and image cleanup. Its core strengths are:
+  </p>
+
+  <ul>
+    <li>Quick image generation from text for slides, handouts, and web content</li>
+    <li>Background removal and object editing with Generative Fill</li>
+    <li>Aspect-ratio fixes and extended canvases using Generative Expand</li>
+  </ul>
+
+  <p>
+    As you use Firefly alongside tools like Copilot, NotebookLM, or ChatGPT, keep asking:
+    <em>Which parts of this visual workflow can I safely automate—and where do I need to slow
+    down and make explicit design, ethics, or accessibility decisions myself?</em>
+  </p>
+</section>
+
+<div class="footer-note">
+  This page reflects the browser-based Firefly experience at <strong>firefly.adobe.com</strong>.
+  Adobe updates Firefly frequently, so tool names and layouts may evolve, but the basic workflow
+  — generate, edit, extend — remains the same.
+</div>
+
+</main>
+</body>
+</html>

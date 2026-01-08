@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tool Highlight: Illinois Chat (Campus-Hosted AI Platform)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --illini-blue: #13294B;
+      --illini-orange: #E84A27;
+      --bg-light: #f7f7f9;
+      --card-border: #e0e0e0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+    }
+
+    h1, h2, h3 {
+      color: var(--illini-blue);
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #d0d0d0;
+      padding: 0.2rem 0.75rem;
+      background: #fafafa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-section {
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.25rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--card-border);
+      background: #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-number {
+      background: var(--illini-blue);
+      color: #ffffff;
+      border-radius: 999px;
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--illini-blue);
+    }
+
+    ol, ul {
+      padding-left: 1.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .note-box {
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      margin: 1rem 0 0;
+    }
+
+    .note-label {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--illini-orange);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    details {
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e0e0e0;
+      background: #fbfbfc;
+      padding: 0.4rem 0.75rem 0.75rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--illini-blue);
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▸ ";
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-right: 0.1rem;
+      transform: translateY(-1px);
+    }
+
+    details[open] summary::before {
+      content: "▾ ";
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .compare-table th,
+    .compare-table td {
+      border: 1px solid #ddd;
+      padding: 0.6rem 0.5rem;
+      vertical-align: top;
+    }
+
+    .compare-table th {
+      background: #f1f3f7;
+      color: var(--illini-blue);
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .compare-table tr:nth-child(even) td {
+      background: #fafafa;
+    }
+
+    .footnote {
+      font-size: 0.8rem;
+      color: #555;
+      margin-top: 0.75rem;
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #555;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 0.75rem;
+    }
+
+    a {
+      color: var(--illini-blue);
+    }
+  </style>
+</head>
+
+<body>
+<main class="page">
+
+<header>
+  <h1>Tool Highlight: Illinois Chat (Campus-Hosted AI Platform)</h1>
+  <p class="subtitle">
+    Build secure, Illinois-hosted AI assistants grounded in your own sources.
+  </p>
+  <p class="tagline">
+    Illinois Chat is a university-developed platform that lets faculty, staff, and students
+    create and share their own large language model–based chatbots, with control over data
+    sources, content, and behavior.:contentReference[oaicite:0]{index=0}
+  </p>
+
+  <div class="pill-row">
+    <span class="pill">Campus-hosted</span>
+    <span class="pill">Custom chatbots</span>
+    <span class="pill">RAG framework</span>
+    <span class="pill">Public & internal data</span>
+  </div>
+</header>
+
+<!-- STEP 0: WHAT ILLINOIS CHAT IS -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">0</div>
+    <div class="step-title">What Illinois Chat is (and why it exists)</div>
+  </div>
+
+  <p>
+    <strong>Illinois Chat</strong> is an official, campus-developed AI platform from NCSA’s
+    Center for AI Innovation, built in partnership with the Office of the CIO and Illinois
+    Computes. It gives the entire campus community access to large language model (LLM)
+    capabilities through a secure, locally governed system.:contentReference[oaicite:1]{index=1}
+  </p>
+
+  <p>
+    Instead of just “one chatbot,” Illinois Chat is a <strong>platform</strong> where you can:
+  </p>
+  <ul>
+    <li>Create personalized AI assistants (chatbots) for courses, units, research, or projects.</li>
+    <li>Ground them in your own data: documents, websites, and other local sources.:contentReference[oaicite:2]{index=2}</li>
+    <li>Control the chatbot’s tone, audience, and capabilities.</li>
+    <li>Share them with others like you would a Google Doc (link-based access).:contentReference[oaicite:3]{index=3}</li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Eligibility & data classification</div>
+    <p>
+      <strong>Eligibility:</strong> Faculty, staff, and students.  
+      <strong>Data:</strong> Approved for <em>public and internal data only</em>—not high-risk
+      data.:contentReference[oaicite:4]{index=4}
+    </p>
+  </div>
+</section>
+
+<!-- STEP 1: ACCESS & LOGIN -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">1</div>
+    <div class="step-title">How to access Illinois Chat</div>
+  </div>
+
+  <ol>
+    <li>
+      Go to the <strong>Illinois Chat website</strong>:
+      <a href="https://chat.illinois.edu" target="_blank" rel="noopener">chat.illinois.edu</a>.:contentReference[oaicite:5]{index=5}
+    </li>
+    <li>
+      Click <strong>Sign in</strong> and log in with your University of Illinois credentials
+      (NetID and password) via campus single sign-on.
+    </li>
+    <li>
+      After login, you’ll see a dashboard listing:
+      <ul>
+        <li>Any chatbots you’ve created or have access to.</li>
+        <li>Options to create a new chatbot or explore examples (e.g., CropWizard).:contentReference[oaicite:6]{index=6}</li>
+      </ul>
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">When to reach for Illinois Chat</div>
+    <p>
+      Use Illinois Chat when you need a <strong>repeatable assistant</strong> (e.g., a course bot
+      or research helper) grounded in specific sources and safe for campus data, rather than a
+      one-off conversation like in consumer ChatGPT.:contentReference[oaicite:7]{index=7}
+    </p>
+  </div>
+</section>
+
+<!-- STEP 2: CONCEPTUAL MODEL -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">2</div>
+    <div class="step-title">How Illinois Chat works (at a high level)</div>
+  </div>
+
+  <p>
+    Under the hood, Illinois Chat is built on:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Open-source LLMs</strong> tuned for academic and research environments.:contentReference[oaicite:8]{index=8}
+    </li>
+    <li>
+      A <strong>Retrieval-Augmented Generation (RAG)</strong> framework: it first retrieves
+      relevant snippets from your sources, then uses an LLM to generate an answer grounded in
+      those snippets.:contentReference[oaicite:9]{index=9}
+    </li>
+    <li>
+      Support for <strong>document uploads, website scraping, and Canvas integration</strong> in
+      some deployments and examples.:contentReference[oaicite:10]{index=10}
+    </li>
+  </ul>
+
+  <p>
+    This architecture makes it well-suited for:
+  </p>
+  <ul>
+    <li>Course-specific teaching assistants.</li>
+    <li>Domain-focused research assistants.</li>
+    <li>Unit-level Q&amp;A bots that answer from policy/FAQ documents and campus websites.</li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Key difference from “just ChatGPT”</div>
+    <p>
+      Instead of talking to a general model trained on the public internet, Illinois Chat
+      emphasizes <strong>chatbots that you configure</strong>, using sources you choose, in a
+      campus-hosted environment.:contentReference[oaicite:11]{index=11}
+    </p>
+  </div>
+</section>
+
+<!-- STEP 3: BUILD A SIMPLE COURSE OR UNIT BOT -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">3</div>
+    <div class="step-title">Create your first Illinois Chat bot</div>
+  </div>
+
+  <ol>
+    <li>From the dashboard, click <strong>New chatbot</strong> (or similar “Create” option).</li>
+    <li>
+      Give your bot a descriptive name, such as:
+      <ul>
+        <li>“AI Fluency FAQ Assistant”</li>
+        <li>“Graduate Advising Info Bot”</li>
+        <li>“Research Group Helper – Lab Policies”</li>
+      </ul>
+    </li>
+    <li>
+      Set the <strong>bot description</strong> in plain language:
+      <ul>
+        <li>
+          Example: “You are a helpful assistant for the AI Fluency Certificate at the
+          University of Illinois. Answer questions using only the course syllabus, module
+          descriptions, and official program documentation. If you’re not sure, say you’re not
+          sure and suggest who to contact.”
+        </li>
+      </ul>
+    </li>
+    <li>
+      Choose your <strong>main data source type</strong> to start:
+      <ul>
+        <li>Upload documents (PDF, DOCX, etc.).</li>
+        <li>Add URLs to scrape relevant campus sites.:contentReference[oaicite:12]{index=12}</li>
+      </ul>
+    </li>
+    <li>
+      Save the bot and open the chat interface to try a few test questions.
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: Build a “Certificate FAQ” bot</summary>
+    <p style="margin-top:0.5rem;">
+      Using Illinois Chat:
+    </p>
+    <ul>
+      <li>Create a bot named “AI Fluency Certificate FAQ”.</li>
+      <li>Upload the certificate syllabus + key policy documents.</li>
+      <li>Give it a centered instruction like:
+        <em>“Only answer based on these documents; if something isn’t covered, say so.”</em>
+      </li>
+      <li>Test:
+        <ul>
+          <li>“What are the core modules?”</li>
+          <li>“How long does the final project take?”</li>
+          <li>“Who should I contact for technical issues?”</li>
+        </ul>
+      </li>
+    </ul>
+    <p>
+      Note where the bot does well, where it’s vague, and where you might need to adjust the
+      data or instructions.
+    </p>
+  </details>
+</section>
+
+<!-- STEP 4: CONNECT BETTER DATA SOURCES -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">4</div>
+    <div class="step-title">Strengthen your bot: better data, better answers</div>
+  </div>
+
+  <p>
+    Illinois Chat gets its strength from the <strong>sources you connect</strong>. Examples from
+    campus use include:
+  </p>
+
+  <ul>
+    <li>
+      Course bots trained on syllabi, lecture notes, FAQs, and assignment descriptions.:contentReference[oaicite:13]{index=13}
+    </li>
+    <li>
+      Research bots like <strong>CropWizard</strong>, which consult over 200,000 curated
+      agricultural publications using Illinois Chat’s RAG framework.:contentReference[oaicite:14]{index=14}
+    </li>
+    <li>
+      Unit-level bots that scrape campus websites to surface key resources and policies.:contentReference[oaicite:15]{index=15}
+    </li>
+  </ul>
+
+  <p>
+    For your first bot, consider:
+  </p>
+  <ul>
+    <li>Course: upload syllabus + key how-to documents.</li>
+    <li>Advising: upload checklists, FAQs, and policy summaries.</li>
+    <li>Research: upload a curated folder of articles or internal docs (public/internal only).</li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Caution on sources</div>
+    <p>
+      Don’t feed Illinois Chat high-risk data (e.g., protected health information, highly
+      sensitive HR records) and avoid proprietary third-party datasets you’re not allowed to
+      process with AI. Stick to <strong>public and internal</strong> data as defined by campus
+      data classification guidelines.:contentReference[oaicite:16]{index=16}
+    </p>
+  </div>
+</section>
+
+<!-- STEP 5: TEACHING & RESEARCH PATTERNS -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">5</div>
+    <div class="step-title">Example use cases on campus</div>
+  </div>
+
+  <p>
+    Illinois Chat is already being used across campus for teaching, research, and outreach:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Course assistants:</strong> course-specific bots in CS and engineering classes
+      helping students with concept review and assignment-level questions.:contentReference[oaicite:17]{index=17}
+    </li>
+    <li>
+      <strong>Research helpers:</strong> bots like CropWizard that answer domain-specific
+      questions, consult large curated corpora, and integrate with analytical tools.:contentReference[oaicite:18]{index=18}
+    </li>
+    <li>
+      <strong>Campus information bots:</strong> bots that scrape Illinois sites to help users
+      discover resources, policies, and services more quickly.:contentReference[oaicite:19]{index=19}
+    </li>
+  </ul>
+
+  <details>
+    <summary>Activity: “What kind of bot would help my unit?”</summary>
+    <p style="margin-top:0.5rem;">
+      Take 5 minutes to sketch answers (on paper or in a doc):
+    </p>
+    <ul>
+      <li>Who is the audience? (students, staff, faculty, external partners?)</li>
+      <li>What top 10–20 questions do they ask repeatedly?</li>
+      <li>What existing documents/web pages already answer those questions?</li>
+      <li>What is off-limits (sensitive data, nuanced judgment, policy decisions)?</li>
+    </ul>
+    <p>
+      Use this sketch as a design brief when you create your first Illinois Chat bot.
+    </p>
+  </details>
+</section>
+
+<!-- STEP 6: ILLINOIS CHAT VS OTHER TOOLS -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">6</div>
+    <div class="step-title">How Illinois Chat fits with other AI tools</div>
+  </div>
+
+  <p>
+    Illinois Chat is part of a broader campus AI ecosystem that also includes:
+  </p>
+  <ul>
+    <li><strong>Microsoft Copilot Chat</strong> (included, general-purpose assistant).:contentReference[oaicite:20]{index=20}</li>
+    <li><strong>ChatGPT Edu</strong> (paid, WebStore license for faculty/staff).:contentReference[oaicite:21]{index=21}</li>
+    <li><strong>Illinois Assistant</strong> (AI embedded in the Illinois App).:contentReference[oaicite:22]{index=22}</li>
+  </ul>
+
+  <h3>Quick comparison: Illinois Chat vs Free ChatGPT vs ChatGPT Edu</h3>
+
+  <table class="compare-table" aria-label="Comparison of Illinois Chat, Free ChatGPT, and ChatGPT Edu">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Illinois Chat</th>
+        <th>ChatGPT Free</th>
+        <th>ChatGPT Edu (Illinois)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Who it’s for</strong></td>
+        <td>Faculty, staff, and students at Illinois; campus-hosted platform.:contentReference[oaicite:23]{index=23}</td>
+        <td>Anyone with a personal account.</td>
+        <td>Illinois faculty/staff (via WebStore), with student access planned.:contentReference[oaicite:24]{index=24}</td>
+      </tr>
+      <tr>
+        <td><strong>Primary use</strong></td>
+        <td>Building and sharing <em>custom chatbots</em> grounded in your own sources.:contentReference[oaicite:25]{index=25}</td>
+        <td>One-off chats for writing, study, planning, etc.:contentReference[oaicite:26]{index=26}</td>
+        <td>High-capacity general assistant for teaching, research, and admin work.:contentReference[oaicite:27]{index=27}</td>
+      </tr>
+      <tr>
+        <td><strong>Data location & governance</strong></td>
+        <td>Campus-developed and hosted; designed as a secure alternative to commercial bots, with local governance and RAG over your own data.:contentReference[oaicite:28]{index=28}</td>
+        <td>Consumer service; not covered by Illinois’ enterprise agreement.</td>
+        <td>Enterprise-style privacy controls; conversations not used to train models by default; licensed for institutional use.:contentReference[oaicite:29]{index=29}</td>
+      </tr>
+      <tr>
+        <td><strong>Data classification</strong></td>
+        <td>Public & internal data only (no high-risk).:contentReference[oaicite:30]{index=30}</td>
+        <td>Use caution; avoid sensitive campus data.</td>
+        <td>Not for high-risk data; ok for sensitive/internal with caution.:contentReference[oaicite:31]{index=31}</td>
+      </tr>
+      <tr>
+        <td><strong>Customization</strong></td>
+        <td>Deep: choose sources, instructions, and audience to create reusable bots.:contentReference[oaicite:32]{index=32}</td>
+        <td>Moderate: projects, custom instructions, group chats, but no campus RAG platform.:contentReference[oaicite:33]{index=33}</td>
+        <td>High: custom GPTs, shared projects, integrations with campus tools and workflows.:contentReference[oaicite:34]{index=34}</td>
+      </tr>
+      <tr>
+        <td><strong>Best fit</strong></td>
+        <td>Course bots, research assistants, and unit Q&amp;A tools that need secure, source-grounded answers.:contentReference[oaicite:35]{index=35}</td>
+        <td>Learning prompt patterns, light personal use, and experimentation.</td>
+        <td>Heavy teaching, research, and admin use with institutional data and high message volume.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="footer-note">
+  Illinois Chat is a campus-developed, RAG-based AI platform that lets you build and share
+  your own secure chatbots for teaching, research, and operations. As you move through this
+  certificate, consider which of your recurring questions or workflows could be turned into
+  a well-scoped Illinois Chat bot grounded in public and internal Illinois data.
+</div>
+
+</main>
+</body>
+</html>

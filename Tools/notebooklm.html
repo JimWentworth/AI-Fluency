@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tool Highlight: Google NotebookLM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --illini-blue: #13294B;
+      --illini-orange: #E84A27;
+      --bg-light: #f7f7f9;
+      --card-border: #e0e0e0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+    }
+
+    h1, h2, h3 {
+      color: var(--illini-blue);
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #d0d0d0;
+      padding: 0.2rem 0.75rem;
+      background: #fafafa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-section {
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.25rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--card-border);
+      background: #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-number {
+      background: var(--illini-blue);
+      color: #ffffff;
+      border-radius: 999px;
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--illini-blue);
+    }
+
+    ol, ul {
+      padding-left: 1.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .note-box {
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      margin: 1rem 0 0;
+    }
+
+    .note-label {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--illini-orange);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    details {
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e0e0e0;
+      background: #fbfbfc;
+      padding: 0.4rem 0.75rem 0.75rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--illini-blue);
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▸ ";
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-right: 0.1rem;
+      transform: translateY(-1px);
+    }
+
+    details[open] summary::before {
+      content: "▾ ";
+    }
+
+    .studio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .studio-card {
+      border-radius: 0.6rem;
+      border: 1px dashed #d5d5d5;
+      background: #ffffff;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .studio-card h3 {
+      font-size: 0.95rem;
+      margin: 0 0 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: var(--illini-blue);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #555;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 0.75rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>Tool Highlight: Google NotebookLM</h1>
+      <p class="subtitle">
+        A research assistant that works directly on the documents, links, and media you upload.
+      </p>
+      <p class="tagline">
+        In this activity, you’ll take NotebookLM from “never opened it” to using the Studio tools
+        to generate overviews, study aids, and presentation-ready artifacts from your own sources.
+      </p>
+      <div class="pill-row">
+        <span class="pill">Best for: Reading & research</span>
+        <span class="pill">Great with long PDFs & articles</span>
+        <span class="pill">Grounded in your uploaded sources</span>
+      </div>
+    </header>
+
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">0</div>
+        <div class="step-title">Before you start: Safety & accounts</div>
+      </div>
+      <p>
+        NotebookLM is a Google tool that analyzes only the sources you load into each notebook.
+        It’s powerful for course readings, reports, policies, and research notes—but you still
+        need to make good choices about what you upload.
+      </p>
+      <ul>
+        <li>Only upload materials you are allowed to share under campus policies.</li>
+        <li>Avoid highly sensitive data (e.g., confidential HR files, detailed student records).</li>
+        <li>For class work, start with readings, syllabi, slides, datasets, or your own writing.</li>
+      </ul>
+      <div class="note-box">
+        <div class="note-label">Tip</div>
+        <p>
+          Each notebook is siloed: NotebookLM only sees sources inside that notebook, not across all
+          your Google Drive. This makes it well-suited for course- or project-specific research.
+        </p>
+      </div>
+    </section>
+
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <div class="step-title">Sign in to NotebookLM</div>
+      </div>
+      <ol>
+        <li>
+          Open a browser and go to
+          <strong><a href="https://notebooklm.google.com" target="_blank" rel="noopener noreferrer">
+          notebooklm.google.com</a></strong>.
+        </li>
+        <li>
+          Click <strong>Sign in</strong> and choose the Google account you’ll use for your work
+          (for course or campus work, use your Illinois-associated Google account if available).
+        </li>
+        <li>
+          Accept any terms or “Labs/experimental” notices. NotebookLM is still evolving, and
+          features may change during the year.
+        </li>
+      </ol>
+      <div class="note-box">
+        <div class="note-label">If you don’t see it</div>
+        <p>
+          Some institutional Google Workspace configurations may limit access. If you can’t open
+          NotebookLM with your campus account, try a personal Google account <em>with non-sensitive
+          materials only</em>, or check with your local IT contact.
+        </p>
+      </div>
+    </section>
+
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <div class="step-title">Create a notebook for your project</div>
+      </div>
+      <p>
+        A notebook is a container for one project or topic. All your sources and AI-generated
+        artifacts for that project live here.
+      </p>
+      <ol>
+        <li>On the left side, click <strong>New notebook</strong> (or the <strong>+</strong> tile).</li>
+        <li>Give it a clear name, such as <em>“AI Ethics Syllabus – Fall 2025”</em> or
+          <em>“Grant Proposal Background Reading.”</em></li>
+        <li>
+          Click <strong>Create</strong>. You’ll see an empty notebook with three main regions:
+          <em>Sources</em>, <em>Chat</em>, and <em>Studio</em>.
+        </li>
+      </ol>
+      <div class="note-box">
+        <div class="note-label">Concept check</div>
+        <p>
+          NotebookLM doesn’t search the open web by default. It works primarily from what
+          <em>you</em> load into the notebook. If something isn’t in your sources, the model may
+          decline to answer or tell you it doesn’t have enough information.
+        </p>
+      </div>
+    </section>
+
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">3</div>
+        <div class="step-title">Add sources (your readings, files, and links)</div>
+      </div>
+      <p>
+        Now give NotebookLM something to work with. Start with 1–5 items so it’s manageable.
+      </p>
+      <ol>
+        <li>
+          In the <strong>Sources</strong> panel, click <strong>Add source</strong> (or the
+          <strong>+</strong> button).
+        </li>
+        <li>
+          Choose from options such as:
+          <ul>
+            <li><strong>PDFs</strong>, text, or markdown files from your computer</li>
+            <li><strong>Google Docs or Slides</strong> (import from Drive)</li>
+            <li><strong>Web URLs</strong> (articles, documentation, reports)</li>
+            <li><strong>YouTube</strong> or audio files for lecture-style content</li>
+            <li>Copied & pasted text (for shorter snippets or notes)</li>
+          </ul>
+        </li>
+        <li>Wait while NotebookLM processes each source. You’ll see them listed in the Sources panel.</li>
+        <li>
+          Click a source name to preview or skim it inside NotebookLM, or open the original in a
+          new tab if you prefer.
+        </li>
+      </ol>
+      <div class="note-box">
+        <div class="note-label">Good starting set</div>
+        <p>
+          For this certificate, a nice starter set is: one reading (PDF or article), one syllabus
+          or assignment prompt, and one of your own documents (e.g., notes or a draft).
+        </p>
+      </div>
+    </section>
+
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">4</div>
+        <div class="step-title">Understand the three-panel layout</div>
+      </div>
+      <p>
+        Most of your work happens in three panels. It’s worth pausing to understand what each one
+        is for before you start clicking buttons.
+      </p>
+      <ul>
+        <li>
+          <strong>Sources</strong> (left): All the files, links, and notes you’ve added to this
+          notebook.
+        </li>
+        <li>
+          <strong>Chat</strong> (center): A conversation window where you ask questions about your
+          sources, get summaries, and request transformations.
+        </li>
+        <li>
+          <strong>Studio</strong> (right): A workspace for creating richer artifacts
+          (audio/video overviews, mind maps, study guides, infographics, slide decks, quizzes,
+          flashcards, etc.) from your sources.
+        </li>
+      </ul>
+      <div class="note-box">
+        <div class="note-label">Mental model</div>
+        <p>
+          Think of <strong>Chat</strong> as “quick questions and drafts” and
+          <strong>Studio</strong> as “things I might actually keep, share, or present.”
+        </p>
+      </div>
+    </section>
+
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">5</div>
+        <div class="step-title">Chat with your sources</div>
+      </div>
+      <p>
+        Before you touch the Studio tools, it’s useful to see how NotebookLM answers basic
+        questions grounded in your documents.
+      </p>
+      <ol>
+        <li>
+          Click into the <strong>Chat</strong> panel. NotebookLM will often show a
+          <em>Notebook Guide</em> with a summary and suggested questions.
+        </li>
+        <li>
+          Try a simple prompt such as:
+          <ul>
+            <li>“Give me a 3-paragraph overview of the key arguments across these sources.”</li>
+            <li>“What are three points of disagreement between Source A and Source B?”</li>
+            <li>“Explain the main idea in language a first-year student could understand.”</li>
+          </ul>
+        </li>
+        <li>
+          Skim the answer and scroll down to see which sources and citations it references.
+        </li>
+        <li>
+          Ask a follow-up that pushes on reasoning or gaps, for example:
+          <em>“What’s missing from this summary that might matter for policy decisions?”</em>
+        </li>
+      </ol>
+      <div class="note-box">
+        <div class="note-label">Use it critically</div>
+        <p>
+          Even though NotebookLM is grounded in your sources, it can still misread nuance or over-
+          simplify. Treat its responses as drafts or hypotheses to check against the originals,
+          not as authoritative answers.
+        </p>
+      </div>
+    </section>
+
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">6</div>
+        <div class="step-title">Use the Studio tools (Audio, Video, Maps, Infographics, Slides…)</div>
+      </div>
+      <p>
+        Now we move into the Studio panel, where NotebookLM turns your sources into more structured
+        learning and presentation artifacts. Each tool is one click to generate, with optional
+        customization panels.
+      </p>
+
+      <h2 style="font-size:1rem; margin-top:0.75rem;">6A. Core Studio tools overview</h2>
+      <div class="studio-grid">
+        <div class="studio-card">
+          <h3>Audio Overview <span class="chip">Listen</span></h3>
+          <p>
+            Generates a podcast-style conversation between AI “hosts” that walks through the key
+            ideas in your sources. Useful for review while commuting or doing other work.
+          </p>
+        </div>
+        <div class="studio-card">
+          <h3>Video Overview <span class="chip">Watch</span></h3>
+          <p>
+            Creates a narrated slideshow with images, quotes, and key points pulled from your
+            documents—like a visual counterpart to the audio overview.
+          </p>
+        </div>
+        <div class="studio-card">
+          <h3>Mind Map &amp; Reports <span class="chip">Structure</span></h3>
+          <p>
+            Generates concept maps, study guides, FAQs, timelines, and briefing docs to organize
+            complex material into digestible chunks.
+          </p>
+        </div>
+        <div class="studio-card">
+          <h3>Infographic &amp; Slide Deck <span class="chip">Present</span></h3>
+          <p>
+            Turns your sources into visual summaries and slide decks, with options to tweak length,
+            language, and emphasis.
+          </p>
+        </div>
+        <div class="studio-card">
+          <h3>Flashcards &amp; Quizzes <span class="chip">Practice</span></h3>
+          <p>
+            Builds question sets from your notebook that you can use for self-testing or share with
+            students for formative review.
+          </p>
+        </div>
+        <div class="studio-card">
+          <h3>Learning Guide <span class="chip">Tutor</span></h3>
+          <p>
+            Walks you through a topic step-by-step with explanations and follow-up questions,
+            like a structured study session based on your sources.
+          </p>
+        </div>
+      </div>
+
+      <h2 style="font-size:1rem; margin-top:1.25rem;">6B. Step-by-step: Generate an Audio Overview</h2>
+      <ol>
+        <li>In your notebook, open the <strong>Studio</strong> panel.</li>
+        <li>Click the <strong>Audio Overview</strong> tile.</li>
+        <li>
+          Optionally, open the customization panel (pencil icon) and set preferences such as:
+          desired length, tone (e.g., “conversational for undergraduates”), or specific sections
+          to emphasize.
+        </li>
+        <li>Click <strong>Generate</strong>. NotebookLM will create the audio in the background.</li>
+        <li>
+          When it’s ready, press <strong>Play</strong> to listen. You can adjust playback speed and
+          pause/rewind as needed.
+        </li>
+        <li>
+          When you hear something important, pause and add your own note in the notebook—or in a
+          separate document—rather than treating the audio as the final word.
+        </li>
+      </ol>
+
+      <details>
+        <summary>Try this as a learning activity</summary>
+        <p style="margin-top:0.5rem;">
+          Choose one dense reading, generate an Audio Overview, and then compare:
+        </p>
+        <ul>
+          <li>What the audio emphasized vs. what you think matters most.</li>
+          <li>Any missing perspectives, limitations, or counter-arguments.</li>
+          <li>How you might revise the customization prompt to get a better overview next time.</li>
+        </ul>
+      </details>
+
+      <h2 style="font-size:1rem; margin-top:1.25rem;">6C. Step-by-step: Create a Video Overview</h2>
+      <ol>
+        <li>In the <strong>Studio</strong> panel, select <strong>Video Overview</strong>.</li>
+        <li>
+          (Optional) Customize the focus: for example, ask it to visualize “workflow diagrams” or
+          “key concepts and their relationships” rather than everything.
+        </li>
+        <li>Click <strong>Generate</strong> and wait for the narrated slideshow to be built.</li>
+        <li>Play the video, noting where visuals help—or oversimplify—the underlying material.</li>
+        <li>
+          Decide whether any slide is good enough to copy into your own teaching materials or
+          presentation (with edits and proper attribution).
+        </li>
+      </ol>
+
+      <h2 style="font-size:1rem; margin-top:1.25rem;">6D. Step-by-step: Mind Maps &amp; Reports</h2>
+      <ol>
+        <li>In <strong>Studio</strong>, choose <strong>Mind Map</strong> or a type of report
+          (Study Guide, FAQ, Briefing Doc, Timeline, etc.).</li>
+        <li>
+          Optionally add a short instruction such as:
+          <em>“Organize concepts around ethical, technical, and policy themes.”</em>
+        </li>
+        <li>Click <strong>Generate</strong> and review the output:</li>
+      </ol>
+      <ul>
+        <li>Does the structure match how you’d organize the topic?</li>
+        <li>What sections should be merged, split, or renamed?</li>
+        <li>Where would you add human commentary, examples, or campus-specific context?</li>
+      </ul>
+
+      <h2 style="font-size:1rem; margin-top:1.25rem;">6E. Step-by-step: Build an Infographic or Slide Deck</h2>
+      <ol>
+        <li>In <strong>Studio</strong>, select <strong>Infographic</strong> or
+          <strong>Slide Deck</strong>.</li>
+        <li>
+          Open the customization panel and set:
+          <ul>
+            <li><strong>Audience</strong> (e.g., “first-year undergraduates in CS”)</li>
+            <li><strong>Length</strong> (short / default / long)</li>
+            <li><strong>Focus</strong> (e.g., “key definitions and 3 examples”)</li>
+          </ul>
+        </li>
+        <li>Click <strong>Generate</strong> and wait for the artifact to appear in the Studio list.</li>
+        <li>
+          Open it and scan for:
+          <ul>
+            <li>Factual accuracy and alignment with your sources</li>
+            <li>Any misleading graphics, metaphors, or missing caveats</li>
+            <li>Slides or panels that are strong enough to reuse with edits</li>
+          </ul>
+        </li>
+        <li>
+          Download the infographic (usually as an image file) or slide deck (often as a PDF) and
+          annotate or revise it in your preferred design or slide tool.
+        </li>
+      </ol>
+
+      <h2 style="font-size:1rem; margin-top:1.25rem;">6F. Step-by-step: Flashcards, Quizzes, and Learning Guide</h2>
+      <ol>
+        <li>In <strong>Studio</strong>, choose <strong>Flashcards</strong> or <strong>Quiz</strong>.</li>
+        <li>
+          Narrow the topic if needed (e.g., “Only cover the sections on retrieval-augmented
+          generation”).
+        </li>
+        <li>Generate the set, then quickly scan for quality:</li>
+      </ol>
+      <ul>
+        <li>Are the questions aligned with what you actually want learners to remember?</li>
+        <li>Are the answers accurate and appropriately scoped?</li>
+      </ul>
+      <ol start="4">
+        <li>
+          Use or share the best questions. Edit or discard any that are confusing, trivial, or off-target.
+        </li>
+        <li>
+          For deeper study, open the <strong>Learning Guide</strong> tool and follow the
+          step-by-step prompts to work through a concept using your own sources.
+        </li>
+      </ol>
+
+      <div class="note-box">
+        <div class="note-label">For this certificate</div>
+        <p>
+          A good mini-project is to pick one topic from the program, load 3–5 sources into a
+          notebook, and then:
+        </p>
+        <ul>
+          <li>Generate an Audio or Video Overview,</li>
+          <li>Create either a Study Guide <em>or</em> Infographic, and</li>
+          <li>Export at least one artifact you’d actually use or refine further.</li>
+        </ul>
+        <p style="margin-top:0.3rem;">
+          Your job is not to admire what NotebookLM makes&mdash;it’s to critique, adapt, and
+          document where human judgment is still required.
+        </p>
+      </div>
+    </section>
+
+    <section class="step-section">
+      <div class="step-header">
+        <div class="step-number">7</div>
+        <div class="step-title">Wrap-up: How this fits into AI fluency</div>
+      </div>
+      <p>
+        NotebookLM is one example of a “source-grounded” AI tool: instead of chatting with a
+        general-purpose model about everything, you constrain it to the texts, media, and notes
+        you care about. In this certificate, that makes it a useful companion for:
+      </p>
+      <ul>
+        <li>Reading dense or technical material and surfacing key ideas</li>
+        <li>Comparing multiple documents (syllabi, policies, articles) on one theme</li>
+        <li>Designing teaching artifacts and study aids from the same underlying sources</li>
+        <li>Exploring how far you can push “automation” before human expertise is clearly needed</li>
+      </ul>
+      <p>
+        As you continue, ask yourself: <em>What parts of this workflow can I safely delegate to
+        NotebookLM, and where do I need to slow down and think for myself?</em>
+      </p>
+    </section>
+
+    <div class="footer-note">
+      You can revisit this page any time you want a structured walkthrough. Features in NotebookLM
+      evolve frequently, so specific buttons or labels may shift—but the overall workflow
+      (Sources → Chat → Studio) remains a solid mental model.
+    </div>
+  </main>
+</body>
+</html>

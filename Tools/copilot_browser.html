@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tool Highlight: Copilot Chat in the Browser</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --illini-blue: #13294B;
+      --illini-orange: #E84A27;
+      --bg-light: #f7f7f9;
+      --card-border: #e0e0e0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+    }
+
+    h1, h2, h3 {
+      color: var(--illini-blue);
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #d0d0d0;
+      padding: 0.2rem 0.75rem;
+      background: #fafafa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-section {
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.25rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--card-border);
+      background: #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-number {
+      background: var(--illini-blue);
+      color: #ffffff;
+      border-radius: 999px;
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--illini-blue);
+    }
+
+    ol, ul {
+      padding-left: 1.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .note-box {
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      margin: 1rem 0 0;
+    }
+
+    .note-label {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--illini-orange);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    details {
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e0e0e0;
+      background: #fbfbfc;
+      padding: 0.4rem 0.75rem 0.75rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--illini-blue);
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▸ ";
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-right: 0.1rem;
+      transform: translateY(-1px);
+    }
+
+    details[open] summary::before {
+      content: "▾ ";
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .card {
+      border-radius: 0.6rem;
+      border: 1px dashed #d5d5d5;
+      background: #ffffff;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .card h3 {
+      font-size: 0.95rem;
+      margin: 0 0 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: var(--illini-blue);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #555;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+<main class="page">
+
+<header>
+  <h1>Tool Highlight: Copilot Chat in the Browser</h1>
+  <p class="subtitle">
+    Secure, web-based AI chat for brainstorming, drafting, and exploring ideas.
+  </p>
+  <p class="tagline">
+    In this walkthrough, you’ll go from logging in with your Illinois account, to running
+    effective chats in the browser-based Copilot experience, with a brief note on extensions
+    and Copilot agents.
+  </p>
+
+  <div class="pill-row">
+    <span class="pill">Browser-based chat</span>
+    <span class="pill">Campus account sign-in</span>
+    <span class="pill">Web + file grounding</span>
+  </div>
+</header>
+
+<!-- STEP 0 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">0</div>
+    <div class="step-title">Before you start: Which Copilot are we using?</div>
+  </div>
+  <p>
+    Microsoft now has multiple Copilot experiences. In this page, we focus on
+    <strong>Copilot Chat in the browser</strong> &mdash; the web-based interface you access at
+    <strong>copilot.microsoft.com</strong> or via an enterprise Copilot Chat URL.
+  </p>
+  <ul>
+    <li>
+      In this certificate, you should sign in with your <strong>@illinois.edu</strong> account
+      so you benefit from campus protections and administrative controls.
+    </li>
+    <li>
+      Copilot Chat in the browser is primarily grounded in <strong>web data</strong>, with the
+      ability to work on files you upload or content you paste into the conversation.:contentReference[oaicite:0]{index=0}
+    </li>
+    <li>
+      For deeper integration with your Illinois files (OneDrive, SharePoint, Outlook), you’ll
+      typically use Copilot <em>inside</em> Microsoft 365 apps &mdash; covered elsewhere.
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">About the browser extensions</div>
+    <p>
+      You can install Copilot-related extensions from the <strong>Edge Add-ons</strong> store or the
+      <strong>Chrome Web Store</strong> to bring Copilot into a browser sidebar while you browse.:contentReference[oaicite:1]{index=1}
+      Those are useful extras, but this page focuses on the main browser chat experience itself.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">1</div>
+    <div class="step-title">Log in to Copilot Chat with your Illinois account</div>
+  </div>
+
+  <ol>
+    <li>Open a browser and go to <strong>https://copilot.microsoft.com</strong>. :contentReference[oaicite:2]{index=2}</li>
+    <li>Click <strong>Sign in</strong>.</li>
+    <li>Enter your <strong>NetID@illinois.edu</strong> email and continue.</li>
+    <li>
+      You’ll be redirected to the Illinois single sign-on page &mdash; log in with your NetID and
+      password, plus MFA if prompted.
+    </li>
+    <li>
+      After login, look for:
+      <ul>
+        <li>Your Illinois identity in the top-right profile area.</li>
+        <li>
+          In some enterprise Copilot Chat experiences, a shield or notice indicating that
+          <strong>your data is protected</strong> and governed by organizational policies.:contentReference[oaicite:3]{index=3}
+        </li>
+      </ul>
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Check your account</div>
+    <p>
+      If you see a personal Microsoft account or a warning that data might be used to improve
+      services, you’re probably not in the campus-protected environment. Sign out and back in
+      with your <strong>@illinois.edu</strong> identity before using institutional content.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 2 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">2</div>
+    <div class="step-title">Tour the Copilot Chat interface</div>
+  </div>
+  <p>
+    Once signed in, you’ll see a layout that may look slightly different depending on the exact
+    Copilot Chat release, but most versions share three main areas.:contentReference[oaicite:4]{index=4}
+  </p>
+
+  <ul>
+    <li>
+      <strong>Left sidebar</strong>: Recent chats, pinned conversations, and sometimes
+      <em>agents</em> or specialized Copilot experiences you can select.
+    </li>
+    <li>
+      <strong>Main chat panel</strong>: The large center area where you enter prompts, see
+      responses, and view suggested starter prompts.
+    </li>
+    <li>
+      <strong>Toolbar / controls</strong> near the prompt box:
+      <ul>
+        <li>Attachment icon to add files or images.</li>
+        <li>
+          Controls for mode (e.g., more precise vs. more creative) and whether Copilot can use the
+          web for this conversation.
+        </li>
+        <li>Voice / read-aloud options in some builds, for accessibility.:contentReference[oaicite:5]{index=5}</li>
+      </ul>
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Mental model</div>
+    <p>
+      Think of Copilot Chat as your <strong>general-purpose conversation space</strong>:
+      you can reason through ideas, ask for drafts, test scenarios, and review documents, but
+      every answer still needs checking, especially for high-stakes decisions.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 3 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">3</div>
+    <div class="step-title">Warm up with simple, critical chat prompts</div>
+  </div>
+
+  <p>
+    Start by exploring how Copilot explains ideas and handles uncertainty, before you hand it
+    important work.
+  </p>
+
+  <ol>
+    <li>
+      In a fresh chat, ask for an explanation:<br />
+      <em>“Explain retrieval-augmented generation in 3 short paragraphs for a non-technical
+      audience.”</em>
+    </li>
+    <li>
+      Follow up immediately with:<br />
+      <em>“List 4 limitations or failure modes of retrieval-augmented generation, and where it
+      shouldn’t be used.”</em>
+    </li>
+    <li>
+      Ask for alternative framings:<br />
+      <em>“Give two different analogies to explain this concept to students in different majors.”</em>
+    </li>
+    <li>
+      Use Copilot as a skeptic:<br />
+      <em>“If I presented your explanation in a faculty workshop, what pushback might I get?”</em>
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: Explanation audit</summary>
+    <p style="margin-top:0.5rem;">
+      Choose one concept from this certificate (e.g., large language models, hallucinations,
+      or prompt engineering). Ask Copilot to explain it, then:
+    </p>
+    <ul>
+      <li>Mark anything misleading, overly confident, or missing important caveats.</li>
+      <li>Write a one-sentence “fix” you would add as a human expert or informed learner.</li>
+      <li>Ask Copilot to incorporate your fix and compare the new version.</li>
+    </ul>
+  </details>
+</section>
+
+<!-- STEP 4 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">4</div>
+    <div class="step-title">Use the web grounding critically</div>
+  </div>
+
+  <p>
+    Copilot Chat is typically grounded in web data. This is helpful for finding and synthesizing
+    information quickly, but it also means you’re downstream of whatever is on the public web,
+    plus model limitations.:contentReference[oaicite:6]{index=6}
+  </p>
+
+  <ol>
+    <li>
+      Ask a current-events or “what is” question you can easily verify, such as:<br />
+      <em>“Summarize three recent changes in generative AI regulation in higher education.”</em>
+    </li>
+    <li>
+      Scroll through Copilot’s answer and look for:
+      <ul>
+        <li>Citations or links it provides to external sources.</li>
+        <li>Statements that feel too vague or generic.</li>
+        <li>Claims you can quickly fact-check with a trusted source.</li>
+      </ul>
+    </li>
+    <li>
+      Ask a follow-up that forces Copilot to show its work:<br />
+      <em>“For each claim, tell me which specific source you relied on and what that source
+      actually says.”</em>
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Practice skepticism</div>
+    <p>
+      When Copilot pulls from the web, treat it as an <strong>assistant summarizing search
+      results</strong>, not as an oracle. Use it to narrow your reading, not to bypass it.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 5 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">5</div>
+    <div class="step-title">Upload files and chat about your own content</div>
+  </div>
+
+  <p>
+    One of the most useful browser features is chatting with your own documents without leaving
+    the Copilot site.:contentReference[oaicite:7]{index=7}
+  </p>
+
+  <ol>
+    <li>Click the <strong>attachment</strong> icon near the prompt box.</li>
+    <li>
+      Upload a file that is appropriate for the campus environment: for example,
+      <ul>
+        <li>a syllabus or assignment prompt,</li>
+        <li>a policy document,</li>
+        <li>a draft memo or report that doesn’t contain sensitive data.</li>
+      </ul>
+    </li>
+    <li>
+      Once the upload completes, try prompts such as:
+      <ul>
+        <li>“Summarize the key decisions this document describes in 5 bullet points.”</li>
+        <li>“What assumptions does this policy make about students’ access to technology?”</li>
+        <li>“Propose two alternative framings that might be more inclusive.”</li>
+      </ul>
+    </li>
+    <li>
+      Ask Copilot to <strong>argue with itself</strong>:
+      <em>“Now critique your own summary. What might be misleading or incomplete?”</em>
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Data boundaries</div>
+    <p>
+      Even with enterprise protections, avoid uploading highly sensitive documents (e.g., detailed
+      personnel files, granular student records). Use Copilot for drafts, structure, and critique,
+      not for final storage of confidential data.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 6 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">6</div>
+    <div class="step-title">Shape the conversation: roles, constraints, and iterations</div>
+  </div>
+
+  <p>
+    Copilot Chat improves dramatically when you specify <strong>role, audience, constraints,
+    and iteration style</strong>, rather than giving short, vague prompts.
+  </p>
+
+  <ol>
+    <li>
+      Start with a role and audience:<br />
+      <em>“You are an instructional designer helping faculty at a public research university. I’m
+      drafting guidance on responsible AI use in coursework.”</em>
+    </li>
+    <li>
+      Add constraints:<br />
+      <em>“Generate 3 options under 200 words each, written in accessible, student-facing
+      language.”</em>
+    </li>
+    <li>
+      Ask for reasoning instead of just output:<br />
+      <em>“Explain why you chose these three approaches and what tradeoffs you see.”</em>
+    </li>
+    <li>
+      Use iterative refinement:<br />
+      <em>“Option 2 is closest to what I need. Revise it to be shorter, and add one concrete
+      example for STEM and one for humanities.”</em>
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: Prompt tuning loop</summary>
+    <p style="margin-top:0.5rem;">
+      Pick a real task you care about (designing a survey, explaining a policy, planning a
+      workshop). Run three rounds of:
+    </p>
+    <ol>
+      <li>Initial prompt with role + audience + constraints</li>
+      <li>Ask Copilot to critique its own output (“what’s weak or missing?”)</li>
+      <li>Revise your prompt based on that critique and your own judgment</li>
+    </ol>
+    <p>
+      Capture your “final” prompt as a reusable pattern for future work.
+    </p>
+  </details>
+</section>
+
+<!-- STEP 7 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">7</div>
+    <div class="step-title">Aside: Copilot agents and custom copilots</div>
+  </div>
+
+  <p>
+    In some versions of Copilot Chat, you’ll see specialized <strong>agents</strong> or
+    <strong>GPTs</strong> in the left panel &mdash; for example, data analysis helpers, policy
+    assistants, or institution-specific bots. These are:
+  </p>
+
+  <ul>
+    <li>
+      Prebuilt agents from Microsoft or partners, designed for narrow tasks (like learning guides,
+      coding helpers, or documentation search).:contentReference[oaicite:8]{index=8}
+    </li>
+    <li>
+      Custom copilots your organization creates using tools like <strong>Copilot Studio</strong>
+      or GPT builders, connected to specific internal data sources.:contentReference[oaicite:9]{index=9}
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">How to treat agents</div>
+    <p>
+      For this certificate, think of agents as <strong>pre-configured chat partners</strong>:
+      they may have extra context or capabilities, but the same rules apply.
+      You still need to:
+    </p>
+    <ul>
+      <li>Check their outputs for accuracy and bias.</li>
+      <li>Respect data boundaries when you share content.</li>
+      <li>Decide where their suggestions end and your judgment begins.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- STEP 8 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">8</div>
+    <div class="step-title">Wrap-up: Copilot Chat as a thinking partner</div>
+  </div>
+
+  <p>
+    Copilot in the browser is best understood as a <strong>thinking partner with web access</strong>:
+    it can generate, summarize, reframe, and probe ideas, but it can’t take responsibility for
+    decisions, context, or ethics.
+  </p>
+
+  <ul>
+    <li>Use it to explore options, not to rubber-stamp answers.</li>
+    <li>Combine web-grounded chat with your own readings and domain knowledge.</li>
+    <li>Capture good prompt patterns so you can reuse them later.</li>
+  </ul>
+
+  <p>
+    As you move through the rest of the certificate, notice when Copilot helps you
+    <em>expand</em> your thinking &mdash; and when you need to deliberately step away and reason
+    without it.
+  </p>
+</section>
+
+<div class="footer-note">
+  This page focuses on the browser-based Copilot Chat experience. Related pages in this program
+  cover Copilot inside Microsoft 365 apps (Word, Excel, PowerPoint, Outlook, Teams) and other
+  source-grounded tools like NotebookLM.
+</div>
+
+</main>
+</body>
+</html>

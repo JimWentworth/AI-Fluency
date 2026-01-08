@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Module 3 – Projects vs Temporary Chats</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --illinois-blue: #13294b;
+      --illinois-orange: #ff552e;
+      --illinois-light: #f5f7fa;
+      --illinois-mid: #e2e6ed;
+      --text-main: #1f2933;
+      --text-muted: #4b5563;
+      --border-subtle: #d0d7e2;
+      --focus-ring: #ffb25e;
+      --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --radius-lg: 10px;
+      --radius-md: 6px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+      color: var(--text-main);
+      background-color: #ffffff;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1rem 3rem;
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding: 3rem 1.5rem 4rem;
+      }
+    }
+
+    .page-header {
+      border-bottom: 3px solid var(--illinois-orange);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--illinois-orange);
+      margin-bottom: 0.25rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3vw, 2.3rem);
+      margin: 0 0 0.4rem;
+      color: var(--illinois-blue);
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 40rem;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    .keyline {
+      margin-top: 1.2rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      background: var(--illinois-light);
+      border-left: 4px solid var(--illinois-orange);
+      font-size: 0.94rem;
+      color: var(--text-muted);
+    }
+
+    /* Layout sections */
+
+    section {
+      margin-bottom: 2.5rem;
+    }
+
+    section h2 {
+      font-size: 1.3rem;
+      color: var(--illinois-blue);
+      margin-bottom: 0.4rem;
+    }
+
+    section h3 {
+      font-size: 1.05rem;
+      color: var(--illinois-blue);
+      margin-top: 1.4rem;
+      margin-bottom: 0.3rem;
+    }
+
+    p {
+      margin: 0 0 0.75rem;
+    }
+
+    ul {
+      padding-left: 1.25rem;
+      margin-top: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    li {
+      margin-bottom: 0.25rem;
+    }
+
+    .text-muted {
+      color: var(--text-muted);
+    }
+
+    /* Quick choice banner */
+
+    .choice-banner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(
+        135deg,
+        rgba(19, 41, 75, 0.96),
+        rgba(255, 85, 46, 0.92)
+      );
+      border-radius: var(--radius-lg);
+      color: #fff;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .choice-banner-main {
+      flex: 1 1 220px;
+      min-width: 0;
+    }
+
+    .choice-banner-main h2 {
+      color: #ffffff;
+      margin: 0 0 0.25rem;
+      font-size: 1.2rem;
+    }
+
+    .choice-banner-main p {
+      margin: 0;
+      font-size: 0.94rem;
+      opacity: 0.95;
+    }
+
+    .choice-banner-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .pill-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(4px);
+    }
+
+    .pill-label span {
+      font-weight: 600;
+    }
+
+    .choice-btn {
+      appearance: none;
+      border: 0;
+      border-radius: var(--radius-pill);
+      padding: 0.45rem 1.1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: default;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+    }
+
+    .choice-btn.project {
+      background: #ffffff;
+      color: var(--illinois-blue);
+    }
+
+    .choice-btn.temp {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      color: #ffffff;
+    }
+
+    .choice-btn span.marker {
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 999px;
+    }
+
+    .choice-btn.project span.marker {
+      background: var(--illinois-orange);
+    }
+
+    .choice-btn.temp span.marker {
+      background: #ffffff;
+      opacity: 0.9;
+    }
+
+    /* Two-column comparison */
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    @media (min-width: 720px) {
+      .compare-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .compare-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      padding: 1.1rem 1.2rem 1.2rem;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .compare-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .compare-title {
+      font-weight: 700;
+      font-size: 1.02rem;
+      color: var(--illinois-blue);
+    }
+
+    .compare-chip {
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--illinois-mid);
+      background: var(--illinois-light);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .compare-body p {
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .compare-body ul {
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.15rem 0.55rem;
+      border-radius: var(--radius-pill);
+      background: var(--illinois-light);
+      color: var(--text-muted);
+    }
+
+    /* Decision tree */
+
+    .tree-section {
+      background-color: var(--illinois-light);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.25rem 1.4rem;
+      border: 1px solid var(--illinois-mid);
+    }
+
+    .tree-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .tree-title {
+      font-weight: 600;
+      font-size: 1.02rem;
+      color: var(--illinois-blue);
+    }
+
+    .tree-badge {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: var(--radius-pill);
+      background-color: #ffffff;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    .tree-intro {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .tree-steps {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+      font-size: 0.92rem;
+    }
+
+    .tree-step {
+      margin-bottom: 0.4rem;
+      padding-left: 0;
+    }
+
+    .tree-step strong {
+      color: var(--illinois-blue);
+      font-weight: 600;
+    }
+
+    .branch-hint {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    details.tree-details {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    details.tree-details summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--illinois-blue);
+      list-style: none;
+    }
+
+    details.tree-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details.tree-details summary::before {
+      content: "▶";
+      display: inline-block;
+      margin-right: 0.4rem;
+      font-size: 0.8rem;
+      transform: translateY(-0.04em);
+    }
+
+    details[open].tree-details summary::before {
+      content: "▼";
+    }
+
+    .tree-details-content {
+      margin-top: 0.45rem;
+      border-left: 2px solid var(--illinois-mid);
+      padding-left: 0.75rem;
+    }
+
+    /* Summary pill */
+
+    .summary-pill {
+      padding: 0.9rem 1rem;
+      border-radius: var(--radius-md);
+      background: #ffffff;
+      border: 1px solid var(--illinois-mid);
+      font-size: 0.95rem;
+    }
+
+    .summary-pill strong {
+      color: var(--illinois-blue);
+    }
+
+    /* Focus styles */
+
+    a, button, summary {
+      outline-offset: 2px;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 2px solid var(--focus-ring);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <div class="eyebrow">Module 3 &middot; Customizing AI for Consistency</div>
+      <h1>When to Use Project Folders vs Temporary Chats</h1>
+      <p class="subtitle">
+        Two opposite ends of the customization spectrum: one remembers on purpose, the other forgets on purpose. Knowing when to reach for each is part of using AI reliably.
+      </p>
+      <div class="keyline" role="note">
+        <strong>Big idea:</strong> Projects give you a persistent, retrieval-aware workspace. Temporary chats give you a clean slate with no memory. Both are useful, but for different reasons.
+      </div>
+    </header>
+
+    <!-- Quick choice banner -->
+    <section aria-labelledby="quick-choice-heading">
+      <div class="choice-banner">
+        <div class="choice-banner-main">
+          <h2 id="quick-choice-heading">Need a quick rule of thumb?</h2>
+          <p>
+            If your work benefits from persistence and retrieval across files, think
+            <strong>Project</strong>. If you need isolation, control, and zero memory, think
+            <strong>Temporary Chat</strong>.
+          </p>
+        </div>
+        <div class="choice-banner-actions" aria-label="Mode cheat sheet">
+          <div class="pill-label">
+            <span>&bull;</span>
+            Persistent, file-aware workspace
+          </div>
+          <div class="pill-label">
+            <span>&bull;</span>
+            Clean-slate, memory-free sandbox
+          </div>
+          <button class="choice-btn project" type="button" aria-disabled="true">
+            <span class="marker" aria-hidden="true"></span>
+            Project = Long-term, grounded work
+          </button>
+          <button class="choice-btn temp" type="button" aria-disabled="true">
+            <span class="marker" aria-hidden="true"></span>
+            Temp Chat = Isolated experiments
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conceptual grounding -->
+    <section aria-labelledby="concept-heading">
+      <h2 id="concept-heading">Two Workspaces, Two Types of Control</h2>
+      <p>
+        Customization is not only about the words you put in a prompt. It also depends on
+        <strong>where</strong> you put those words. Modern systems offer different workspaces
+        that handle memory, files, and retrieval in different ways.
+      </p>
+      <p>
+        Project folders act like persistent workbenches: they remember your files and repeatedly
+        pull from them when answering questions. Temporary chats act like a lab bench you wipe
+        down after each experiment: nothing from past work affects the next run.
+      </p>
+      <p class="text-muted">
+        The practical question is not “which is better?” but “which one matches the kind of
+        control I need for this task?”
+      </p>
+    </section>
+
+    <!-- Comparison cards -->
+    <section aria-labelledby="compare-heading">
+      <h2 id="compare-heading">Why Use Project Folders vs Temporary Chats?</h2>
+
+      <div class="compare-grid" role="list">
+        <!-- Projects -->
+        <article class="compare-card" role="listitem">
+          <div class="compare-header">
+            <div class="compare-title">Project Folders</div>
+            <div class="compare-chip">Persistent &middot; Retrieval-aware</div>
+          </div>
+          <div class="compare-body">
+            <p>
+              Projects shine when you need stability and continuity. Files added to a project are
+              stored, indexed, and retrieved automatically so the system can ground its answers
+              in the same materials every time.
+            </p>
+            <h3>Use a Project when you want:</h3>
+            <ul>
+              <li><strong>Persistent grounding</strong> in your own documents or data.</li>
+              <li><strong>Consistent behavior</strong> across days or weeks of work.</li>
+              <li><strong>Reproducible results</strong> based on a stable knowledge base.</li>
+              <li><strong>Less setup overhead</strong> &mdash; no repeated uploads or explanations.</li>
+              <li><strong>Multi-step workflows</strong> for research, curriculum, or design.</li>
+            </ul>
+            <div class="tag-row" aria-label="Typical project use cases">
+              <span class="tag">Long-term writing</span>
+              <span class="tag">Policy analysis</span>
+              <span class="tag">Course design</span>
+              <span class="tag">Ongoing research</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Temporary chats -->
+        <article class="compare-card" role="listitem">
+          <div class="compare-header">
+            <div class="compare-title">Temporary Chats</div>
+            <div class="compare-chip">Isolated &middot; Memory-free</div>
+          </div>
+          <div class="compare-body">
+            <p>
+              Temporary chats intentionally avoid persistence. They do not rely on previous
+              history, memory, or stored files. That makes them ideal when you want tight
+              control over what the system sees.
+            </p>
+            <h3>Use a Temporary Chat when you want:</h3>
+            <ul>
+              <li><strong>Isolation</strong> from other projects, prompts, or custom settings.</li>
+              <li><strong>Precise inputs</strong> and clear visibility into what the model uses.</li>
+              <li><strong>Prompt experiments</strong> and A/B testing without drift.</li>
+              <li><strong>Privacy</strong> for one-off or sensitive questions.</li>
+              <li><strong>Clean reasoning</strong> unaffected by past context.</li>
+            </ul>
+            <div class="tag-row" aria-label="Typical temporary chat use cases">
+              <span class="tag">Quick checks</span>
+              <span class="tag">Prompt testing</span>
+              <span class="tag">What-if scenarios</span>
+              <span class="tag">Sensitive topics</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Decision tree -->
+    <section aria-labelledby="tree-heading">
+      <h2 id="tree-heading">Decision Tree: Project vs Temporary Chat</h2>
+      <p>
+        Use the questions below as a simple, repeatable way to choose your workspace before you
+        start working with AI. Read down the list until one of the answers clearly applies.
+      </p>
+
+      <div class="tree-section" aria-label="Decision tree for choosing workspace">
+        <div class="tree-header">
+          <div class="tree-title">Step-by-step decision guide</div>
+          <div class="tree-badge">Start at Question 1</div>
+        </div>
+        <p class="tree-intro">
+          For each question, decide whether the answer is “yes.” The first strong “yes”
+          usually tells you which workspace you need.
+        </p>
+
+        <ol class="tree-steps">
+          <li class="tree-step">
+            <strong>1. Do you need the system to remember files or information across sessions?</strong><br />
+            If yes &rarr; <strong>Use a Project.</strong>  
+            If no &rarr; go to Question 2.
+          </li>
+          <li class="tree-step">
+            <strong>2. Will you be asking multiple questions over time about the same documents or domain?</strong><br />
+            If yes &rarr; <strong>Use a Project.</strong>  
+            If no &rarr; go to Question 3.
+          </li>
+          <li class="tree-step">
+            <strong>3. Do you want retrieval over files without re-uploading them each time?</strong><br />
+            If yes &rarr; <strong>Use a Project.</strong>  
+            If no &rarr; go to Question 4.
+          </li>
+          <li class="tree-step">
+            <strong>4. Do you want to avoid any influence from prior instructions or chat history?</strong><br />
+            If yes &rarr; <strong>Use a Temporary Chat.</strong>  
+            If no &rarr; go to Question 5.
+          </li>
+          <li class="tree-step">
+            <strong>5. Is your goal rapid experimentation, prototyping, or prompt testing?</strong><br />
+            If yes &rarr; <strong>Use a Temporary Chat.</strong>  
+            If no &rarr; go to Question 6.
+          </li>
+          <li class="tree-step">
+            <strong>6. Is the task long-term, multi-step, or likely to need iteration over days or weeks?</strong><br />
+            If yes &rarr; <strong>Use a Project.</strong>  
+            If no &rarr; go to Question 7.
+          </li>
+          <li class="tree-step">
+            <strong>7. Is the content sensitive or something you don’t want stored persistently?</strong><br />
+            If yes &rarr; <strong>Use a Temporary Chat.</strong>  
+            If no &rarr; go to Question 8.
+          </li>
+          <li class="tree-step">
+            <strong>8. Do you want consistent behavior grounded in the same custom knowledge sources?</strong><br />
+            If yes &rarr; <strong>Use a Project.</strong>  
+            If no &rarr; a <strong>Temporary Chat</strong> is sufficient.
+          </li>
+        </ol>
+
+        <p class="branch-hint">
+          In practice, most “projects” on campus fall clearly into one of two patterns:
+          multi-step work with reference documents (Projects) or isolated questions and
+          experiments (Temporary Chats).
+        </p>
+
+        <details class="tree-details">
+          <summary>Show an even shorter version</summary>
+          <div class="tree-details-content">
+            <p>
+              <strong>If the work benefits from persistence, retrieval, and consistency, use a
+              Project.</strong><br />
+              <strong>If the work benefits from isolation, fresh starts, and tight control over
+              inputs, use a Temporary Chat.</strong>
+            </p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Summary -->
+    <section aria-labelledby="summary-heading">
+      <h2 id="summary-heading">One-Sentence Takeaway</h2>
+      <div class="summary-pill">
+        <strong>Projects</strong> are your persistent, retrieval-based workspaces for
+        long-running, grounded tasks. <strong>Temporary chats</strong> are your isolated,
+        memory-free labs for quick questions, experiments, and situations where you need
+        strict control over what the AI can see.
+      </div>
+    </section>
+  </div>
+</body>
+</html>

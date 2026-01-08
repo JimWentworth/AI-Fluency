@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tool Highlight: ElevenLabs (Free Browser Version)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --illini-blue: #13294B;
+      --illini-orange: #E84A27;
+      --bg-light: #f7f7f9;
+      --card-border: #e0e0e0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+    }
+
+    h1, h2, h3 {
+      color: var(--illini-blue);
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #d0d0d0;
+      padding: 0.2rem 0.75rem;
+      background: #fafafa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-section {
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.25rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--card-border);
+      background: #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-number {
+      background: var(--illini-blue);
+      color: #ffffff;
+      border-radius: 999px;
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--illini-blue);
+    }
+
+    ol, ul {
+      padding-left: 1.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .note-box {
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      margin: 1rem 0 0;
+    }
+
+    .note-label {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--illini-orange);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    details {
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e0e0e0;
+      background: #fbfbfc;
+      padding: 0.4rem 0.75rem 0.75rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--illini-blue);
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▸ ";
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-right: 0.1rem;
+      transform: translateY(-1px);
+    }
+
+    details[open] summary::before {
+      content: "▾ ";
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .card {
+      border-radius: 0.6rem;
+      border: 1px dashed #d5d5d5;
+      background: #ffffff;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .card h3 {
+      font-size: 0.95rem;
+      margin: 0 0 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: var(--illini-blue);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #555;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+<main class="page">
+
+<header>
+  <h1>Tool Highlight: ElevenLabs (Free Browser Version)</h1>
+  <p class="subtitle">
+    Browser-based AI voices for short clips, intros, and learning audio.
+  </p>
+  <p class="tagline">
+    In this walkthrough, you’ll go from creating a free ElevenLabs account to using the browser
+    Text to Speech tools—while staying within your monthly free characters so you don’t run out
+    of audio halfway through a project.
+  </p>
+
+  <div class="pill-row">
+    <span class="pill">Free tier</span>
+    <span class="pill">Text to Speech</span>
+    <span class="pill">Credits & limits</span>
+  </div>
+</header>
+
+<!-- STEP 0 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">0</div>
+    <div class="step-title">What ElevenLabs is (and what the free tier gives you)</div>
+  </div>
+  <p>
+    ElevenLabs is a browser-based AI audio platform known for very natural-sounding
+    <strong>text to speech</strong>, plus tools for dubbing, music, and more.:contentReference[oaicite:0]{index=0}
+  </p>
+  <p>
+    For this certificate, we focus on the <strong>free plan</strong>, which currently includes:​:contentReference[oaicite:1]{index=1}
+  </p>
+  <ul>
+    <li>About <strong>10,000 characters per month</strong> of generation on the free tier.</li>
+    <li><strong>Text to Speech</strong> in 30+ languages from the web app.</li>
+    <li>Access to a <strong>Voice Library</strong> of prebuilt voices.</li>
+    <li>Limited access to <strong>Studio/Projects</strong>, Dubbing, and other creative tools.</li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Important caveats</div>
+    <p>
+      On the free plan, you have:
+    </p>
+    <ul>
+      <li>A finite number of characters (“credits”) per month.</li>
+      <li>A per-generation character limit (about 2,500 characters per request in the web TTS on free plans).:contentReference[oaicite:2]{index=2}</li>
+      <li>More restrictions on commercial use, voice cloning, and music downloads than paid plans.:contentReference[oaicite:3]{index=3}</li>
+    </ul>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">1</div>
+    <div class="step-title">Create or sign in to a free ElevenLabs account</div>
+  </div>
+
+  <ol>
+    <li>Open a browser and go to <strong>https://elevenlabs.io</strong>. :contentReference[oaicite:4]{index=4}</li>
+    <li>Click <strong>Sign up</strong> (or <strong>Log in</strong> if you already have an account).</li>
+    <li>
+      Create an account with:
+      <ul>
+        <li>An email + password, or</li>
+        <li>A third-party sign-in option if offered (Google, etc.).</li>
+      </ul>
+    </li>
+    <li>
+      Confirm your email if requested. You should land on the Firefly-esque “Creative Platform”
+      homepage with tiles like <em>Text to Speech</em>, <em>Studio</em>, <em>Dubbing</em>, and
+      <em>Music</em>.:contentReference[oaicite:5]{index=5}
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Account choice</div>
+    <p>
+      Treat this as a <strong>personal creative account</strong> unless your institution provides
+      a specific ElevenLabs license. Avoid uploading confidential campus documents, sensitive
+      recordings, or regulated data.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 2 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">2</div>
+    <div class="step-title">Tour the browser interface</div>
+  </div>
+  <p>
+    ElevenLabs organizes its browser tools into a “Creative Platform” with a few main areas.:contentReference[oaicite:6]{index=6}
+  </p>
+
+  <ul>
+    <li>
+      <strong>Top navigation:</strong> Tabs for <em>Creative Platform</em>, <em>Agents</em>,
+      <em>Developers</em>, and <em>Pricing</em>.
+    </li>
+    <li>
+      <strong>Home tiles:</strong> Buttons for Text to Speech, Studio (long-form projects),
+      Dubbing, Music, and other tools.
+    </li>
+    <li>
+      <strong>Account / plan area:</strong> In the top-right, where you can see your plan and
+      generative credits usage.
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Mental model</div>
+    <p>
+      For this program, think of ElevenLabs mainly as:
+      <strong>“Type or paste short text → choose a voice → generate a clean audio clip.”</strong>
+      The fancy extras (dubbing, long-form studio projects, music) are nice, but not required to
+      practice responsible AI use.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 3 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">3</div>
+    <div class="step-title">Start with Text to Speech (TTS)</div>
+  </div>
+
+  <p>
+    Text to Speech is the core workflow: you supply text, pick a voice, and get back audio.:contentReference[oaicite:7]{index=7}
+  </p>
+
+  <ol>
+    <li>From the homepage, click <strong>Text to Speech</strong>.</li>
+    <li>
+      In the text box, paste a short script (aim for 2–6 sentences), such as:
+      <em>“Welcome to our AI Fluency module. In this lesson, you’ll explore how to use
+      generative AI tools critically and responsibly in your coursework.”</em>
+    </li>
+    <li>
+      In the <strong>Voice</strong> area:
+      <ul>
+        <li>Choose a voice from the default list (or Voice Library).</li>
+        <li>Optionally switch language or accent to match your content and audience.:contentReference[oaicite:8]{index=8}</li>
+      </ul>
+    </li>
+    <li>
+      Adjust any available settings (stability, clarity, style) if shown, then click
+      <strong>Generate</strong>.
+    </li>
+    <li>
+      Listen to the clip. If it’s useful, download it directly from the TTS page.:contentReference[oaicite:9]{index=9}
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: Three versions of the same message</summary>
+    <p style="margin-top:0.5rem;">
+      Take a 1–2 sentence announcement for a course. Generate:
+    </p>
+    <ul>
+      <li>One formal voice</li>
+      <li>One casual / conversational voice</li>
+      <li>One slower, more “podcast-like” delivery</li>
+    </ul>
+    <p>
+      Compare: which would you actually use with your students or colleagues? Why?
+    </p>
+  </details>
+</section>
+
+<!-- STEP 4 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">4</div>
+    <div class="step-title">Manage free-tier credits and character limits</div>
+  </div>
+
+  <p>
+    On the free plan, the main constraint is <strong>characters</strong> (which function like
+    credits). You get roughly <strong>10,000 characters per month</strong>, and each generation
+    consumes part of that allowance.:contentReference[oaicite:10]{index=10}
+  </p>
+
+  <ul>
+    <li>
+      The web TTS UI also has a <strong>per-generation character cap</strong> (around 2,500
+      characters for free plans). If you paste more than that, it will refuse or ask you to cut
+      it down.:contentReference[oaicite:11]{index=11}
+    </li>
+    <li>
+      Long scripts (multi-page readings) can eat through your monthly free characters quickly.
+    </li>
+    <li>
+      If you hit your monthly limit, you’ll need to wait until it resets or upgrade to a paid
+      plan to keep generating.:contentReference[oaicite:12]{index=12}
+    </li>
+  </ul>
+
+  <details>
+    <summary>Strategies to avoid running out of characters</summary>
+    <p style="margin-top:0.5rem;">
+      To stretch the free tier and avoid “I’m out of tokens” moments:
+    </p>
+    <ul>
+      <li><strong>Record only the essentials.</strong> Use audio for key intros, summaries, or examples, not every word of a long document.</li>
+      <li><strong>Script short segments.</strong> Break longer content into 30–60 second chunks and only generate what you’ll actually use.</li>
+      <li><strong>Reuse scripts.</strong> If you find a script you like, save it outside ElevenLabs and regenerate later instead of rewriting long text in the box every time.</li>
+      <li><strong>Check character counts.</strong> Many text editors can show character counts before you paste into ElevenLabs.</li>
+    </ul>
+  </details>
+
+  <div class="note-box">
+    <div class="note-label">Certificate reminder</div>
+    <p>
+      For this program, treat the free ElevenLabs plan as a <strong>practice lab</strong> for
+      generating a handful of audio artifacts, not as a full audiobook or large-scale podcast
+      production platform.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 5 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">5</div>
+    <div class="step-title">Choose and design voices (within free-tier constraints)</div>
+  </div>
+
+  <p>
+    ElevenLabs gives you two main paths to a voice:
+    <strong>Voice Library</strong> (prebuilt voices) and <strong>Voice Design</strong>
+    (generate a voice from a text description).:contentReference[oaicite:13]{index=13}
+  </p>
+
+  <ol>
+    <li>
+      From the navigation, go to <strong>Voices</strong> (or similar) and explore the
+      <strong>Voice Library</strong>.
+    </li>
+    <li>
+      Sample a few voices that fit an academic setting (clear, neutral, appropriate tone).
+    </li>
+    <li>
+      Optionally, try <strong>Voice Design</strong>:
+      <ul>
+        <li>Describe the voice (age, tone, accent, style).</li>
+        <li>Use a varied preview script so you can hear the full range.:contentReference[oaicite:14]{index=14}</li>
+      </ul>
+    </li>
+    <li>
+      Save 1–2 “house voices” you’ll reuse, instead of constantly switching (this is easier for
+      learners to recognize, and it reduces trial-and-error generations).
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Free plan limitations</div>
+    <p>
+      The free tier restricts certain voice cloning and commercial usage. It’s fine for
+      experiments and non-commercial educational content, but check ElevenLabs’ current terms if
+      you plan to use generated voices in public-facing or monetized projects.:contentReference[oaicite:15]{index=15}
+    </p>
+  </div>
+</section>
+
+<!-- STEP 6 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">6</div>
+    <div class="step-title">A simple workflow: from script to course audio</div>
+  </div>
+
+  <p>
+    Here’s a practical way to use ElevenLabs in a course or workshop without burning through
+    your free characters.
+  </p>
+
+  <ol>
+    <li>
+      Draft a short script (100–300 words) in Docs, Word, or another editor:
+      <ul>
+        <li>Module intro,</li>
+        <li>Activity instructions, or</li>
+        <li>A short summary of key ideas.</li>
+      </ul>
+    </li>
+    <li>Check the character count and trim if needed.</li>
+    <li>Paste into ElevenLabs Text to Speech and generate with your chosen voice.</li>
+    <li>Download the audio and upload it into your LMS or slide deck.</li>
+    <li>
+      Keep the script in your own files so you can regenerate or update it later without
+      rewriting from scratch.
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: One-minute micro-lecture</summary>
+    <p style="margin-top:0.5rem;">
+      Write a ~150-word script explaining one key concept from this certificate. Generate:
+    </p>
+    <ul>
+      <li>Version A: straight, neutral reading</li>
+      <li>Version B: slightly more expressive, storytelling style</li>
+    </ul>
+    <p>
+      Ask: which would help a busy student grasp the idea faster? Where might either version
+      confuse or distract them?
+    </p>
+  </details>
+</section>
+
+<!-- STEP 7 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">7</div>
+    <div class="step-title">Ethics, disclosure, and accessibility</div>
+  </div>
+
+  <p>
+    ElevenLabs voices are very realistic. That’s powerful—and also a reason to be careful.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Disclosure:</strong> Consider telling your audience when a voice is synthetic,
+      especially in academic contexts or when the voice could be mistaken for a specific human
+      speaker.
+    </li>
+    <li>
+      <strong>No impersonation:</strong> Don’t design voices meant to mimic identifiable
+      individuals (colleagues, public figures) without explicit consent.
+    </li>
+    <li>
+      <strong>Accessibility:</strong> Generated audio is not a replacement for accessible text.
+      Provide transcripts or text alternatives for all key audio.
+    </li>
+    <li>
+      <strong>Editing for clarity:</strong> If the TTS output mispronounces names or technical
+      terms, adjust your script spelling or provide phonetic hints to steer the pronunciation.
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Certificate lens</div>
+    <p>
+      As you experiment with ElevenLabs, focus on <strong>how AI voices change the experience of
+      a message</strong>, and where you—as a human instructor, staff member, or student—still
+      need to provide context, empathy, and judgment.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 8 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">8</div>
+    <div class="step-title">Wrap-up: Where ElevenLabs fits in your AI toolkit</div>
+  </div>
+
+  <p>
+    ElevenLabs is strongest when you need:
+  </p>
+
+  <ul>
+    <li>Short, polished audio clips from carefully written scripts</li>
+    <li>Experimentation with different voices and styles</li>
+    <li>Quick audio for slides, LMS announcements, and explainer snippets</li>
+  </ul>
+
+  <p>
+    The free tier’s <strong>character limits</strong> are a useful constraint: they push you to
+    be intentional about what truly needs an audio version. As you move through the rest of this
+    program, keep asking:
+    <em>“What does audio add here—and what decisions do I still need to make as a human
+    communicator?”</em>
+  </p>
+</section>
+
+<div class="footer-note">
+  This page focuses on the free browser-based ElevenLabs experience at
+  <strong>elevenlabs.io</strong>. Plans, limits, and features change over time, but the core
+  workflow—draft, generate, listen, and revise with care—remains the same.
+</div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tool Highlight: HeyGen (Free Browser Version)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --illini-blue: #13294B;
+      --illini-orange: #E84A27;
+      --bg-light: #f7f7f9;
+      --card-border: #e0e0e0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 0 1rem 3rem;
+    }
+
+    h1, h2, h3 {
+      color: var(--illini-blue);
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      padding: 0.5rem 0.75rem;
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pill {
+      font-size: 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #d0d0d0;
+      padding: 0.2rem 0.75rem;
+      background: #fafafa;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-section {
+      margin-bottom: 2rem;
+      padding: 1.25rem 1.25rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--card-border);
+      background: #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-number {
+      background: var(--illini-blue);
+      color: #ffffff;
+      border-radius: 999px;
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--illini-blue);
+    }
+
+    ol, ul {
+      padding-left: 1.3rem;
+      margin-top: 0.25rem;
+    }
+
+    .note-box {
+      border-left: 4px solid var(--illini-orange);
+      background: var(--bg-light);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      margin: 1rem 0 0;
+    }
+
+    .note-label {
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      color: var(--illini-orange);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    details {
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e0e0e0;
+      background: #fbfbfc;
+      padding: 0.4rem 0.75rem 0.75rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--illini-blue);
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▸ ";
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-right: 0.1rem;
+      transform: translateY(-1px);
+    }
+
+    details[open] summary::before {
+      content: "▾ ";
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .card {
+      border-radius: 0.6rem;
+      border: 1px dashed #d5d5d5;
+      background: #ffffff;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .card h3 {
+      font-size: 0.95rem;
+      margin: 0 0 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: var(--illini-blue);
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #555;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+<main class="page">
+
+<header>
+  <h1>Tool Highlight: HeyGen (Free Browser Version)</h1>
+  <p class="subtitle">
+    AI video avatars and lip-synced narration for short announcements, intros, and demos.
+  </p>
+  <p class="tagline">
+    In this walkthrough, you’ll go from creating a free HeyGen account to generating a short
+    avatar-led video—while keeping an eye on free-tier limits like time caps, watermarks,
+    and generation credits.
+  </p>
+
+  <div class="pill-row">
+    <span class="pill">Free tier</span>
+    <span class="pill">Avatar videos</span>
+    <span class="pill">Credits & limits</span>
+  </div>
+</header>
+
+<!-- STEP 0 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">0</div>
+    <div class="step-title">What HeyGen is (and the free-tier reality)</div>
+  </div>
+  <p>
+    HeyGen creates AI-generated videos where an avatar (stock or custom) speaks your script with
+    realistic lip-syncing and gestures. It’s widely used for course intros, announcements,
+    micro-lessons, translation/dubbing, and onboarding videos.
+  </p>
+  <p>
+    On the <strong>free plan</strong>, you typically get:  
+  </p>
+  <ul>
+    <li>Limited monthly video-generation credits</li>
+    <li>Short video length per generation (usually ~1 minute)</li>
+    <li>Watermarked videos</li>
+    <li>Restricted access to high-end avatars or custom avatar creation</li>
+    <li>Limited lip-sync quality compared to paid tiers</li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Campus lens</div>
+    <p>
+      Treat the free tier as a <strong>prototype sandbox</strong>—a way to see what avatar-based
+      video feels like. For polished or repeated course content, most instructors eventually use
+      higher tiers or alternative workflows.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">1</div>
+    <div class="step-title">Create or log in to a free HeyGen account</div>
+  </div>
+
+  <ol>
+    <li>Go to <strong>https://www.heygen.com</strong>.</li>
+    <li>Click <strong>Sign Up</strong> or <strong>Login</strong>.</li>
+    <li>
+      Sign up using:
+      <ul>
+        <li>Email + password</li>
+        <li>Google, Apple, or another supported SSO option</li>
+      </ul>
+    </li>
+    <li>
+      After onboarding, you’ll land on a dashboard offering options like:
+      <em>Create Video</em>, <em>Talking Photo</em>, <em>Avatar Builder</em>,
+      <em>Templates</em>, and <em>Translation</em>.
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Free-tier caution</div>
+    <p>
+      The free plan may show ads for upgrades and restrict access to certain avatars or styles.
+      That’s normal—just choose any avatar without a “Pro” or “Premium” tag.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 2 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">2</div>
+    <div class="step-title">Tour the HeyGen browser interface</div>
+  </div>
+
+  <p>
+    The HeyGen interface is built around a card-style dashboard and a drag-and-drop editor:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Dashboard:</strong> Choose templates, start new videos, explore avatars, or access
+      the Talking Photo feature.
+    </li>
+    <li>
+      <strong>Editor canvas:</strong> Where you place your avatar, background, and text overlay.
+    </li>
+    <li>
+      <strong>Avatar panel:</strong> A catalog of stock avatars (some free, some paid).
+    </li>
+    <li>
+      <strong>Script panel:</strong> Where you paste or write the text the avatar will read.
+    </li>
+    <li>
+      <strong>Settings panel:</strong> Voice, language, pacing, video ratio, subtitles,
+      and background options.
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Mental model</div>
+    <p>
+      If ElevenLabs = “AI audio,”  
+      and Firefly = “AI images,”  
+      then HeyGen = <strong>“AI presenter for tiny videos.”</strong>
+      It shines when the video is short and highly scripted.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 3 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">3</div>
+    <div class="step-title">Create a simple avatar video (free-tier workflow)</div>
+  </div>
+
+  <ol>
+    <li>From the dashboard, click <strong>Create Video</strong>.</li>
+    <li>Select a <strong>Template</strong> or start with a blank canvas.</li>
+    <li>
+      Choose an avatar:
+      <ul>
+        <li>Pick one without a “Pro” tag</li>
+        <li>Consider diversity, tone, and formality depending on your audience</li>
+      </ul>
+    </li>
+    <li>
+      Paste your script in the <strong>Script</strong> box. Aim for:
+      <ul>
+        <li>100–130 words (≈ 30–45 seconds)</li>
+        <li>Short sentences</li>
+        <li>Clear pronunciation cues for names or jargon</li>
+      </ul>
+    </li>
+    <li>
+      Choose voice + language. Free plans include a subset of voice options.</li>
+    <li>
+      Adjust settings:
+      <ul>
+        <li><strong>Aspect ratio</strong> – 16:9 for slides, 9:16 for mobile</li>
+        <li><strong>Background</strong> – solid color, gradient, image upload</li>
+        <li><strong>Subtitles</strong> – recommended for accessibility</li>
+      </ul>
+    </li>
+    <li>
+      Click <strong>Generate</strong>. HeyGen processes your video (usually 30 seconds–2 minutes).
+    </li>
+    <li>
+      Review the result. Free-tier exports typically include a watermark and may limit quality.
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: One concept, two styles</summary>
+    <p style="margin-top:0.5rem;">
+      Pick a 60–90 word script explaining a core idea from this certificate.  
+      Generate:
+    </p>
+    <ul>
+      <li>Version A: Formal avatar + neutral background</li>
+      <li>Version B: More casual avatar + colorful background</li>
+    </ul>
+    <p>
+      Compare: How does tone shift based on avatar choice and background?  
+      Which is more effective for your actual learners?
+    </p>
+  </details>
+</section>
+
+<!-- STEP 4 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">4</div>
+    <div class="step-title">Free-tier limits to watch carefully</div>
+  </div>
+
+  <p>
+    HeyGen’s free tier is generous enough to experiment, but it has several constraints you’ll
+    hit if you’re not careful:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Monthly video-generation credits:</strong> Each generation consumes credits. Long
+      or multiple takes will drain your monthly allowance.
+    </li>
+    <li>
+      <strong>Time limits:</strong> Free videos are usually capped around 30–60 seconds. Plan
+      your script accordingly.
+    </li>
+    <li>
+      <strong>Watermarks:</strong> Free exports include a HeyGen watermark.
+    </li>
+    <li>
+      <strong>No advanced avatars:</strong> Many of the most realistic or expressive avatars
+      require a paid plan.
+    </li>
+    <li>
+      <strong>No custom avatar creation:</strong> Uploading your own likeness (photo/video)
+      typically requires paid tiers and explicit consent steps.
+    </li>
+    <li>
+      <strong>Lip-sync quality variance:</strong> Shorter, clearer scripts look best.
+    </li>
+  </ul>
+
+  <details>
+    <summary>Tips for staying inside limits</summary>
+    <ul>
+      <li>Keep scripts short and focused—30–45 seconds is ideal.</li>
+      <li>Fix your script before generating—don’t rely on multiple drafts.</li>
+      <li>Reuse backgrounds and templates to avoid re-rendering.</li>
+      <li>Save your generated clips locally before starting new ones.</li>
+    </ul>
+  </details>
+
+  <div class="note-box">
+    <div class="note-label">Certificate reminder</div>
+    <p>
+      Think of HeyGen videos as <strong>micro-presentations</strong>—short, intentional, and
+      contextual. They’re not substitutes for full lectures, but they’re great for tone-setting,
+      motivation, and crisp explanations.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 5 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">5</div>
+    <div class="step-title">Ethics, likeness, and disclosure</div>
+  </div>
+
+  <p>
+    Because HeyGen uses human-like avatars, ethics matter even more than with text or audio.
+  </p>
+
+  <ul>
+    <li>
+      <strong>Do not impersonate real people.</strong> Even with permission, be thoughtful about
+      how their likeness is used.
+    </li>
+    <li>
+      <strong>Disclose synthetic video</strong> when clarity matters, especially in educational
+      and professional settings.
+    </li>
+    <li>
+      <strong>Use diverse avatars responsibly.</strong> Ensure cultural, racial, and gender
+      representation is respectful and appropriate to the context.
+    </li>
+    <li>
+      <strong>Accessibility:</strong> Provide captions and transcripts for all generated videos.
+    </li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Design principle</div>
+    <p>
+      AI video should <strong>clarify</strong> communication, not obscure it. If an avatar distracts
+      from the message, simplify the design or switch to audio or text.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 6 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">6</div>
+    <div class="step-title">Wrap-up: Where HeyGen fits in your AI toolkit</div>
+  </div>
+
+  <p>
+    HeyGen is strongest when you want:
+  </p>
+
+  <ul>
+    <li>A short video with a consistent “presenter”</li>
+    <li>Announcements, module intros, tips, or micro-lessons</li>
+    <li>Multi-language versions of the same script</li>
+    <li>A way to build quick visual engagement without recording yourself on camera</li>
+  </ul>
+
+  <p>
+    The free version encourages intentionality:  
+    <em>What message is short and important enough to justify a 30–45 second avatar video?</em>
+  </p>
+</section>
+
+<div class="footer-note">
+  This page covers the free browser version of HeyGen at <strong>heygen.com</strong>.  
+  Features, avatars, and credit limits change, but the core workflow—script → avatar →
+  generate—remains stable.
+</div>
+
+</main>
+</body>
+</html>

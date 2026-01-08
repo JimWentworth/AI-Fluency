@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Tool Highlight: Microsoft Copilot (Campus Data-Protected Version)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  :root {
+    --illini-blue: #13294B;
+    --illini-orange: #E84A27;
+    --bg-light: #f7f7f9;
+    --card-border: #e0e0e0;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    color: #1a1a1a;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 0 1rem 3rem;
+  }
+
+  h1, h2, h3 {
+    color: var(--illini-blue);
+    font-weight: 700;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    border-left: 4px solid var(--illini-orange);
+    background: var(--bg-light);
+    margin-bottom: 1.5rem;
+  }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pill {
+    font-size: 0.8rem;
+    border-radius: 999px;
+    border: 1px solid #d0d0d0;
+    padding: 0.2rem 0.75rem;
+    background: #fafafa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .step-section {
+    margin-bottom: 2rem;
+    padding: 1.25rem 1.25rem 1.5rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--card-border);
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  }
+
+  .step-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .step-number {
+    background: var(--illini-blue);
+    color: #ffffff;
+    border-radius: 999px;
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .step-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--illini-blue);
+  }
+
+  ol, ul {
+    padding-left: 1.3rem;
+    margin-top: 0.25rem;
+  }
+
+  .note-box {
+    border-left: 4px solid var(--illini-orange);
+    background: var(--bg-light);
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    margin: 1rem 0 0;
+  }
+
+  .note-label {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: var(--illini-orange);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.25rem;
+  }
+
+  details {
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e0e0e0;
+    background: #fbfbfc;
+    padding: 0.4rem 0.75rem 0.75rem;
+  }
+
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--illini-blue);
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::before {
+    content: "▸ ";
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-right: 0.1rem;
+  }
+
+  details[open] summary::before {
+    content: "▾ ";
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .card {
+    border-radius: 0.6rem;
+    border: 1px dashed #d5d5d5;
+    background: #ffffff;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .card h3 {
+    font-size: 0.95rem;
+    margin: 0 0 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .chip {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    background: var(--illini-blue);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .footer-note {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: #555;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 0.75rem;
+  }
+</style>
+</head>
+
+<body>
+<main class="page">
+
+<header>
+  <h1>Tool Highlight: Microsoft Copilot (Campus Data-Protected Version)</h1>
+  <p class="subtitle">
+    A secure, enterprise-grade AI assistant integrated into the Microsoft 365 ecosystem.
+  </p>
+  <p class="tagline">
+    In this walkthrough, you’ll move from logging in with Illinois single sign-on,
+    to using Copilot inside the browser, and finally to leveraging the deeper
+    integrations in Word, Excel, PowerPoint, Outlook, and Teams.
+  </p>
+
+  <div class="pill-row">
+    <span class="pill">Campus data protection</span>
+    <span class="pill">Great for documents & workflows</span>
+    <span class="pill">M365 integration</span>
+  </div>
+</header>
+
+<!-- STEP 0 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">0</div>
+    <div class="step-title">Before you start: Use the campus-protected version</div>
+  </div>
+  <p>
+    Microsoft offers several versions of Copilot. The one you want for university work is the
+    <strong>Microsoft 365 / Enterprise Copilot</strong> that uses Illinois
+    <strong>Entra ID (formerly Azure AD)</strong> authentication.  
+    This version provides:
+  </p>
+  <ul>
+    <li><strong>Commercial data protection</strong> (your prompts and data are not used for training)</li>
+    <li><strong>Enterprise-grade privacy</strong> aligned with FERPA- and HIPAA-aware workflows</li>
+    <li>Access to your Illinois OneDrive, SharePoint, and Outlook files (with permissions respected)</li>
+    <li>Integration directly into Word, Excel, PowerPoint, and Teams</li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Avoid this</div>
+    <p>
+      Do <strong>not</strong> use the public copilot.microsoft.com with personal accounts for
+      university-related data. You will not have enterprise protections there.  
+      Always check that you're logged in with your <strong>@illinois.edu</strong> account and see a
+      badge like “<em>Your data is protected</em>.”
+    </p>
+  </div>
+</section>
+
+<!-- STEP 1 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">1</div>
+    <div class="step-title">Log in to Copilot with Illinois SSO</div>
+  </div>
+
+  <ol>
+    <li>Open <strong>https://copilot.microsoft.com</strong> or <strong>https://www.microsoft365.com</strong>.</li>
+    <li>Click <strong>Sign in</strong>.</li>
+    <li>Enter your <strong>NetID@illinois.edu</strong> email.</li>
+    <li>You will be redirected to the Illinois login page; authenticate with your NetID and password.</li>
+    <li>
+      After login, confirm that you see:
+      <ul>
+        <li>Your Illinois account avatar in the top right</li>
+        <li>A “<strong>Your data is protected</strong>” tag or lock icon in the sidebar/banner</li>
+      </ul>
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">If something looks wrong</div>
+    <p>
+      If Copilot warns that your data might be visible to Microsoft or that data isn't protected,
+      sign out and back in with your **@illinois.edu** identity.  
+      This is the most common source of accidental misconfiguration.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 2 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">2</div>
+    <div class="step-title">Choose where to use Copilot</div>
+  </div>
+
+  <p>
+    Copilot comes in multiple “surfaces,” each with different strengths. The protected Illinois
+    version works across:
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Copilot Web App <span class="chip">General</span></h3>
+      <p>
+        The browser-based chat interface for brainstorming, drafting, summarizing,
+        coding, troubleshooting, and quick “copilot”-style work.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Word + Copilot <span class="chip">Writing</span></h3>
+      <p>
+        Generate outlines, revise drafts, translate tone, and summarize long documents—grounded in
+        the files you open from OneDrive or SharePoint.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Excel + Copilot <span class="chip">Analysis</span></h3>
+      <p>
+        Ask natural-language questions about spreadsheets, generate formulas, analyze patterns,
+        or create visualizations from your existing data.
+      </p>
+    </div>
+    <div class="card">
+      <h3>PowerPoint + Copilot <span class="chip">Slides</span></h3>
+      <p>
+        Create slide decks from documents, summarize long reports visually,
+        redesign layouts, and tweak tone or emphasis.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Outlook + Copilot <span class="chip">Email</span></h3>
+      <p>
+        Summarize long threads, draft responses, and extract tasks—while respecting privacy and
+        permissions from your actual mailbox.
+      </p>
+    </div>
+    <div class="card">
+      <h3>Teams + Copilot <span class="chip">Meetings</span></h3>
+      <p>
+        Summaries, action items, and insights from meetings you attended or missed,
+        with permissions carefully enforced.
+      </p>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <div class="note-label">Mental model</div>
+    <p>
+      Copilot behaves differently depending on where you launch it.  
+      Using Copilot *inside* Word or OneDrive is not the same as chatting in the browser—it has
+      access to the specific file you are working on.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 3 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">3</div>
+    <div class="step-title">Start in the Copilot Web App (recommended orientation)</div>
+  </div>
+
+  <p>
+    To get familiar with Copilot’s reasoning style and its guardrails, start in the web chat
+    experience before using the deeper Microsoft 365 integrations.
+  </p>
+
+  <ol>
+    <li>Open <strong>https://copilot.microsoft.com</strong>.</li>
+    <li>Ask a warm-up question such as:<br>
+      <em>“Explain this concept in simple terms: retrieval-augmented generation.”</em></li>
+    <li>Then push for critical nuance:<br>
+      <em>“Give me limitations or edge cases where this approach fails.”</em></li>
+    <li>
+      Upload a file (Word, PDF, or text) and ask:
+      <ul>
+        <li>“What is the author’s main argument in this document?”</li>
+        <li>“Create 3 interpretations someone might reasonably challenge.”</li>
+      </ul>
+    </li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Critical-use habit</div>
+    <p>
+      Copilot is confident but not omniscient. Look for simplifications, incorrect causal claims,
+      or invented details. Treat it as a collaborator, not an authority.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 4 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">4</div>
+    <div class="step-title">Use Copilot inside Word for grounded writing help</div>
+  </div>
+  <p>
+    Word + Copilot is one of the most powerful combinations for academic and administrative work.
+    Copilot sees the document you’re editing and responds with grounded suggestions.
+  </p>
+
+  <ol>
+    <li>Open a document stored in <strong>OneDrive</strong> or <strong>SharePoint</strong>.</li>
+    <li>Click the <strong>Copilot</strong> icon in the right sidebar.</li>
+    <li>Try prompts such as:
+      <ul>
+        <li>“Give me a concise 150-word summary of this document.”</li>
+        <li>“Suggest 3 alternative structures for clearer flow.”</li>
+        <li>“Rewrite this paragraph with more direct language.”</li>
+        <li>“Identify missing counter-arguments or risks.”</li>
+      </ul>
+    </li>
+    <li>Always review changes in <strong>Track Changes</strong> before accepting them.</li>
+  </ol>
+
+  <details>
+    <summary>Activity: Revision Ladder</summary>
+    <p style="margin-top:0.5rem;">
+      Choose one paragraph. Ask Copilot to:
+    </p>
+    <ol>
+      <li>Rewrite it for clarity</li>
+      <li>Tighten it by 30%</li>
+      <li>Highlight assumptions the text makes</li>
+      <li>Draft a counter-argument you should take seriously</li>
+    </ol>
+    <p>
+      Compare the outputs: Where is Copilot helpful? Where does it overreach?
+    </p>
+  </details>
+</section>
+
+<!-- STEP 5 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">5</div>
+    <div class="step-title">Use Copilot in Excel for analysis and visualization</div>
+  </div>
+
+  <p>
+    Excel + Copilot excels (sorry) at explaining your data, generating formulas, and helping you
+    reason about patterns—but it cannot validate data quality or contextual correctness.
+  </p>
+
+  <ol>
+    <li>Open a spreadsheet in OneDrive/SharePoint.</li>
+    <li>Click <strong>Copilot</strong> in the ribbon.</li>
+    <li>
+      Ask:
+      <ul>
+        <li>“What trends stand out across these rows?”</li>
+        <li>“Write a formula that calculates X grouped by Y.”</li>
+        <li>“Suggest 3 charts that could summarize this data.”</li>
+      </ul>
+    </li>
+    <li>Expect Copilot to be wrong if your column names are messy—clean them first.</li>
+  </ol>
+
+  <div class="note-box">
+    <div class="note-label">Always apply human judgment</div>
+    <p>
+      Copilot does not know your data’s meaning. A beautiful chart is not the same as a correct
+      one. Verify every claim against the raw data.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 6 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">6</div>
+    <div class="step-title">Use Copilot in PowerPoint for slide generation</div>
+  </div>
+  <p>
+    This is where Copilot frequently surprises people—it can turn a Word document into a
+    first-draft slide deck in seconds.
+  </p>
+
+  <ol>
+    <li>Open PowerPoint and click <strong>Copilot</strong>.</li>
+    <li>Select <strong>Create presentation from file</strong>.</li>
+    <li>Choose a document from your OneDrive.</li>
+    <li>
+      After generation, try:
+      <ul>
+        <li>“Reduce the slide count by 40% but keep key arguments.”</li>
+        <li>“Add speaker notes summarizing evidence from the source document.”</li>
+      </ul>
+    </li>
+  </ol>
+
+  <details>
+    <summary>Activity: Slide Critique</summary>
+    <p style="margin-top:0.5rem;">
+      Compare Copilot’s deck to the source text.  
+      Identify:
+    </p>
+    <ul>
+      <li>Where nuance was lost</li>
+      <li>Where visuals mislead or distort emphasis</li>
+      <li>Which slides are strong enough to reuse</li>
+    </ul>
+  </details>
+</section>
+
+<!-- STEP 7 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">7</div>
+    <div class="step-title">Use Copilot in Outlook and Teams</div>
+  </div>
+
+  <h2 style="font-size:1rem; margin-top:0.5rem;">Outlook</h2>
+  <ul>
+    <li>Summarize long threads</li>
+    <li>Suggest responses in your voice</li>
+    <li>Extract action items and deadlines</li>
+  </ul>
+
+  <h2 style="font-size:1rem; margin-top:1rem;">Teams</h2>
+  <ul>
+    <li>Generate meeting summaries (only if you were invited)</li>
+    <li>Highlight decisions, action items, and risks</li>
+    <li>Provide follow-up questions or next steps</li>
+  </ul>
+
+  <div class="note-box">
+    <div class="note-label">Permissions matter</div>
+    <p>
+      Copilot can only summarize content you had access to.  
+      If you weren’t invited to a meeting or shared on a document, Copilot won’t see it.
+    </p>
+  </div>
+</section>
+
+<!-- STEP 8 -->
+<section class="step-section">
+  <div class="step-header">
+    <div class="step-number">8</div>
+    <div class="step-title">Wrap-up: Fit within AI Fluency</div>
+  </div>
+
+  <p>
+    Copilot is best viewed as a <strong>workflow amplifier</strong> rather than a
+    research-analysis engine. Its strengths come from:
+  </p>
+  <ul>
+    <li>Deep integration with your files and communication tools</li>
+    <li>Ability to draft, refine, and reorganize work quickly</li>
+    <li>Support for administrative and instructional tasks</li>
+  </ul>
+
+  <p>
+    As you continue through this program, ask:
+    <em>When is Copilot helping me move faster, and when is it tempting me to skip the reasoning
+    step I actually need to do myself?</em>
+  </p>
+</section>
+
+<div class="footer-note">
+  This page reflects capabilities of the enterprise-protected Copilot available to the UIUC
+  community. Microsoft updates Copilot frequently, so icons and menu names may shift—but the
+  underlying workflows remain stable.
+</div>
+
+</main>
+</body>
+</html>
