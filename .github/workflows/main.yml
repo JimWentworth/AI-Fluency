@@ -1,0 +1,798 @@
+name: Update Gallery Index
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**.html'
+      - '!index.html'
+      - 'category-mapping.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-gallery:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Extract demo data with custom mappings
+      run: |
+        python3 << 'PYTHON_SCRIPT'
+        import os
+        import re
+        from pathlib import Path
+        from html.parser import HTMLParser
+        import json
+
+        class MetaExtractor(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.title = None
+                self.description = None
+                self.tags = []
+                self.category = None
+                self.in_title = False
+                
+            def handle_starttag(self, tag, attrs):
+                attrs_dict = dict(attrs)
+                
+                if tag == 'title':
+                    self.in_title = True
+                    
+                elif tag == 'meta':
+                    name = attrs_dict.get('name', '').lower()
+                    content = attrs_dict.get('content', '')
+                    
+                    if name == 'description':
+                        self.description = content
+                    elif name == 'tags' or name == 'keywords':
+                        self.tags = [t.strip() for t in content.split(',') if t.strip()]
+                    elif name == 'category':
+                        self.category = content
+                    
+            def handle_endtag(self, tag):
+                if tag == 'title':
+                    self.in_title = False
+                    
+            def handle_data(self, data):
+                if self.in_title and self.title is None:
+                    self.title = data.strip()
+
+        def load_category_mappings():
+            """Load category mappings from config file if it exists"""
+            try:
+                if os.path.exists('category-mapping.json'):
+                    with open('category-mapping.json', 'r') as f:
+                        return json.load(f)
+            except Exception as e:
+                print(f"Warning: Could not load category-mapping.json: {e}")
+            return {'mappings': {}, 'icon_overrides': {}}
+
+        def extract_metadata(filepath):
+            try:
+                with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
+                    content = f.read()
+                    parser = MetaExtractor()
+                    parser.feed(content)
+                    return {
+                        'title': parser.title,
+                        'description': parser.description,
+                        'tags': parser.tags,
+                        'category': parser.category
+                    }
+            except Exception as e:
+                print(f"Error extracting metadata from {filepath}: {e}")
+                return {'title': None, 'description': None, 'tags': [], 'category': None}
+
+        def format_name(filename):
+            """Convert filename to readable name"""
+            name = Path(filename).stem
+            name = name.replace('_', ' ').replace('-', ' ')
+            name = re.sub(r'\d+\s*', '', name)
+            return name.title()
+
+        def apply_category_mapping(path, auto_category, config):
+            """Apply custom category mapping based on path"""
+            mappings = config.get('mappings', {})
+            
+            # Check for exact path matches first
+            for pattern, custom_category in mappings.items():
+                if path.startswith(pattern):
+                    return custom_category
+            
+            return auto_category
+
+        # Load custom configuration
+        config = load_category_mappings()
+        
+        # Find all HTML files
+        demos = []
+        all_tags = set()
+        
+        for root, dirs, files in os.walk('.'):
+            dirs[:] = [d for d in dirs if d not in ['.git', '.github', 'node_modules']]
+            
+            for file in files:
+                if file.endswith('.html') and file != 'index.html':
+                    filepath = os.path.join(root, file)
+                    rel_path = filepath[2:]
+                    
+                    metadata = extract_metadata(filepath)
+                    
+                    # Use extracted title or format from filename
+                    title = metadata['title'] if metadata['title'] else format_name(file)
+                    
+                    # Determine category with priority:
+                    # 1. Meta tag override
+                    # 2. Category mapping from config
+                    # 3. Auto-detected from folder
+                    parts = rel_path.split('/')
+                    auto_category = 'Main' if len(parts) == 1 else parts[0].replace('_', ' ').title()
+                    
+                    if metadata['category']:
+                        # Meta tag has highest priority
+                        category = metadata['category']
+                    else:
+                        # Apply mapping if exists, otherwise use auto
+                        category = apply_category_mapping(rel_path, auto_category, config)
+                    
+                    # Collect tags
+                    tags = metadata['tags']
+                    all_tags.update(tags)
+                    
+                    demos.append({
+                        'path': rel_path,
+                        'title': title,
+                        'description': metadata['description'] or '',
+                        'category': category,
+                        'tags': tags,
+                        'filename': file
+                    })
+
+        # Sort by category then title
+        demos.sort(key=lambda x: (x['category'], x['title']))
+
+        # Save data with icon overrides
+        output = {
+            'demos': demos,
+            'allTags': sorted(list(all_tags)),
+            'iconOverrides': config.get('icon_overrides', {})
+        }
+        
+        with open('demos_data.json', 'w') as f:
+            json.dump(output, f, indent=2)
+        
+        print(f"✅ Found {len(demos)} HTML files with {len(all_tags)} unique tags")
+        if config.get('mappings'):
+            print(f"📁 Applied {len(config['mappings'])} custom category mappings")
+        PYTHON_SCRIPT
+    
+    - name: Generate index.html with custom icons
+      run: |
+        cat > index.html << 'EOF'
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>AI Projects Gallery - CITL Demos</title>
+            <style>
+                * {
+                    margin: 0;
+                    padding: 0;
+                    box-sizing: border-box;
+                }
+
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                    background: linear-gradient(135deg, #13294B 0%, #1e3a5f 100%);
+                    min-height: 100vh;
+                    padding: 2rem 1rem;
+                }
+
+                .container {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                }
+
+                header {
+                    text-align: center;
+                    margin-bottom: 3rem;
+                    padding: 2rem;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 16px;
+                    backdrop-filter: blur(10px);
+                }
+
+                h1 {
+                    color: #E84A27;
+                    font-size: 2.5rem;
+                    margin-bottom: 0.5rem;
+                    font-weight: 700;
+                }
+
+                .subtitle {
+                    color: #fff;
+                    font-size: 1.2rem;
+                    margin-bottom: 1rem;
+                }
+
+                .description {
+                    color: rgba(255, 255, 255, 0.9);
+                    max-width: 800px;
+                    margin: 0 auto;
+                    line-height: 1.6;
+                }
+
+                .search-filter {
+                    margin-bottom: 2rem;
+                    display: flex;
+                    gap: 1rem;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+
+                .search-box {
+                    flex: 1;
+                    max-width: 500px;
+                    padding: 0.75rem 1rem;
+                    border: 2px solid rgba(255, 255, 255, 0.3);
+                    border-radius: 8px;
+                    font-size: 1rem;
+                    background: rgba(255, 255, 255, 0.95);
+                    transition: all 0.3s ease;
+                }
+
+                .search-box:focus {
+                    outline: none;
+                    border-color: #E84A27;
+                    box-shadow: 0 0 0 3px rgba(232, 74, 39, 0.2);
+                }
+
+                .filter-section {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 12px;
+                    padding: 1.5rem;
+                    margin-bottom: 2rem;
+                    backdrop-filter: blur(10px);
+                }
+
+                .filter-label {
+                    color: rgba(255, 255, 255, 0.9);
+                    font-size: 0.9rem;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    margin-bottom: 0.75rem;
+                    display: block;
+                }
+
+                .filter-buttons {
+                    display: flex;
+                    gap: 0.5rem;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
+
+                .filter-btn {
+                    padding: 0.5rem 1rem;
+                    border: 2px solid rgba(255, 255, 255, 0.5);
+                    border-radius: 20px;
+                    background: rgba(255, 255, 255, 0.1);
+                    color: #fff;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    font-size: 0.9rem;
+                }
+
+                .filter-btn:hover,
+                .filter-btn.active {
+                    background: #E84A27;
+                    border-color: #E84A27;
+                    transform: translateY(-2px);
+                }
+
+                .tag-btn {
+                    background: rgba(232, 74, 39, 0.2);
+                    border-color: #E84A27;
+                    font-size: 0.85rem;
+                }
+
+                .tag-btn:hover,
+                .tag-btn.active {
+                    background: #E84A27;
+                    border-color: #E84A27;
+                }
+
+                .category-section {
+                    margin-bottom: 3rem;
+                }
+
+                .category-header {
+                    color: #E84A27;
+                    font-size: 1.8rem;
+                    margin-bottom: 1.5rem;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 3px solid #E84A27;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+
+                .count-badge {
+                    background: #E84A27;
+                    color: white;
+                    font-size: 0.9rem;
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 20px;
+                    font-weight: normal;
+                }
+
+                .grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                    gap: 1.5rem;
+                }
+
+                .card {
+                    background: white;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    transition: all 0.3s ease;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 8px 15px rgba(232, 74, 39, 0.3);
+                }
+
+                .card-image {
+                    width: 100%;
+                    height: 180px;
+                    background: linear-gradient(135deg, #13294B 0%, #E84A27 100%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: white;
+                    font-size: 3rem;
+                    font-weight: bold;
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .card-image::before {
+                    content: '';
+                    position: absolute;
+                    width: 200%;
+                    height: 200%;
+                    background: repeating-linear-gradient(
+                        45deg,
+                        transparent,
+                        transparent 10px,
+                        rgba(255, 255, 255, 0.05) 10px,
+                        rgba(255, 255, 255, 0.05) 20px
+                    );
+                    animation: slide 20s linear infinite;
+                }
+
+                @keyframes slide {
+                    0% { transform: translate(-50%, -50%); }
+                    100% { transform: translate(0%, 0%); }
+                }
+
+                .card-icon {
+                    position: relative;
+                    z-index: 1;
+                    font-size: 4rem;
+                    opacity: 0.9;
+                }
+
+                .card-content {
+                    padding: 1.5rem;
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .card-title {
+                    color: #13294B;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    line-height: 1.4;
+                }
+
+                .card-description {
+                    color: #666;
+                    font-size: 0.9rem;
+                    margin-bottom: 0.75rem;
+                    line-height: 1.4;
+                    flex: 1;
+                }
+
+                .card-tags {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.25rem;
+                    margin-bottom: 1rem;
+                }
+
+                .card-tag {
+                    background: rgba(232, 74, 39, 0.1);
+                    color: #E84A27;
+                    font-size: 0.75rem;
+                    padding: 0.25rem 0.5rem;
+                    border-radius: 12px;
+                    border: 1px solid rgba(232, 74, 39, 0.3);
+                }
+
+                .card-path {
+                    color: #999;
+                    font-size: 0.75rem;
+                    font-family: 'Courier New', monospace;
+                    margin-bottom: 1rem;
+                    opacity: 0.7;
+                }
+
+                .card-link {
+                    margin-top: auto;
+                    padding: 0.75rem;
+                    background: #13294B;
+                    color: white;
+                    text-align: center;
+                    text-decoration: none;
+                    border-radius: 6px;
+                    transition: all 0.3s ease;
+                    font-weight: 500;
+                }
+
+                .card-link:hover {
+                    background: #E84A27;
+                    transform: scale(1.02);
+                }
+
+                .stats {
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 12px;
+                    padding: 1.5rem;
+                    margin-bottom: 2rem;
+                    display: flex;
+                    justify-content: center;
+                    gap: 3rem;
+                    flex-wrap: wrap;
+                    backdrop-filter: blur(10px);
+                }
+
+                .stat-item {
+                    text-align: center;
+                }
+
+                .stat-number {
+                    color: #E84A27;
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                    display: block;
+                }
+
+                .stat-label {
+                    color: rgba(255, 255, 255, 0.9);
+                    font-size: 0.9rem;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                footer {
+                    margin-top: 4rem;
+                    padding: 2rem;
+                    text-align: center;
+                    color: rgba(255, 255, 255, 0.7);
+                    border-top: 1px solid rgba(255, 255, 255, 0.2);
+                }
+
+                footer a {
+                    color: #E84A27;
+                    text-decoration: none;
+                }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+                @media (max-width: 768px) {
+                    h1 {
+                        font-size: 2rem;
+                    }
+
+                    .grid {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .filter-buttons {
+                        width: 100%;
+                    }
+
+                    .filter-btn {
+                        flex: 1;
+                        min-width: 120px;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <header>
+                    <h1>🎓 AI Projects Gallery</h1>
+                    <div class="subtitle">Center for Innovation in Teaching & Learning</div>
+                    <p class="description">
+                        Interactive web applications and educational resources created with generative AI coding assistants. 
+                        These demonstrations showcase what's possible using AI tools for educational technology development.
+                    </p>
+                </header>
+
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalProjects">0</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalCategories">0</span>
+                        <span class="stat-label">Categories</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalTags">0</span>
+                        <span class="stat-label">Tags</span>
+                    </div>
+                </div>
+
+                <div class="search-filter">
+                    <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search projects...">
+                </div>
+
+                <div class="filter-section">
+                    <label class="filter-label">📁 Filter by Category</label>
+                    <div class="filter-buttons" id="categoryButtons"></div>
+                </div>
+
+                <div class="filter-section" id="tagFilterSection" style="display: none;">
+                    <label class="filter-label">🏷️ Filter by Tag</label>
+                    <div class="filter-buttons" id="tagButtons"></div>
+                </div>
+
+                <div id="gallery"></div>
+
+                <footer>
+                    <p>Created with AI • University of Illinois • <a href="mailto:jwentwor@illinois.edu">jwentwor@illinois.edu</a></p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                        <a href="https://github.com/JimWentworth/GenAI" target="_blank">View on GitHub</a>
+                    </p>
+                </footer>
+            </div>
+
+            <script>
+                const data = 
+        EOF
+        
+        cat demos_data.json >> index.html
+        
+        cat >> index.html << 'EOFJS'
+        ;
+
+                const demos = data.demos;
+                const allTags = data.allTags;
+                const iconOverrides = data.iconOverrides || {};
+
+                // Default icon mapping
+                const defaultIconMap = {
+                    'Main': '🏠',
+                    'Ai Frameworks': '🤖',
+                    'Canvas Course': '📚',
+                    'Chatgpt': '💬',
+                    'Course Design': '✏️',
+                    'Gpt Tester': '🧪',
+                    'Interactions': '🎮',
+                    'Llms': '🧠',
+                    'Manus': '📖',
+                    'Mind Map': '🗺️',
+                    'Study Master': '📝',
+                    'Verb Sorter': '📊',
+                    'Viscom Concepts': '🎨',
+                    'Visual Literacy': '👁️',
+                    'Workload Calculator': '⏱️'
+                };
+
+                // Merge custom icons with defaults
+                const iconMap = {...defaultIconMap, ...iconOverrides};
+
+                let currentCategoryFilter = 'All';
+                let currentTagFilter = null;
+
+                function getIcon(category) {
+                    return iconMap[category] || '📄';
+                }
+
+                function createCard(demo) {
+                    const icon = getIcon(demo.category);
+                    const tagsHTML = demo.tags && demo.tags.length > 0 
+                        ? `<div class="card-tags">${demo.tags.map(tag => `<span class="card-tag">${tag}</span>`).join('')}</div>`
+                        : '';
+                    const descHTML = demo.description 
+                        ? `<div class="card-description">${demo.description}</div>`
+                        : '';
+                    
+                    return `
+                        <div class="card" data-category="${demo.category}" data-title="${demo.title.toLowerCase()}" data-path="${demo.path.toLowerCase()}" data-tags="${(demo.tags || []).join(',')}">
+                            <div class="card-image">
+                                <div class="card-icon">${icon}</div>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">${demo.title}</h3>
+                                ${descHTML}
+                                ${tagsHTML}
+                                <div class="card-path">${demo.path}</div>
+                                <a href="${demo.path}" class="card-link" target="_blank">Open Demo →</a>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                function groupByCategory(demos) {
+                    const groups = {};
+                    demos.forEach(demo => {
+                        if (!groups[demo.category]) {
+                            groups[demo.category] = [];
+                        }
+                        groups[demo.category].push(demo);
+                    });
+                    return groups;
+                }
+
+                function renderGallery(categoryFilter = 'All', tagFilter = null, searchTerm = '') {
+                    const gallery = document.getElementById('gallery');
+                    const groups = groupByCategory(demos);
+                    
+                    let html = '';
+                    let visibleCount = 0;
+
+                    Object.keys(groups).sort().forEach(category => {
+                        if (categoryFilter !== 'All' && categoryFilter !== category) return;
+
+                        const categoryDemos = groups[category].filter(demo => {
+                            if (tagFilter && (!demo.tags || !demo.tags.includes(tagFilter))) {
+                                return false;
+                            }
+                            
+                            if (searchTerm) {
+                                const search = searchTerm.toLowerCase();
+                                const matchesSearch = demo.title.toLowerCase().includes(search) || 
+                                       demo.path.toLowerCase().includes(search) ||
+                                       (demo.description && demo.description.toLowerCase().includes(search)) ||
+                                       (demo.tags && demo.tags.some(tag => tag.toLowerCase().includes(search)));
+                                if (!matchesSearch) return false;
+                            }
+                            
+                            return true;
+                        });
+
+                        if (categoryDemos.length === 0) return;
+
+                        visibleCount += categoryDemos.length;
+
+                        html += `
+                            <div class="category-section">
+                                <h2 class="category-header">
+                                    ${getIcon(category)} ${category}
+                                    <span class="count-badge">${categoryDemos.length}</span>
+                                </h2>
+                                <div class="grid">
+                                    ${categoryDemos.map(demo => createCard(demo)).join('')}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    gallery.innerHTML = html || '<p style="color: white; text-align: center; padding: 3rem;">No projects found matching your filters.</p>';
+                    
+                    document.getElementById('totalProjects').textContent = visibleCount;
+                }
+
+                function createCategoryButtons() {
+                    const categories = ['All', ...new Set(demos.map(d => d.category))].sort();
+                    const categoryButtons = document.getElementById('categoryButtons');
+                    
+                    categoryButtons.innerHTML = categories.map(cat => 
+                        `<button class="filter-btn ${cat === 'All' ? 'active' : ''}" data-filter="${cat}">
+                            ${cat === 'All' ? '🌟 ' : getIcon(cat) + ' '}${cat}
+                        </button>`
+                    ).join('');
+
+                    document.getElementById('totalCategories').textContent = categories.length - 1;
+
+                    categoryButtons.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            currentCategoryFilter = btn.dataset.filter;
+                            categoryButtons.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            renderGallery(currentCategoryFilter, currentTagFilter, document.getElementById('searchBox').value);
+                        });
+                    });
+                }
+
+                function createTagButtons() {
+                    if (allTags.length === 0) return;
+                    
+                    const tagSection = document.getElementById('tagFilterSection');
+                    const tagButtons = document.getElementById('tagButtons');
+                    
+                    tagSection.style.display = 'block';
+                    
+                    tagButtons.innerHTML = `
+                        <button class="filter-btn tag-btn active" data-tag="">🌟 All</button>
+                        ${allTags.map(tag => 
+                            `<button class="filter-btn tag-btn" data-tag="${tag}">🏷️ ${tag}</button>`
+                        ).join('')}
+                    `;
+
+                    document.getElementById('totalTags').textContent = allTags.length;
+
+                    tagButtons.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            currentTagFilter = btn.dataset.tag || null;
+                            tagButtons.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            renderGallery(currentCategoryFilter, currentTagFilter, document.getElementById('searchBox').value);
+                        });
+                    });
+                }
+
+                document.getElementById('searchBox').addEventListener('input', (e) => {
+                    renderGallery(currentCategoryFilter, currentTagFilter, e.target.value);
+                });
+
+                createCategoryButtons();
+                createTagButtons();
+                renderGallery();
+            </script>
+        </body>
+        </html>
+        EOFJS
+    
+    - name: Check for changes
+      id: check_changes
+      run: |
+        git diff --quiet index.html && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+    
+    - name: Show what changed
+      if: steps.check_changes.outputs.changed == 'true'
+      run: |
+        echo "📝 Index.html has been updated"
+        git diff --stat index.html
+    
+    - name: Commit and push if changed
+      if: steps.check_changes.outputs.changed == 'true'
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add index.html
+        git commit -m "Auto-update gallery index [skip ci]"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: No changes needed
+      if: steps.check_changes.outputs.changed == 'false'
+      run: echo "✅ Gallery is already up to date"
