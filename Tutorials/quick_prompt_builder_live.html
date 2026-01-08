@@ -1,0 +1,600 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quick Prompt Builder – Live Preview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --blue:#13294B;
+      --orange:#E84A27;
+      --light:#f3f4f6;
+    }
+    * { box-sizing:border-box; }
+    body {
+      font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin:0;
+      background:var(--light);
+      color:#111827;
+    }
+    header {
+      background:linear-gradient(135deg,var(--blue),#1f3f73);
+      padding:1.3rem 1.6rem 1.4rem;
+      color:white;
+    }
+    .pill {
+      padding:.18rem .6rem;
+      background:var(--orange);
+      border-radius:999px;
+      font-size:.72rem;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      display:inline-block;
+      margin-bottom:.3rem;
+    }
+    header h1 {
+      margin:0 0 .25rem;
+      font-size:1.5rem;
+    }
+    header p {
+      margin:0;
+      font-size:.9rem;
+      opacity:.95;
+    }
+    main {
+      max-width:1120px;
+      margin:1.4rem auto 2.3rem;
+      background:white;
+      padding:1.5rem 1.8rem;
+      border-radius:12px;
+      box-shadow:0 10px 25px rgba(15,23,42,0.1);
+    }
+    .layout {
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(0,1.4fr);
+      gap:1.4rem;
+      margin-top:.8rem;
+    }
+    @media(max-width:900px){
+      .layout { grid-template-columns:minmax(0,1fr); }
+    }
+    .panel {
+      border-radius:10px;
+      border:1px solid #e5e7eb;
+      background:#f9fafb;
+      padding:1rem 1.1rem;
+    }
+    .panel h2 {
+      margin:0 0 .4rem;
+      font-size:1.05rem;
+      color:var(--blue);
+    }
+    .hint {
+      font-size:.8rem;
+      color:#6b7280;
+      margin-top:.1rem;
+      margin-bottom:.4rem;
+    }
+    .controls-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:.8rem;
+      margin-top:.4rem;
+    }
+    .field-group {
+      font-size:.86rem;
+    }
+    .field-group label {
+      display:block;
+      font-weight:600;
+      margin-bottom:.15rem;
+      color:#374151;
+      font-size:.82rem;
+    }
+    select, input[type="text"], textarea {
+      width:100%;
+      padding:.4rem .5rem;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      font-size:.9rem;
+      font-family:inherit;
+      background:white;
+    }
+    textarea {
+      resize:vertical;
+      min-height:70px;
+    }
+    .small-label {
+      font-size:.78rem;
+      color:#6b7280;
+      margin-top:.08rem;
+    }
+    .range-row {
+      display:flex;
+      align-items:center;
+      gap:.5rem;
+    }
+    input[type="range"] {
+      -webkit-appearance:none;
+      appearance:none;
+      height:4px;
+      border-radius:999px;
+      background:#d1d5db;
+      flex:1;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance:none;
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:var(--blue);
+      cursor:pointer;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:var(--blue);
+      cursor:pointer;
+    }
+    .toggle-section-title {
+      margin:.6rem 0 .2rem;
+      font-size:.84rem;
+      font-weight:600;
+      color:#374151;
+    }
+    .toggle-list {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:.3rem .7rem;
+      margin-top:.15rem;
+    }
+    .toggle-item {
+      display:flex;
+      align-items:flex-start;
+      gap:.4rem;
+      font-size:.84rem;
+    }
+    .toggle-item input { margin-top:.17rem; }
+    .tag-row {
+      margin-top:.35rem;
+      font-size:.78rem;
+      color:#6b7280;
+    }
+    .tag-row span {
+      display:inline-block;
+      padding:.12rem .45rem;
+      border-radius:999px;
+      border:1px solid #d1d5db;
+      margin-right:.22rem;
+      margin-bottom:.15rem;
+    }
+    .output-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:.5rem;
+      flex-wrap:wrap;
+      margin-bottom:.2rem;
+    }
+    .output-header h2 {
+      margin:0;
+      font-size:1.05rem;
+      color:var(--blue);
+    }
+    .badge {
+      padding:.15rem .5rem;
+      border-radius:999px;
+      background:#e5e7eb;
+      font-size:.75rem;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:#374151;
+    }
+    #promptOutput {
+      width:100%;
+      min-height:260px;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      padding:.6rem;
+      font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+      font-size:.82rem;
+      white-space:pre-wrap;
+      background:white;
+    }
+    .note {
+      font-size:.8rem;
+      color:#6b7280;
+      margin-top:.4rem;
+    }
+    .btn-row {
+      margin-top:.35rem;
+      display:flex;
+      justify-content:flex-end;
+      gap:.4rem;
+      font-size:.78rem;
+      color:#6b7280;
+      align-items:center;
+    }
+    button {
+      border-radius:999px;
+      padding:.38rem .9rem;
+      border:none;
+      font-size:.83rem;
+      cursor:pointer;
+      font-family:inherit;
+    }
+    .btn-secondary { background:#e5e7eb; color:#111827; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="pill">Prompt Design Lab</div>
+  <h1>Quick Prompt Builder</h1>
+  <p>Use menus and checkboxes to shape a comprehensive prompt and watch it update live.</p>
+</header>
+<main>
+  <div class="layout">
+    <!-- Left: controls -->
+    <div class="panel">
+      <h2>Configure your prompt</h2>
+      <p class="hint">Start with the topic or problem, then layer on task type, audience, format, tone, and behaviors.</p>
+
+      <div class="field-group">
+        <label for="topicInput">Topic or problem you want help with</label>
+        <textarea id="topicInput" placeholder="e.g., &quot;I want to compare two study strategies&quot; or paste a short problem description."></textarea>
+      </div>
+
+      <div class="controls-grid">
+        <div class="field-group">
+          <label for="roleSelect">Role for the AI</label>
+          <select id="roleSelect">
+            <option value="general">General helpful assistant</option>
+            <option value="teacher">Patient teacher</option>
+            <option value="coach">Coach asking guiding questions</option>
+            <option value="expert">Subject-matter expert</option>
+            <option value="editor">Editor improving clarity and structure</option>
+            <option value="brainstorm">Creative collaborator for brainstorming</option>
+          </select>
+          <div class="small-label">How the AI should “show up” in the interaction.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="taskType">Task type</label>
+          <select id="taskType">
+            <option value="explain">Explanation</option>
+            <option value="summarize">Summarization</option>
+            <option value="brainstorm">Brainstorming / idea generation</option>
+            <option value="critique">Critique / evaluation</option>
+            <option value="compare">Compare / contrast options</option>
+            <option value="plan">Planning or outlining</option>
+            <option value="transform">Rewrite / transform text</option>
+          </select>
+          <div class="small-label">What kind of cognitive work you want the model to do.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="audienceLevel">Audience level</label>
+          <select id="audienceLevel">
+            <option value="self">Me (the person asking)</option>
+            <option value="beginner">Beginner / novice</option>
+            <option value="intermediate">Intermediate learner</option>
+            <option value="advanced">Advanced / expert audience</option>
+            <option value="mixed">Mixed audience with varied background</option>
+            <option value="general">General non-expert audience</option>
+          </select>
+          <div class="small-label">Who the answer should be written for.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="outputFormat">Output format</label>
+          <select id="outputFormat">
+            <option value="paragraph">Single paragraph</option>
+            <option value="bullets">Bulleted list with headings</option>
+            <option value="steps">Step-by-step numbered list</option>
+            <option value="table">Table described in text (you may format as Markdown)</option>
+            <option value="outline">Outline with sections and subsections</option>
+            <option value="qa">Q &amp; A style response</option>
+          </select>
+          <div class="small-label">How the answer should be structured.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="tone">Tone / voice</label>
+          <select id="tone">
+            <option value="neutral-plain">Neutral and plain-language</option>
+            <option value="friendly">Friendly and encouraging</option>
+            <option value="academic">Neutral academic</option>
+            <option value="formal">Formal and precise</option>
+            <option value="conversational">Conversational but professional</option>
+            <option value="coaching">Coaching / mentoring tone</option>
+          </select>
+          <div class="small-label">How the response should “sound.”</div>
+        </div>
+
+        <div class="field-group">
+          <label for="detailLevel">Level of detail</label>
+          <select id="detailLevel">
+            <option value="brief">Brief overview (high-level)</option>
+            <option value="moderate">Moderate detail</option>
+            <option value="deep">Deep dive with thorough explanation</option>
+          </select>
+          <div class="small-label">How long and detailed you want the answer to be.</div>
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-top:.6rem;">
+        <label for="tempRange">Temperature (exploration vs. stability)</label>
+        <div class="range-row">
+          <input type="range" id="tempRange" min="0" max="2" step="1" value="1">
+          <span id="tempLabel" style="font-size:.8rem;color:#374151;">Medium</span>
+        </div>
+        <div class="small-label">Lower = more predictable; Higher = more varied and exploratory.</div>
+      </div>
+
+      <div class="toggle-section-title">Reasoning & structure</div>
+      <div class="toggle-list">
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleClarify" checked>
+          <span>Ask 2–3 clarifying questions if my request is underspecified.</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleSteps" checked>
+          <span>Think through the problem step-by-step before giving the final answer.</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleExamples" checked>
+          <span>Include concrete examples where they would help understanding.</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleHeadings">
+          <span>Use clear headings and bullet points to organize the response.</span>
+        </label>
+      </div>
+
+      <div class="toggle-section-title">Constraints & safeguards</div>
+      <div class="toggle-list">
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleNoFabrication" checked>
+          <span>Do not fabricate citations, data, or specific factual claims.</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleUseProvided">
+          <span>Use only the information I provide; if you need more, ask me.</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleUncertainty" checked>
+          <span>When you are uncertain, say so explicitly instead of guessing.</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleProsCons">
+          <span>When suggesting options, list pros and cons briefly.</span>
+        </label>
+      </div>
+
+      <div class="toggle-section-title">Style & interaction</div>
+      <div class="toggle-list">
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleConcise">
+          <span>Be concise and avoid unnecessary fluff.</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleInclusive" checked>
+          <span>Use an inclusive, respectful tone and avoid unnecessary jargon.</span>
+        </label>
+        <label class="toggle-item">
+          <input type="checkbox" id="toggleNextSteps">
+          <span>End by suggesting possible next questions or directions I could explore.</span>
+        </label>
+      </div>
+
+      <div class="tag-row" id="settingsTags"></div>
+    </div>
+
+    <!-- Right: live prompt preview -->
+    <div class="panel">
+      <div class="output-header">
+        <h2>Live prompt preview</h2>
+        <span class="badge">Copy-paste ready</span>
+      </div>
+      <div id="promptOutput"></div>
+      <div class="btn-row">
+        <span id="copyStatus"></span>
+        <button class="btn-secondary" id="copyBtn" type="button">Copy prompt</button>
+      </div>
+      <p class="note">
+        You can always edit this text after copying. The goal is to make your intent, constraints, and preferences explicit so the AI has less to guess about.
+      </p>
+    </div>
+  </div>
+</main>
+
+<script>
+  const topicInput = document.getElementById('topicInput');
+  const roleSelect = document.getElementById('roleSelect');
+  const taskType = document.getElementById('taskType');
+  const audienceLevel = document.getElementById('audienceLevel');
+  const outputFormat = document.getElementById('outputFormat');
+  const tone = document.getElementById('tone');
+  const detailLevel = document.getElementById('detailLevel');
+  const tempRange = document.getElementById('tempRange');
+  const tempLabel = document.getElementById('tempLabel');
+
+  const toggleClarify = document.getElementById('toggleClarify');
+  const toggleSteps = document.getElementById('toggleSteps');
+  const toggleExamples = document.getElementById('toggleExamples');
+  const toggleHeadings = document.getElementById('toggleHeadings');
+
+  const toggleNoFabrication = document.getElementById('toggleNoFabrication');
+  const toggleUseProvided = document.getElementById('toggleUseProvided');
+  const toggleUncertainty = document.getElementById('toggleUncertainty');
+  const toggleProsCons = document.getElementById('toggleProsCons');
+
+  const toggleConcise = document.getElementById('toggleConcise');
+  const toggleInclusive = document.getElementById('toggleInclusive');
+  const toggleNextSteps = document.getElementById('toggleNextSteps');
+
+  const settingsTags = document.getElementById('settingsTags');
+  const promptOutput = document.getElementById('promptOutput');
+  const copyBtn = document.getElementById('copyBtn');
+  const copyStatus = document.getElementById('copyStatus');
+
+  function getTempLabel(value) {
+    if (value === 0 || value === '0') return 'Low (stable)';
+    if (value === 1 || value === '1') return 'Medium';
+    return 'High (exploratory)';
+  }
+
+  function updateTempLabel() {
+    tempLabel.textContent = getTempLabel(tempRange.value);
+  }
+
+  function updateTags() {
+    let chips = [];
+    chips.push(getTempLabel(tempRange.value));
+    if (toggleClarify.checked) chips.push('Clarifying questions');
+    if (toggleSteps.checked) chips.push('Step-by-step reasoning');
+    if (toggleExamples.checked) chips.push('Concrete examples');
+    if (toggleHeadings.checked) chips.push('Headings + bullets');
+    if (toggleNoFabrication.checked) chips.push('No fabrication');
+    if (toggleUseProvided.checked) chips.push('Use provided info only');
+    if (toggleUncertainty.checked) chips.push('Highlight uncertainty');
+    if (toggleProsCons.checked) chips.push('Pros & cons');
+    if (toggleConcise.checked) chips.push('Concise');
+    if (toggleInclusive.checked) chips.push('Inclusive tone');
+    if (toggleNextSteps.checked) chips.push('Suggest next steps');
+
+    settingsTags.innerHTML = chips.map(c => '<span>' + c + '</span>').join('');
+  }
+
+  function buildPrompt() {
+    const topic = topicInput.value.trim() || '[Briefly describe your topic or problem here]';
+    const roleText = roleSelect.options[roleSelect.selectedIndex].text;
+    const taskText = taskType.options[taskType.selectedIndex].text;
+    const audienceText = audienceLevel.options[audienceLevel.selectedIndex].text;
+    const formatText = outputFormat.options[outputFormat.selectedIndex].text;
+    const toneText = tone.options[tone.selectedIndex].text;
+    const detailText = detailLevel.options[detailLevel.selectedIndex].text;
+    const tempText = getTempLabel(tempRange.value);
+
+    let behaviorLines = [];
+
+    // Reasoning & structure
+    if (toggleClarify.checked) {
+      behaviorLines.push('- If my request is underspecified, ask 2–3 brief clarifying questions before answering.');
+    }
+    if (toggleSteps.checked) {
+      behaviorLines.push('- Think through the problem step-by-step before presenting your final answer.');
+    }
+    if (toggleExamples.checked) {
+      behaviorLines.push('- Include at least one concrete example where it would help understanding.');
+    }
+    if (toggleHeadings.checked) {
+      behaviorLines.push('- Use clear headings and bullet points to organize the response where appropriate.');
+    }
+
+    // Constraints & safeguards
+    if (toggleNoFabrication.checked) {
+      behaviorLines.push('- Do not fabricate citations, data, or specific factual details.');
+    }
+    if (toggleUseProvided.checked) {
+      behaviorLines.push('- Rely primarily on the information I provide; if you need more, ask me what you need.');
+    }
+    if (toggleUncertainty.checked) {
+      behaviorLines.push('- When you are uncertain or have to infer, say so explicitly and avoid overconfident claims.');
+    }
+    if (toggleProsCons.checked) {
+      behaviorLines.push('- When suggesting options, list brief pros and cons for each.');
+    }
+
+    // Style & interaction
+    if (toggleConcise.checked) {
+      behaviorLines.push('- Be concise and avoid unnecessary repetition or filler.');
+    } else {
+      behaviorLines.push('- Provide enough detail that a thoughtful reader could follow your reasoning.');
+    }
+    if (toggleInclusive.checked) {
+      behaviorLines.push('- Use an inclusive, respectful tone and avoid unnecessary jargon.');
+    }
+    if (toggleNextSteps.checked) {
+      behaviorLines.push('- End by suggesting possible next questions or directions I could explore.');
+    }
+
+    const behaviorBlock = behaviorLines.length
+      ? 'Behavior & style guidelines:\n' + behaviorLines.join('\n') + '\n\n'
+      : '';
+
+    const promptText =
+`You are acting as a ${roleText}.
+
+Here is my topic or problem:
+${topic}
+
+Your main task:
+- ${taskText}
+
+Who you are writing for:
+- ${audienceText}
+
+Preferred output format:
+- ${formatText}
+
+Tone and level of detail:
+- Tone: ${toneText}
+- Level of detail: ${detailText}
+
+Conceptual temperature (creativity setting):
+- ${tempText}
+
+${behaviorBlock}When generating your response, follow the structure and constraints above. If anything is unclear or conflicts, ask me for clarification before proceeding.`;
+
+    // Render with basic escaping to keep line breaks
+    promptOutput.textContent = promptText;
+  }
+
+  // Event wiring
+  [
+    topicInput, roleSelect, taskType, audienceLevel, outputFormat,
+    tone, detailLevel
+  ].forEach(el => {
+    el.addEventListener('input', buildPrompt);
+    el.addEventListener('change', buildPrompt);
+  });
+
+  tempRange.addEventListener('input', () => {
+    updateTempLabel();
+    updateTags();
+    buildPrompt();
+  });
+
+  [
+    toggleClarify, toggleSteps, toggleExamples, toggleHeadings,
+    toggleNoFabrication, toggleUseProvided, toggleUncertainty, toggleProsCons,
+    toggleConcise, toggleInclusive, toggleNextSteps
+  ].forEach(cb => {
+    cb.addEventListener('change', () => {
+      updateTags();
+      buildPrompt();
+    });
+  });
+
+  copyBtn.addEventListener('click', () => {
+    const text = promptOutput.textContent || '';
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      copyStatus.textContent = 'Copy not available in this browser.';
+      return;
+    }
+    navigator.clipboard.writeText(text).then(() => {
+      copyStatus.textContent = 'Prompt copied to clipboard.';
+      setTimeout(() => { copyStatus.textContent = ''; }, 1500);
+    });
+  });
+
+  // Initial state
+  updateTempLabel();
+  updateTags();
+  buildPrompt();
+</script>
+</body>
+</html>

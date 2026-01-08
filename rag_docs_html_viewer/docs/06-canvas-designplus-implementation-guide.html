@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Canvas + DesignPLUS Implementation Guide — RAG Docs</title>
+  <link rel="stylesheet" href="../assets/site.css"/>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar" role="banner">
+  <div class="brand">
+    <span class="brand-dot" aria-hidden="true"></span>
+    <div class="brand-text">
+      <div class="brand-title">AI Fluency Certificate</div>
+      <div class="brand-sub">RAG Docs • Static HTML viewer</div>
+    </div>
+  </div>
+  <nav class="topnav" aria-label="Top">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#about">About</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" aria-label="Document navigation">
+    <div class="sidebar-inner">
+      <div class="sidebar-title">Documents</div>
+      <div class="sidebar-search">
+        <label class="sr-only" for="q">Search documents</label>
+        <input id="q" type="search" placeholder="Search titles + content…" autocomplete="off"/>
+        <div id="searchResults" class="search-results" role="listbox" aria-label="Search results"></div>
+      </div>
+      <div class="doclist" id="docList" aria-label="Doc list"></div>
+    </div>
+  </aside>
+
+  <main id="main" class="content" role="main">
+    <article class="doc">
+      <div class="doc-meta">
+        <div class="doc-title">Canvas + DesignPLUS Implementation Guide</div>
+        <div class="doc-sub">
+          <span class="pill">06_Canvas_DesignPLUS_Implementation_Guide.md</span>
+          <span class="pill">markdown</span>
+        </div>
+      </div>
+      <hr class="rule"/>
+      <div class="doc-body">
+        <h1 id="canvas-designplus-implementation-guide">Canvas + DesignPLUS Implementation Guide</h1>
+
+<h2 id="conventions-for-building-certificate-pages">Conventions for building certificate pages</h2>
+
+<h3 id="goals">Goals</h3>
+
+<ul>
+<li>Pages render reliably in Canvas.</li>
+<li>Pages are compatible with DesignPLUS (Cidi Labs) conventions.</li>
+<li>Interactives that require embeds use responsive iframe wrappers.</li>
+<li>Code remains maintainable (avoid fragile editor behaviors).</li>
+</ul>
+
+<hr />
+
+<h2 id="designplus-wrapper-dp-wrapper">DesignPLUS wrapper (dp-wrapper)</h2>
+
+<p>Some DesignPLUS elements require a wrapper on the page to display properly. If a page is missing the wrapper, components may break.</p>
+
+<p>Reference:</p>
+
+<ul>
+<li>https://support.cidilabs.com/knowledgebase/how-do-i-add-the-design-tools-wrapper-to-my-page</li>
+</ul>
+
+<p><strong>Project convention:</strong> all custom HTML pages include a dp-wrapper at the top-level when using DesignPLUS patterns.</p>
+
+<hr />
+
+<h2 id="iframe-responsiveness-designplus-wrappers">Iframe responsiveness (DesignPLUS wrappers)</h2>
+
+<p>DesignPLUS uses wrapper classes for responsive iframes. If the wrapper is removed, styles may not function.</p>
+
+<p>Reference:</p>
+
+<ul>
+<li>https://support.cidilabs.com/knowledgebase/why-are-my-iframes-not-displaying-properly</li>
+</ul>
+
+<p>Common wrapper classes (per Cidi Labs guidance):</p>
+
+<ul>
+<li><code>kl_iframe_responsive_scale</code></li>
+<li><code>kl_iframe_fill_width</code></li>
+</ul>
+
+<p><strong>Project convention:</strong> all embeds use the wrapper pattern shown in the Example Canvas Page (07_...).</p>
+
+<hr />
+
+<h2 id="editing-guidance-avoid-breaking-designplus-styles">Editing guidance (avoid breaking DesignPLUS styles)</h2>
+
+<p>Using Canvas RCE tooling can sometimes break DesignPLUS styling.</p>
+
+<p>Reference:</p>
+
+<ul>
+<li>https://support.cidilabs.com/knowledgebase/why-do-some-designplus-features-break-using-the-canvas-toolbar-and-rich-content-editor</li>
+</ul>
+
+<p><strong>Project convention:</strong> treat the Example Page as the “known-good” pattern; minimize manual edits that reflow HTML structure.</p>
+
+<hr />
+
+<h2 id="page-components-recommended-baseline">Page components (recommended baseline)</h2>
+
+<ul>
+<li>H2 page title</li>
+<li>short intro paragraph</li>
+<li>“Why this matters” bullets</li>
+<li>key concepts</li>
+<li>knowledge check / activity</li>
+<li>embed areas (iframes) only where needed</li>
+</ul>
+
+<hr />
+
+<h2 id="implementation-checklist-for-every-page">Implementation checklist (for every page)</h2>
+
+<ul>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Uses consistent header hierarchy (H2, H3, H4)</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Uses dp-wrapper when DesignPLUS components are present</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Uses iframe wrappers for embeds; includes title attribute</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Includes alt text / labels as needed</li>
+<li><input type="checkbox" class="task-list-item-checkbox" disabled> Avoids over-nesting and unnecessary inline styles</li>
+</ul>
+
+      </div>
+    </article>
+  </main>
+</div>
+
+<footer class="footer" role="contentinfo">
+  <div>Generated 2025-12-26 14:45. Local static viewer for project use.</div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script>
+  window.__DOCS__ = window.__DOCS__ || [];
+  window.__CURRENT__ = "06-canvas-designplus-implementation-guide";
+</script>
+</body>
+</html>

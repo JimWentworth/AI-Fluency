@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Terms - University of Illinois</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            color: #13294B;
+            padding: 60px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #E84A27;
+        }
+
+        h1 {
+            color: #13294B;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #E84A27;
+            font-size: 1.1em;
+            font-weight: 400;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #E5E5E5;
+            padding-bottom: 0;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            color: #13294B;
+            font-size: 1em;
+            font-weight: 600;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            margin-bottom: -2px;
+        }
+
+        .tab-button:hover {
+            color: #E84A27;
+        }
+
+        .tab-button.active {
+            color: #E84A27;
+            border-bottom-color: #E84A27;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            color: #13294B;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E84A27;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-container {
+            perspective: 1000px;
+            height: 180px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            cursor: pointer;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 2px solid #13294B;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: white;
+        }
+
+        .card-front {
+            border-color: #13294B;
+        }
+
+        .card-front:hover {
+            border-color: #E84A27;
+            box-shadow: 0 4px 12px rgba(232, 74, 39, 0.15);
+        }
+
+        .card-back {
+            background: #13294B;
+            color: white;
+            transform: rotateY(180deg);
+            border-color: #13294B;
+        }
+
+        .card-term {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #13294B;
+            line-height: 1.3;
+        }
+
+        .card-definition {
+            font-size: 0.9em;
+            line-height: 1.5;
+            overflow-y: auto;
+            max-height: 100%;
+        }
+
+        .tool-link {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: #E84A27;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85em;
+            transition: background 0.3s ease;
+        }
+
+        .tool-link:hover {
+            background: #d43d1f;
+        }
+
+        .instruction {
+            text-align: center;
+            color: #E84A27;
+            margin-top: 40px;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .tabs {
+                gap: 5px;
+            }
+
+            .tab-button {
+                font-size: 0.85em;
+                padding: 10px 14px;
+            }
+            
+            .section-title {
+                font-size: 1.3em;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Terminology Reference Guide</h1>
+            <p class="subtitle">University of Illinois</p>
+        </header>
+
+        <div class="tabs" id="tabsContainer"></div>
+        <div id="contentContainer"></div>
+
+        <p class="instruction">Click any card to reveal its definition</p>
+    </div>
+
+    <script>
+        const tabs = [
+            {
+                id: "fundamentals",
+                title: "Core AI Concepts",
+                sections: [
+                    {
+                        title: "Core AI Concepts",
+                        terms: [
+                            {
+                                term: "Machine Learning",
+                                definition: "A subset of AI that enables systems to learn and improve from experience without being explicitly programmed, using algorithms to identify patterns in data."
+                            },
+                            {
+                                term: "AI Bias",
+                                definition: "Systematic errors or unfair outcomes in AI systems that favor certain groups over others, often reflecting biases in training data or design."
+                            },
+                            {
+                                term: "Hallucinations",
+                                definition: "When AI models generate false or nonsensical information that appears plausible, often occurring when the model lacks sufficient knowledge or context."
+                            },
+                            {
+                                term: "Temperature",
+                                definition: "A parameter that controls the randomness of AI text generation. Lower values make output more focused and deterministic, while higher values increase creativity and variability."
+                            },
+                            {
+                                term: "Tokens",
+                                definition: "Basic units of text that AI models process, roughly equivalent to words or word fragments. Token limits determine how much text can be input or generated."
+                            },
+                            {
+                                term: "Context Window",
+                                definition: "The maximum amount of text (in tokens) that an AI model can consider at once, including both input and output. Larger context windows enable processing longer documents."
+                            },
+                            {
+                                term: "Prompt",
+                                definition: "The input text or instructions given to an AI model to guide its response or behavior. Effective prompting is key to getting desired outputs."
+                            },
+                            {
+                                term: "Fine-tuning",
+                                definition: "The process of further training a pre-trained model on specific data to specialize it for particular tasks or domains."
+                            },
+                            {
+                                term: "Explainable AI",
+                                definition: "AI systems designed to provide clear, understandable explanations of their decisions and reasoning processes to human users."
+                            },
+                            {
+                                term: "Ethical AI",
+                                definition: "The practice of developing and deploying AI systems that are fair, transparent, accountable, and aligned with human values and societal norms."
+                            },
+                            {
+                                term: "Black Box",
+                                definition: "AI systems whose internal workings are opaque or difficult to understand, making it challenging to explain how they arrive at specific decisions."
+                            },
+                            {
+                                term: "RAG (Retrieval-Augmented Generation)",
+                                definition: "A technique that enhances AI responses by retrieving relevant information from external sources before generating answers, improving accuracy and reducing hallucinations."
+                            },
+                            {
+                                term: "Inference",
+                                definition: "The process of using a trained AI model to make predictions or generate outputs on new, unseen data."
+                            },
+                            {
+                                term: "Weights",
+                                definition: "Numerical parameters within a neural network that are adjusted during training to determine how strongly different inputs influence outputs."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "platform",
+                title: "Common Tools & Features",
+                sections: [
+                    {
+                        title: "Common AI Tools",
+                        terms: [
+                            {
+                                term: "Microsoft Copilot",
+                                definition: "Best for: Microsoft 365 integration, enterprise workflows, and coding assistance.",
+                                link: "https://copilot.microsoft.com/"
+                            },
+                            {
+                                term: "Google Gemini",
+                                definition: "Best for: Google Workspace integration, multimodal tasks, and research.",
+                                link: "https://gemini.google.com/"
+                            },
+                            {
+                                term: "ChatGPT",
+                                definition: "Best for: General-purpose conversation, writing assistance, and problem-solving.",
+                                link: "https://chat.openai.com/"
+                            },
+                            {
+                                term: "Claude",
+                                definition: "Best for: Long-form content, complex analysis, and thoughtful reasoning tasks.",
+                                link: "https://claude.ai/"
+                            },
+                            {
+                                term: "Perplexity",
+                                definition: "Best for: Research with citations, fact-checking, and current information.",
+                                link: "https://www.perplexity.ai/"
+                            },
+                            {
+                                term: "NotebookLM",
+                                definition: "Best for: Document analysis, research synthesis, and personalized study guides.",
+                                link: "https://notebooklm.google.com/"
+                            },
+                            {
+                                term: "Adobe Firefly",
+                                definition: "Best for: Creative image generation, design work, and visual content creation.",
+                                link: "https://firefly.adobe.com/"
+                            },
+                            {
+                                term: "GitHub Copilot",
+                                definition: "Best for: Code completion, programming assistance, and software development.",
+                                link: "https://github.com/features/copilot"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Interface Features",
+                        terms: [
+                            {
+                                term: "Project Workspaces",
+                                definition: "Dedicated environments within AI platforms where users can organize related conversations, documents, and custom settings for specific projects."
+                            },
+                            {
+                                term: "Collaborative Chats",
+                                definition: "Shared conversation spaces where multiple users can interact with AI together, enabling team-based problem-solving and knowledge sharing."
+                            },
+                            {
+                                term: "Temporary Chats",
+                                definition: "Ephemeral conversation sessions that are not saved to history, providing privacy for sensitive or one-time interactions."
+                            },
+                            {
+                                term: "Chat History Management",
+                                definition: "Tools and features for organizing, searching, and managing past AI conversations for easy reference and continuity."
+                            },
+                            {
+                                term: "Feedback Mechanisms",
+                                definition: "Systems that allow users to rate, correct, or provide input on AI responses to improve future performance and alignment."
+                            },
+                            {
+                                term: "Custom Instructions",
+                                definition: "Customizable settings that allow users to tailor AI behavior, tone, verbosity, and output format to their individual needs."
+                            },
+                            {
+                                term: "Study Mode",
+                                definition: "A focused learning environment within AI platforms optimized for educational activities, research, and knowledge retention."
+                            },
+                            {
+                                term: "Deep Research Mode",
+                                definition: "An intensive AI feature that conducts comprehensive, multi-step research on complex topics, synthesizing information from multiple sources."
+                            },
+                            {
+                                term: "Multimodal Capabilities",
+                                definition: "The ability to work with various input types (text, images, documents, audio) and generate diverse output formats."
+                            },
+                            {
+                                term: "Image Analysis",
+                                definition: "AI functionality that can examine, describe, extract information from, and answer questions about visual content."
+                            },
+                            {
+                                term: "Memory",
+                                definition: "AI platform feature that allows the system to remember information from past conversations and apply it to future interactions for more personalized experiences."
+                            },
+                            {
+                                term: "Branching",
+                                definition: "Feature that allows users to explore alternative conversation paths by creating new threads from any point in a chat without losing the original conversation."
+                            },
+                            {
+                                term: "Regenerating",
+                                definition: "Platform capability to request alternative versions of AI responses, allowing users to get different perspectives or phrasings for the same prompt."
+                            },
+                            {
+                                term: "Accessibility Features",
+                                definition: "Design elements and functionalities that ensure AI systems are usable by people with diverse abilities and needs."
+                            },
+                            {
+                                term: "Scenario Simulations",
+                                definition: "AI-powered environments for modeling hypothetical situations, testing strategies, or exploring outcomes in various contexts."
+                            },
+                            {
+                                term: "AI Usage Analytics",
+                                definition: "Metrics and insights about how AI systems are being used, including interaction patterns, performance, and resource consumption."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "technical",
+                title: "Models & Development",
+                sections: [
+                    {
+                        title: "Model Types & Application Domains",
+                        terms: [
+                            {
+                                term: "Large Language Models (LLMs)",
+                                definition: "Advanced AI models trained on vast amounts of text data that can understand and generate human-like text across diverse topics and tasks."
+                            },
+                            {
+                                term: "Generative Adversarial Networks (GANs)",
+                                definition: "A machine learning framework where two neural networks compete: one generates synthetic data while the other evaluates its authenticity, improving output quality."
+                            },
+                            {
+                                term: "Mixture of Experts (MoE)",
+                                definition: "An architecture that uses multiple specialized sub-models (experts) and dynamically routes inputs to the most relevant experts for efficient, specialized processing."
+                            },
+                            {
+                                term: "Transformer Models",
+                                definition: "Neural network architecture using attention mechanisms to process sequential data in parallel, forming the foundation of modern LLMs like GPT and BERT."
+                            },
+                            {
+                                term: "Diffusion Models",
+                                definition: "Generative models that create images or other data by learning to reverse a gradual noising process, used in systems like DALL-E and Stable Diffusion."
+                            },
+                            {
+                                term: "Classification Models",
+                                definition: "AI models designed to categorize input data into predefined classes or labels, such as spam detection or image recognition."
+                            },
+                            {
+                                term: "Regression Models",
+                                definition: "Models that predict continuous numerical values rather than categories, used for tasks like price prediction or trend forecasting."
+                            },
+                            {
+                                term: "Neural Networks",
+                                definition: "Computing systems inspired by biological neural networks, consisting of interconnected nodes that process information in layers to recognize patterns and make decisions."
+                            },
+                            {
+                                term: "Natural Language Processing",
+                                definition: "The branch of AI that enables computers to understand, interpret, and generate human language in a meaningful and useful way."
+                            },
+                            {
+                                term: "Computer Vision",
+                                definition: "AI technology that enables machines to interpret and understand visual information from the world, including images and videos."
+                            },
+                            {
+                                term: "Multimodal AI",
+                                definition: "AI systems that can process and understand multiple types of data inputs (text, images, audio, video) simultaneously."
+                            }
+                        ]
+                    },
+                    {
+                        title: "Model Development & Advanced Training",
+                        terms: [
+                            {
+                                term: "Supervised Learning",
+                                definition: "A machine learning approach where models are trained on labeled data, learning to map inputs to known outputs."
+                            },
+                            {
+                                term: "Unsupervised Learning",
+                                definition: "Machine learning that finds hidden patterns or structures in unlabeled data without predefined categories or outputs."
+                            },
+                            {
+                                term: "Reinforcement Learning",
+                                definition: "A type of machine learning where an agent learns to make decisions by performing actions in an environment and receiving rewards or penalties."
+                            },
+                            {
+                                term: "Transfer Learning",
+                                definition: "A technique where a model trained on one task is repurposed and fine-tuned for a related but different task, saving time and resources."
+                            },
+                            {
+                                term: "Few-Shot and Zero-Shot Learning",
+                                definition: "AI's ability to perform tasks with minimal (few-shot) or no (zero-shot) task-specific training examples, leveraging prior knowledge."
+                            },
+                            {
+                                term: "Continual Learning",
+                                definition: "The ability of AI systems to learn continuously from new data while retaining previously acquired knowledge without catastrophic forgetting."
+                            },
+                            {
+                                term: "Data Augmentation",
+                                definition: "Techniques to artificially increase training data by creating modified versions of existing data, improving model robustness and performance."
+                            },
+                            {
+                                term: "Model Distillation",
+                                definition: "The process of transferring knowledge from a large, complex model to a smaller, more efficient one while maintaining performance."
+                            },
+                            {
+                                term: "Pre-trained Models",
+                                definition: "AI models that have been trained on large datasets and can be used as-is or fine-tuned for specific applications."
+                            }
+                        ]
+                    },
+                    {
+                        title: "AI System Architecture",
+                        terms: [
+                            {
+                                term: "Agentic AI",
+                                definition: "AI systems that can autonomously plan, make decisions, and take actions to achieve goals with minimal human intervention."
+                            },
+                            {
+                                term: "Autonomous Systems",
+                                definition: "Self-governing AI systems capable of operating independently, making decisions and performing tasks without human control."
+                            },
+                            {
+                                term: "Custom AI Agents",
+                                definition: "Personalized AI assistants configured with specific knowledge, behaviors, and capabilities tailored to particular tasks or domains."
+                            },
+                            {
+                                term: "Edge AI",
+                                definition: "AI processing performed locally on devices (at the 'edge' of the network) rather than in the cloud, enabling faster, more private computation."
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "highered",
+                title: "AI in Higher Education",
+                sections: [
+                    {
+                        title: "AI in Higher Education",
+                        terms: [
+                            {
+                                term: "AI Literacy",
+                                definition: "The knowledge and skills needed to effectively and responsibly use, evaluate, and understand AI systems in academic and professional contexts."
+                            },
+                            {
+                                term: "Academic Integrity with AI",
+                                definition: "Ethical guidelines and practices for using AI tools in academic work while maintaining honesty, proper attribution, and original thinking."
+                            },
+                            {
+                                term: "AI-Assisted Learning",
+                                definition: "Educational approaches that leverage AI tools to support and enhance student learning experiences, from research to writing to problem-solving."
+                            },
+                            {
+                                term: "Personalized Learning Paths",
+                                definition: "AI-driven customization of educational content and pacing based on individual student needs, progress, and learning styles."
+                            },
+                            {
+                                term: "AI Tutoring Systems",
+                                definition: "Intelligent systems that provide one-on-one educational support, answering questions and adapting explanations to student understanding."
+                            },
+                            {
+                                term: "Learning Analytics",
+                                definition: "The collection and analysis of student data using AI to understand and optimize learning processes and outcomes."
+                            },
+                            {
+                                term: "Automated Grading",
+                                definition: "AI systems that evaluate and provide feedback on student work, from multiple-choice tests to essays and coding assignments."
+                            },
+                            {
+                                term: "AI Detection Tools",
+                                definition: "Software designed to identify AI-generated content in student submissions, though accuracy and reliability vary significantly."
+                            },
+                            {
+                                term: "Prompt Engineering for Education",
+                                definition: "The practice of crafting effective prompts to guide AI tools in generating appropriate educational content, assessments, or learning support."
+                            },
+                            {
+                                term: "AI Teaching Assistants",
+                                definition: "AI systems that support instructors by answering student questions, providing feedback, and managing routine classroom tasks."
+                            },
+                            {
+                                term: "Adaptive Assessments",
+                                definition: "AI-powered testing systems that adjust question difficulty and content based on student performance in real-time."
+                            },
+                            {
+                                term: "Critical Thinking with AI",
+                                definition: "Skills for evaluating AI outputs, questioning assumptions, verifying information, and maintaining independent analytical thinking when using AI tools."
+                            },
+                            {
+                                term: "Citation Practices with AI",
+                                definition: "Standards and methods for properly crediting AI tools in academic work, including when and how to acknowledge AI assistance."
+                            },
+                            {
+                                term: "Syllabus AI Policies",
+                                definition: "Course guidelines that specify acceptable AI use, transparency requirements, and boundaries for AI assistance in assignments and assessments."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        const tabsContainer = document.getElementById('tabsContainer');
+        const contentContainer = document.getElementById('contentContainer');
+
+        // Create tabs
+        tabs.forEach((tab, index) => {
+            const tabButton = document.createElement('button');
+            tabButton.className = 'tab-button' + (index === 0 ? ' active' : '');
+            tabButton.textContent = tab.title;
+            tabButton.onclick = () => switchTab(tab.id);
+            tabsContainer.appendChild(tabButton);
+        });
+
+        // Create content
+        tabs.forEach((tab, index) => {
+            const tabContent = document.createElement('div');
+            tabContent.className = 'tab-content' + (index === 0 ? ' active' : '');
+            tabContent.id = `tab-${tab.id}`;
+
+            tab.sections.forEach(section => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section';
+
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.className = 'section-title';
+                sectionTitle.textContent = section.title;
+                sectionDiv.appendChild(sectionTitle);
+
+                const cardsGrid = document.createElement('div');
+                cardsGrid.className = 'cards-grid';
+
+                section.terms.forEach(item => {
+                    const cardContainer = document.createElement('div');
+                    cardContainer.className = 'card-container';
+
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.onclick = function() { this.classList.toggle('flipped'); };
+
+                    const cardFront = document.createElement('div');
+                    cardFront.className = 'card-face card-front';
+                    cardFront.innerHTML = `<div class="card-term">${item.term}</div>`;
+
+                    const cardBack = document.createElement('div');
+                    cardBack.className = 'card-face card-back';
+                    
+                    // Check if this is a tool card with a link
+                    if (item.link) {
+                        cardBack.innerHTML = `
+                            <div class="card-definition">${item.definition}</div>
+                            <a href="${item.link}" target="_blank" class="tool-link" onclick="event.stopPropagation()">Visit Tool →</a>
+                        `;
+                    } else {
+                        cardBack.innerHTML = `<div class="card-definition">${item.definition}</div>`;
+                    }
+
+                    card.appendChild(cardFront);
+                    card.appendChild(cardBack);
+                    cardContainer.appendChild(card);
+                    cardsGrid.appendChild(cardContainer);
+                });
+
+                sectionDiv.appendChild(cardsGrid);
+                tabContent.appendChild(sectionDiv);
+            });
+
+            contentContainer.appendChild(tabContent);
+        });
+
+        function switchTab(tabId) {
+            // Update buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        }
+    </script>
+</body>
+</html>

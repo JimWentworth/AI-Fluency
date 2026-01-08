@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prompt Components Builder – Drag & Drop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { --blue:#13294B; --orange:#E84A27; --light:#f3f4f6; }
+  body { font-family: system-ui; margin:0; background:var(--light);}
+  header {background:linear-gradient(135deg,var(--blue),#1f3f73);padding:1.5rem;color:white;}
+  .pill{padding:.2rem .6rem;background:var(--orange);border-radius:999px;font-size:.75rem;}
+  main{max-width:1000px;margin:1.5rem auto;background:white;padding:1.5rem 2rem;border-radius:12px;}
+  .columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-top:1rem;}
+  .dropzone{background:#fff;border:2px dashed #ddd;padding:.7rem;border-radius:10px;min-height:140px;}
+  .dropzone.over{background:#fff7f3;border-color:var(--orange);}
+  .dropzone h3{margin:0 0 .3rem;color:var(--blue);font-size:.95rem;}
+  .card{background:#f9fafb;border:1px solid #ddd;border-radius:8px;padding:.45rem .6rem;margin-bottom:.35rem;cursor:grab;font-size:.85rem;}
+  #pool h3{color:var(--blue);}
+  textarea{width:100%;height:180px;margin-top:1rem;border-radius:8px;border:1px solid #ddd;padding:.6rem;}
+  button{border-radius:999px;padding:.45rem 1rem;border:none;font-size:.85rem;cursor:pointer;}
+  .btn-primary{background:var(--blue);color:white;}
+  .btn-secondary{background:#ddd;}
+  .btnrow{margin-top:1rem;display:flex;gap:.5rem;}
+</style>
+</head>
+<body>
+<header><div class="pill">Prompt Builder</div><h1>Drag & Drop Prompt Components</h1></header>
+<main>
+<h2>Assemble a high‑quality prompt by dragging components into the correct sections</h2>
+
+<div class="columns">
+  <div class="dropzone" data-zone="task"><h3>Task</h3></div>
+  <div class="dropzone" data-zone="audience"><h3>Audience</h3></div>
+  <div class="dropzone" data-zone="format"><h3>Output Format</h3></div>
+  <div class="dropzone" data-zone="criteria"><h3>Quality Criteria</h3></div>
+</div>
+
+<div id="pool">
+<h3>Prompt Components (Drag these)</h3>
+
+<div class="card" draggable="true" data-zone="task">Explain the concept clearly and step‑by‑step.</div>
+<div class="card" draggable="true" data-zone="task">Generate three alternative ideas for the assignment.</div>
+
+<div class="card" draggable="true" data-zone="audience">Assume the reader is a first‑year undergraduate.</div>
+<div class="card" draggable="true" data-zone="audience">Target this explanation to faculty designing a new course.</div>
+
+<div class="card" draggable="true" data-zone="format">Present the answer using headings and bullets.</div>
+<div class="card" draggable="true" data-zone="format">Provide a concise paragraph, no longer than 120 words.</div>
+
+<div class="card" draggable="true" data-zone="criteria">Include one concrete example.</div>
+<div class="card" draggable="true" data-zone="criteria">Avoid assumptions and ask clarifying questions first.</div>
+<div class="card" draggable="true" data-zone="criteria">Ensure the tone is inclusive and student‑centered.</div>
+
+</div>
+
+<div class="btnrow">
+<button class="btn-primary" id="build">Build Prompt</button>
+<button class="btn-secondary" id="reset">Reset</button>
+</div>
+
+<h2>Generated Prompt</h2>
+<textarea id="output"></textarea>
+
+</main>
+
+<script>
+let dragged=null;
+
+document.querySelectorAll('.card').forEach(c=>{
+  c.addEventListener('dragstart',()=>{dragged=c;c.classList.add('dragging');});
+  c.addEventListener('dragend',()=>{dragged=null;c.classList.remove('dragging');});
+});
+
+[...document.querySelectorAll('.dropzone'), document.getElementById('pool')].forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault(); if(zone.classList.contains('dropzone')) zone.classList.add('over');});
+  zone.addEventListener('dragleave',()=>zone.classList.remove('over'));
+  zone.addEventListener('drop',e=>{
+    e.preventDefault(); zone.classList.remove('over');
+    if(dragged) zone.appendChild(dragged);
+  });
+});
+
+document.getElementById('build').onclick=()=>{
+  const sections={task:[],audience:[],format:[],criteria:[]};
+
+  document.querySelectorAll('.dropzone').forEach(z=>{
+    const type=z.dataset.zone;
+    const items=[...z.querySelectorAll('.card')].map(c=>c.textContent.trim());
+    sections[type]=items;
+  });
+
+  const prompt = 
+`You are an AI assistant. Please follow the structured prompt below:
+
+TASK:
+${sections.task.map(x=>"- "+x).join("\n")}
+
+AUDIENCE:
+${sections.audience.map(x=>"- "+x).join("\n")}
+
+OUTPUT FORMAT:
+${sections.format.map(x=>"- "+x).join("\n")}
+
+QUALITY CRITERIA:
+${sections.criteria.map(x=>"- "+x).join("\n")}
+
+If information is missing, ask clarifying questions before proceeding.`;
+
+  document.getElementById('output').value = prompt.trim();
+};
+
+document.getElementById('reset').onclick=()=>{
+  const pool=document.getElementById('pool');
+  document.querySelectorAll('.card').forEach(c=>pool.appendChild(c));
+  document.getElementById('output').value='';
+};
+</script>
+</body>
+</html>

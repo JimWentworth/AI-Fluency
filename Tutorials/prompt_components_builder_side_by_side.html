@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Prompt Components Builder – Side-by-Side</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { --blue:#13294B; --orange:#E84A27; --light:#f3f4f6; }
+  * { box-sizing:border-box; }
+  body { font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin:0; background:var(--light); color:#111827;}
+  header {background:linear-gradient(135deg,var(--blue),#1f3f73);padding:1.4rem 1.6rem;color:white;}
+  .pill{padding:.2rem .6rem;background:var(--orange);border-radius:999px;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:.3rem;}
+  header h1{margin:0 0 .3rem;font-size:1.5rem;}
+  header p{margin:0;font-size:.9rem;opacity:.95;}
+  main{max-width:1100px;margin:1.5rem auto 2.5rem;background:white;padding:1.6rem 1.8rem;border-radius:12px;box-shadow:0 10px 25px rgba(15,23,42,0.1);}
+  h2{margin-top:0;color:var(--blue);font-size:1.15rem;}
+  .layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1.35fr);gap:1.5rem;margin-top:1.2rem;}
+  @media(max-width:900px){.layout{grid-template-columns:minmax(0,1fr);}}
+  .panel{border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;padding:1rem 1.1rem;}
+  .panel h3{margin:0 0 .4rem;font-size:1rem;color:var(--blue);}
+  .columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.8rem;margin-top:.5rem;}
+  .dropzone{background:#fff;border:2px dashed #d1d5db;padding:.6rem;border-radius:10px;min-height:120px;}
+  .dropzone.over{background:#fff7f3;border-color:var(--orange);}
+  .dropzone h4{margin:0 0 .25rem;font-size:.9rem;color:var(--blue);}
+  .dropzone p{margin:0;font-size:.8rem;color:#6b7280;}
+  #pool{margin-top:1rem;}
+  #pool h4{margin:0 0 .35rem;font-size:.9rem;color:var(--blue);}
+  .card{background:#fff;border:1px solid #d1d5db;border-radius:8px;padding:.45rem .6rem;margin-bottom:.35rem;cursor:grab;font-size:.85rem;box-shadow:0 2px 4px rgba(15,23,42,0.04);}
+  .card.dragging{opacity:.6;}
+  .btnrow{margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.4rem;}
+  button{border-radius:999px;padding:.4rem .95rem;border:none;font-size:.85rem;cursor:pointer;font-family:inherit;}
+  .btn-primary{background:var(--blue);color:white;}
+  .btn-secondary{background:#e5e7eb;color:#111827;}
+  .hint{font-size:.8rem;color:#6b7280;margin-top:.3rem;}
+  .output-header{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;flex-wrap:wrap;}
+  .badge{padding:.15rem .5rem;border-radius:999px;background:#e5e7eb;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:#374151;}
+  textarea{width:100%;min-height:220px;margin-top:.6rem;border-radius:8px;border:1px solid #d1d5db;padding:.6rem;font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.82rem;white-space:pre-wrap;}
+  .note{font-size:.8rem;color:#6b7280;margin-top:.4rem;}
+</style>
+</head>
+<body>
+<header>
+  <div class="pill">Prompt Builder</div>
+  <h1>Drag & Drop Prompt Components</h1>
+  <p>Build a structured, high-quality prompt by placing components into Task, Audience, Format, and Criteria — and see the result on the right.</p>
+</header>
+<main>
+  <h2>1. Arrange components · 2. Generate prompt · 3. Copy into ChatGPT</h2>
+  <div class="layout">
+    <!-- Left: drag-and-drop builder -->
+    <div class="panel">
+      <h3>Prompt components</h3>
+      <p class="hint">Drag each card into the section where it fits best. You can leave some sections empty, or keep extras in the pool.</p>
+
+      <div class="columns">
+        <div class="dropzone" data-zone="task">
+          <h4>Task</h4>
+          <p>What you want the AI to do.</p>
+        </div>
+        <div class="dropzone" data-zone="audience">
+          <h4>Audience</h4>
+          <p>Who this is for.</p>
+        </div>
+        <div class="dropzone" data-zone="format">
+          <h4>Output format</h4>
+          <p>How the response should look.</p>
+        </div>
+        <div class="dropzone" data-zone="criteria">
+          <h4>Quality criteria</h4>
+          <p>Tone, examples, constraints, etc.</p>
+        </div>
+      </div>
+
+      <div id="pool">
+        <h4>Card pool</h4>
+        <div class="card" draggable="true" data-zone="task">Explain the concept clearly and step-by-step.</div>
+        <div class="card" draggable="true" data-zone="task">Generate three alternative ideas for the assignment.</div>
+
+        <div class="card" draggable="true" data-zone="audience">Assume the reader is a first-year undergraduate.</div>
+        <div class="card" draggable="true" data-zone="audience">Target this explanation to faculty designing a new course.</div>
+
+        <div class="card" draggable="true" data-zone="format">Present the answer using headings and bullets.</div>
+        <div class="card" draggable="true" data-zone="format">Provide a concise paragraph, no longer than 120 words.</div>
+
+        <div class="card" draggable="true" data-zone="criteria">Include one concrete example.</div>
+        <div class="card" draggable="true" data-zone="criteria">Avoid assumptions and ask clarifying questions first.</div>
+        <div class="card" draggable="true" data-zone="criteria">Ensure the tone is inclusive and student-centered.</div>
+        <div class="card" draggable="true" data-zone="criteria">Highlight any uncertainties instead of guessing.</div>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn-primary" id="build">Build prompt</button>
+        <button class="btn-secondary" id="reset">Reset cards</button>
+      </div>
+      <p class="hint">Tip: Try building both a “student-facing explanation” prompt and a “faculty design support” prompt.</p>
+    </div>
+
+    <!-- Right: live prompt preview -->
+    <div class="panel">
+      <div class="output-header">
+        <h3>Generated prompt</h3>
+        <span class="badge">Copy-paste ready</span>
+      </div>
+      <textarea id="output" placeholder="Click “Build prompt” to generate a structured prompt based on your arrangement."></textarea>
+      <p class="note">
+        This structure makes your intent explicit: first define the task, then specify the audience, format, and quality criteria.
+        You can always add course-specific context when you paste it into ChatGPT.
+      </p>
+    </div>
+  </div>
+</main>
+
+<script>
+let dragged = null;
+
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('dragstart', () => {
+    dragged = card;
+    card.classList.add('dragging');
+  });
+  card.addEventListener('dragend', () => {
+    dragged = null;
+    card.classList.remove('dragging');
+  });
+});
+
+[...document.querySelectorAll('.dropzone'), document.getElementById('pool')].forEach(zone => {
+  zone.addEventListener('dragover', e => {
+    e.preventDefault();
+    if (zone.classList.contains('dropzone')) zone.classList.add('over');
+  });
+  zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('over');
+    if (dragged) zone.appendChild(dragged);
+  });
+});
+
+document.getElementById('build').onclick = () => {
+  const sections = { task: [], audience: [], format: [], criteria: [] };
+
+  document.querySelectorAll('.dropzone').forEach(z => {
+    const type = z.dataset.zone;
+    const items = [...z.querySelectorAll('.card')].map(c => c.textContent.trim());
+    sections[type] = items;
+  });
+
+  function block(label, items) {
+    if (!items.length) return label + "\n- (none specified)\n\n";
+    return label + "\n" + items.map(x => "- " + x).join("\n") + "\n\n";
+  }
+
+  const prompt =
+`You are an AI assistant. Please follow the structured prompt below.
+
+TASK:
+${sections.task.map(x => "- " + x).join("\n") || "- (none specified)"}
+
+AUDIENCE:
+${sections.audience.map(x => "- " + x).join("\n") || "- (none specified)"}
+
+OUTPUT FORMAT:
+${sections.format.map(x => "- " + x).join("\n") || "- (none specified)"}
+
+QUALITY CRITERIA:
+${sections.criteria.map(x => "- " + x).join("\n") || "- (none specified)"}
+
+If information is missing or ambiguous, ask clarifying questions before proceeding. Highlight any uncertainties instead of guessing.`;
+
+  document.getElementById('output').value = prompt.trim();
+};
+
+document.getElementById('reset').onclick = () => {
+  const pool = document.getElementById('pool');
+  document.querySelectorAll('.card').forEach(card => pool.appendChild(card));
+  document.getElementById('output').value = "";
+};
+</script>
+</body>
+</html>

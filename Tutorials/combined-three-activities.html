@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Essentials Workshop - University of Illinois</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #13294B;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: #13294B;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 5px solid #E84A27;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .intro {
+            background: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-left: 4px solid #E84A27;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .intro h2 {
+            color: #13294B;
+            margin-bottom: 15px;
+        }
+
+        .activities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-accordion {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .activity-accordion:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .activity-accordion.completed {
+            border-left: 5px solid #4caf50;
+        }
+
+        .activity-header-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            cursor: pointer;
+            background: white;
+            transition: background 0.3s ease;
+        }
+
+        .activity-header-bar:hover {
+            background: #f8f9fa;
+        }
+
+        .activity-accordion.active .activity-header-bar {
+            background: #f8f9fa;
+            border-bottom: 2px solid #E84A27;
+        }
+
+        .activity-number {
+            background: #E84A27;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-right: 20px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .activity-accordion.completed .activity-number::after {
+            content: "✓";
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: #4caf50;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            border: 2px solid white;
+        }
+
+        .activity-header-info {
+            flex-grow: 1;
+        }
+
+        .activity-header-info h3 {
+            color: #13294B;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .activity-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .duration-badge {
+            background: #13294B;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .category-badge {
+            background: #E84A27;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .tool-mini-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .chevron {
+            font-size: 1.5em;
+            color: #13294B;
+            transition: transform 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .activity-accordion.active .chevron {
+            transform: rotate(180deg);
+        }
+
+        .activity-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .activity-accordion.active .activity-content {
+            max-height: 5000px;
+        }
+
+        .activity-body {
+            padding: 30px;
+            border-top: 2px solid #E84A27;
+        }
+
+        .activity-body h3 {
+            color: #13294B;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .activity-body h4 {
+            color: #13294B;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .activity-body p {
+            margin: 10px 0;
+        }
+
+        .activity-body ul {
+            margin: 10px 0 10px 20px;
+        }
+
+        .activity-body strong {
+            color: #13294B;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            background: #13294B;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+        }
+
+        .prompt-box {
+            background: #fff;
+            border: 2px solid #13294B;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .prompt-box::before {
+            content: "📝 Try This Prompt";
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: white;
+            padding: 0 10px;
+            color: #E84A27;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .prompt-text {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .copy-button {
+            background: #E84A27;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .copy-button:hover {
+            background: #d43d1f;
+        }
+
+        .copy-button.copied {
+            background: #4caf50;
+        }
+
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 25px;
+            padding-left: 45px;
+            position: relative;
+        }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #E84A27;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .steps ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 10px;
+            counter-reset: none;
+        }
+
+        .steps ul li {
+            counter-increment: none;
+            padding-left: 0;
+        }
+
+        .steps ul li::before {
+            display: none;
+        }
+
+        /* Flip Card Styles */
+        .flip-card-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            height: 300px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .flip-card-front {
+            background: #13294B;
+            color: white;
+        }
+
+        .flip-card-back {
+            background: white;
+            color: #13294B;
+            border: 3px solid #13294B;
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front h4 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .flip-card-front p {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .flip-card-back h4 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #E84A27;
+        }
+
+        .flip-card-back ul {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+        }
+
+        .flip-card-back li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .flip-card-back li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #E84A27;
+            font-weight: bold;
+        }
+
+        .flip-instruction {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .button {
+            display: inline-block;
+            background: #E84A27;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #d43d1f;
+        }
+
+        .completion-section {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 8px;
+            border: 2px solid #13294B;
+            text-align: center;
+        }
+
+        .completion-section h4 {
+            color: #13294B;
+            margin-bottom: 15px;
+        }
+
+        .mark-complete-btn {
+            background: #4caf50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mark-complete-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        .mark-complete-btn.completed {
+            background: #13294B;
+        }
+
+        .mark-complete-btn.completed:hover {
+            background: #0d1a30;
+        }
+
+        .completion-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .completion-feedback.show {
+            display: block;
+        }
+
+        .resources-box {
+            background: #13294B;
+            color: white;
+            padding: 30px;
+            margin-top: 40px;
+            border-radius: 8px;
+        }
+
+        .resources-box h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .resources-box h3 {
+            color: #E84A27;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .resources-box ul {
+            margin-left: 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .resources-box ul li {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+
+        .resources-box a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .resources-box a:hover {
+            color: #E84A27;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .activity-body {
+                padding: 20px;
+            }
+
+            .flip-card-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI Essentials for Faculty</h1>
+        <p style="font-size: 0.9em; margin-top: 10px;">Center for Innovation in Teaching & Learning</p>
+    </div>
+
+    <div class="container">
+        <div class="intro">
+            <h2>Introduction to Generative AI Core Concepts</h2>
+            <p>Explore these hands-on activities to learn core AI concepts through practical application with real tools. Each activity is designed for self-paced learning with concrete exercises you can try immediately.</p>
+        </div>
+
+        <div class="activities-list" id="activitiesList">
+            
+            <!-- Activity: Hallucinations & RAG -->
+            <div class="activity-accordion" data-duration="15" data-category="core" data-completed="false">
+                <div class="activity-header-bar" onclick="toggleActivity(this)">
+                    <div class="activity-number" style="width:0; margin:0; font-size:0; color:transparent;">1</div>
+                    <div class="activity-header-info">
+                        <h3>Prompts & Temperature: The Foundation</h3>
+                        <div class="activity-meta">
+                            <span class="duration-badge">15 min</span>
+                            <span class="category-badge">Core Concepts</span>
+                            <span class="tool-mini-badge">ChatGPT</span>
+                            <span class="tool-mini-badge">Copilot</span>
+                        </div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-body">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Prompt:</strong> The input text or instructions given to an AI model to guide its response or behavior. The quality and specificity of your prompt directly affects the quality of the AI's output.</p>
+
+                        <p><strong>Temperature:</strong> A parameter that controls randomness in text generation. Lower values (0.0-0.3) make output focused and deterministic—the model will choose the most probable next words, resulting in consistent, predictable responses. Higher values (0.7-1.0) increase creativity and variability—the model considers less probable options, producing more diverse and surprising outputs.</p>
+
+                        <p><strong>Important Note:</strong> In most AI chat interfaces like ChatGPT and Copilot, you don't directly control temperature—it's preset by the system. However, you can <em>influence</em> how the model behaves through your prompts. The model adjusts its randomness based on what you're asking for. When you request factual information (like explaining a scientific concept), it naturally uses lower temperature. When you request creative content (like brainstorming or writing), it naturally uses higher temperature.</p>
+
+                        <p><strong>Key Insight:</strong> Even with identical prompts, AI outputs will vary between generations. You cannot recreate the exact same response twice—an important consideration for academic integrity and reproducibility. This variation is larger for creative tasks and smaller for factual tasks.</p>
+
+                        <span class="tool-badge">ChatGPT</span>
+                        <span class="tool-badge">Microsoft Copilot</span>
+
+                        <h3>Exercise: Observe Temperature Effects in Real Tools</h3>
+
+                        <ol class="steps">
+                            <li>
+                                <strong>Test with a factual prompt (lower temperature behavior)</strong>
+                                <p style="margin-top: 10px;">Start with a prompt that requests factual, straightforward information:</p>
+                                <div class="prompt-box" style="margin-top: 10px;">
+                                    <div class="prompt-text" id="prompt1">Explain quantum entanglement to an undergraduate physics student in 3 sentences.</div>
+                                    <button class="copy-button" onclick="copyPrompt('prompt1', this)">Copy Prompt</button>
+                                </div>
+                                <p style="margin-top: 10px;">Click "regenerate" 3 times and observe: The core facts stay the same, but phrasing varies slightly. This is low-temperature behavior—consistent information with minor stylistic changes.</p>
+                            </li>
+                            <li>
+                                <strong>Test with a creative prompt (higher temperature behavior)</strong>
+                                <div class="prompt-box" style="margin-top: 10px;">
+                                    <div class="prompt-text" id="prompt2">Write a creative opening line for a research paper about climate change impacts on migration patterns.</div>
+                                    <button class="copy-button" onclick="copyPrompt('prompt2', this)">Copy Prompt</button>
+                                </div>
+                                <p style="margin-top: 10px;">Regenerate this 3 times and observe: You get very different opening lines—some formal, some dramatic, completely different framing. This is high-temperature behavior—the model explores diverse possibilities.</p>
+                            </li>
+                            <li>
+                                <strong>Experiment with prompt phrasing to influence temperature</strong>
+                                <p style="margin-top: 10px;">Try these variations and notice how outputs differ:</p>
+                                <div class="prompt-box" style="margin-top: 10px;">
+                                    <div class="prompt-text" id="prompt3">Provide the standard definition of machine learning.</div>
+                                    <button class="copy-button" onclick="copyPrompt('prompt3', this)">Copy Prompt</button>
+                                </div>
+                                <p style="margin-top: 10px;">vs.</p>
+                                <div class="prompt-box" style="margin-top: 10px;">
+                                    <div class="prompt-text" id="prompt4">Brainstorm 5 creative ways to explain machine learning to a 10-year-old.</div>
+                                    <button class="copy-button" onclick="copyPrompt('prompt4', this)">Copy Prompt</button>
+                                </div>
+                                <p style="margin-top: 10px;">The first prompt triggers lower temperature (consistent, standard answer). The second triggers higher temperature (varied, creative responses).</p>
+                            </li>
+                            <li>
+                                <strong>Advanced: Test with ambiguous prompts</strong>
+                                <div class="prompt-box" style="margin-top: 10px;">
+                                    <div class="prompt-text" id="prompt5">Write an introduction for a paper on social media's effects.</div>
+                                    <button class="copy-button" onclick="copyPrompt('prompt5', this)">Copy Prompt</button>
+                                </div>
+                                <p style="margin-top: 10px;">Regenerate several times. Because this prompt is ambiguous (creative writing? literature review? opinion piece?), you'll see high variation. Being specific reduces this variation.</p>
+                            </li>
+                        </ol>
+
+                        <h3>How to Take Advantage of Temperature Variation</h3>
+
+                        <div class="info-box">
+                            <h4>When You Want Consistency (Low Temperature Behavior)</h4>
+                            <p><strong>Use prompts with these characteristics:</strong></p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Request "standard," "technical," "precise," or "accurate" information</li>
+                                <li>Ask for definitions, explanations, or step-by-step procedures</li>
+                                <li>Be very specific about what you want</li>
+                                <li>Example: "Provide the standard APA format for citing a journal article"</li>
+                            </ul>
+                            <p style="margin-top: 15px;"><strong>Best for:</strong> Technical documentation, grading rubrics, factual summaries, instructional content</p>
+                        </div>
+
+                        <div class="info-box">
+                            <h4>When You Want Variety (High Temperature Behavior)</h4>
+                            <p><strong>Use prompts with these characteristics:</strong></p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Request "creative," "brainstorm," "innovative," or "multiple options"</li>
+                                <li>Ask for alternatives, variations, or diverse perspectives</li>
+                                <li>Use words like "imagine," "explore," "generate ideas"</li>
+                                <li>Example: "Brainstorm 10 creative ways to teach statistical significance"</li>
+                            </ul>
+                            <p style="margin-top: 15px;"><strong>Best for:</strong> Brainstorming, generating multiple versions, creative writing, exploring possibilities</p>
+                        </div>
+
+                        <div class="strategy-box">
+                            <h4>⚡ Pro Strategy: Use Multiple Generations</h4>
+                            <p>Don't settle for the first response, especially for creative tasks. Hit "regenerate" 3-5 times and compare options. You might find that the 4th generation is perfect while the first three missed the mark. This is free variation—use it!</p>
+                        </div>
+
+                        <h3>Understanding Prompt Quality</h3>
+                        <p style="margin-bottom: 10px;">Temperature aside, prompt specificity is crucial. Click each card to compare:</p>
+
+                        <div class="flip-card-container">
+                            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <h4>Vague Prompts</h4>
+                                        <p>"Tell me about AI"</p>
+                                        <p style="font-size: 0.8em; margin-top: 20px;">Click to see details →</p>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <h4>Vague Prompts</h4>
+                                        <ul>
+                                            <li><strong>Result:</strong> Generic, surface-level responses</li>
+                                            <li><strong>Problem:</strong> AI doesn't know your context, audience, or purpose</li>
+                                            <li><strong>Use when:</strong> You're just exploring and want a broad overview</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <h4>Specific Prompts</h4>
+                                        <p>"Explain transformers in NLP for grad students"</p>
+                                        <p style="font-size: 0.8em; margin-top: 20px;">Click to see details →</p>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <h4>Specific Prompts</h4>
+                                        <ul>
+                                            <li><strong>Result:</strong> Targeted, appropriate-level responses</li>
+                                            <li><strong>Benefit:</strong> AI tailors content to your needs</li>
+                                            <li><strong>Use when:</strong> You need precise, actionable information</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="flip-instruction">Click the cards above to flip them and see more details</p>
+
+                        <h3>Reflection Questions</h3>
+                        <ul>
+                            <li>When would you want consistent outputs in your work? (Consider: technical documentation, grading rubrics, instructional materials)</li>
+                            <li>When would variation be beneficial? (Consider: brainstorming lesson plans, generating diverse exam questions, exploring different explanations)</li>
+                            <li>How does output variation relate to academic integrity? If two students get different outputs from similar prompts, how do you evaluate originality?</li>
+                            <li>What happens if you try to use a student's submitted text as a prompt—will you get their exact text back? (Spoiler: Usually not, which makes simple "reverse prompt" detection unreliable)</li>
+                        </ul>
+
+                        <h3>Key Takeaways</h3>
+                        <ul>
+                            <li>You can't directly control temperature in ChatGPT/Copilot, but your prompt phrasing influences the model's behavior</li>
+                            <li>Factual/technical prompts trigger more consistent responses; creative prompts trigger more variation</li>
+                            <li>Words like "standard," "technical," "precise" encourage consistency; words like "creative," "brainstorm," "explore" encourage variety</li>
+                            <li>Use the regenerate button strategically—generate multiple options for creative tasks</li>
+                            <li>You cannot recreate exact AI outputs, which has important implications for academic integrity</li>
+                            <li>Being specific in your prompts reduces unwanted variation and improves output quality</li>
+                        </ul>
+
+                        <div class="completion-section">
+                            <h4>Mark as Complete</h4>
+                            <p style="margin-bottom: 15px;">Have you finished this activity?</p>
+                            <button class="mark-complete-btn" onclick="toggleComplete(this)">Mark as Complete</button>
+                            <div class="completion-feedback">
+                                <strong>✓ Activity completed!</strong> Great work. Your progress has been saved.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="activity-accordion" data-duration="20" data-category="core" data-completed="false">
+                <div class="activity-header-bar" onclick="toggleActivity(this)">
+                    <div class="activity-number" style="width:0; margin:0; font-size:0; color:transparent;">2</div>
+                    <div class="activity-header-info">
+                        <h3>Identifying Hallucinations & Using RAG</h3>
+                        <div class="activity-meta">
+                            <span class="duration-badge">20 min</span>
+                            <span class="category-badge">Core Concepts</span>
+                            <span class="tool-mini-badge">ChatGPT</span>
+                            <span class="tool-mini-badge">Perplexity</span>
+                            <span class="tool-mini-badge">NotebookLM</span>
+                        </div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-body">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Hallucinations:</strong> When AI models confidently generate false or fabricated information. This happens because large language models (LLMs) predict the next word based on patterns in their training data—they don't access a truth database or verify facts. When the model lacks sufficient data on a topic, it fills in gaps with plausible-sounding but incorrect information. The model doesn't "know" it's wrong; it's simply completing patterns based on probability.</p>
+
+                        <p><strong>RAG (Retrieval-Augmented Generation):</strong> A two-step process that reduces hallucinations by combining search with generation. First, the system retrieves relevant information from external sources (like the web or uploaded documents). Second, it provides this retrieved information to the LLM as context when generating responses. This grounds the AI's answers in actual sources rather than relying solely on training patterns.</p>
+
+                        <p><strong>Key Difference:</strong> ChatGPT relies primarily on training patterns from its knowledge cutoff date, making it prone to hallucinations about recent events, obscure topics, or specific facts. Perplexity searches the web first and provides cited answers, significantly reducing hallucinations. NotebookLM only uses your uploaded documents, ensuring responses are grounded in your specific sources.</p>
+
+                        <span class="tool-badge">ChatGPT</span>
+                        <span class="tool-badge">Perplexity</span>
+                        <span class="tool-badge">NotebookLM</span>
+
+                        <h3>Exercise: Compare AI with and without RAG</h3>
+
+                        <ol class="steps">
+                            <li>
+                                <strong>Ask ChatGPT about a recent, obscure study</strong>
+                                <p style="margin-top: 10px;">Test ChatGPT's tendency to hallucinate by asking about something specific and recent:</p>
+                                <div class="prompt-box" style="margin-top: 10px;">
+                                    <div class="prompt-text" id="prompt1">Tell me about the 2023 study on [insert your research area] published in [insert specific journal]. What were the main findings?</div>
+                                    <button class="copy-button" onclick="copyPrompt('prompt1', this)">Copy Prompt</button>
+                                </div>
+                                <p style="margin-top: 10px;">Observe: ChatGPT may confidently provide details about a study that doesn't exist, or conflate multiple studies.</p>
+                            </li>
+                            <li>
+                                <strong>Ask the same question in Perplexity</strong>
+                                <p style="margin-top: 10px;">Now try the identical query in Perplexity, which uses RAG by searching the web first.</p>
+                                <p style="margin-top: 10px;">Observe: Perplexity searches current sources and provides citations. If it can't find the study, it will say so rather than fabricating details.</p>
+                            </li>
+                            <li>
+                                <strong>Compare the outputs</strong>
+                                <p style="margin-top: 10px;">Evaluate both responses based on:</p>
+                                <ul>
+                                    <li>Does it provide specific citations or sources?</li>
+                                    <li>Can you verify the information through the provided sources?</li>
+                                    <li>How confident does each response sound?</li>
+                                    <li>Which would you trust for academic work?</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <strong>Advanced: Test NotebookLM with your own documents</strong>
+                                <p style="margin-top: 10px;">Upload 3-5 research papers or course materials to NotebookLM, then ask questions about them. Notice how it only answers based on your uploaded content and provides specific citations to those documents.</p>
+                            </li>
+                        </ol>
+
+                        <h3>Understanding the Difference</h3>
+                        <p style="margin-bottom: 10px;">Click each card to see how RAG changes AI behavior:</p>
+                        
+                        <div class="flip-card-container">
+                            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <h4>Without RAG</h4>
+                                        <p>ChatGPT (Standard Mode)</p>
+                                        <p style="font-size: 0.8em; margin-top: 20px;">Click to see details →</p>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <h4>Without RAG</h4>
+                                        <ul>
+                                            <li><strong>Pros:</strong> Fast, creative, good for brainstorming</li>
+                                            <li><strong>Cons:</strong> May hallucinate facts, no source verification</li>
+                                            <li><strong>Best for:</strong> Drafting, ideation, general knowledge</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <h4>With RAG</h4>
+                                        <p>Perplexity / NotebookLM</p>
+                                        <p style="font-size: 0.8em; margin-top: 20px;">Click to see details →</p>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        <h4>With RAG</h4>
+                                        <ul>
+                                            <li><strong>Pros:</strong> Cited answers, verifiable sources, current info</li>
+                                            <li><strong>Cons:</strong> May miss nuance, limited to available sources</li>
+                                            <li><strong>Best for:</strong> Research, fact-checking, current events</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="flip-instruction">Click the cards above to flip them and see more details</p>
+
+                        <h3>Reflection Questions</h3>
+                        <ul>
+                            <li>When would you use a tool without RAG (like ChatGPT) versus one with RAG (like Perplexity)?</li>
+                            <li>How does this impact your evaluation of student work that may use AI?</li>
+                            <li>What strategies can you teach students to verify AI-generated information?</li>
+                            <li>How might NotebookLM change the way you approach literature reviews or course material creation?</li>
+                        </ul>
+
+                        <h3>Key Takeaways</h3>
+                        <ul>
+                            <li>Hallucinations occur because LLMs predict patterns, not truth—they confidently generate plausible-sounding but false information</li>
+                            <li>RAG reduces hallucinations by retrieving and citing actual sources before generating responses</li>
+                            <li>ChatGPT is best for creative/drafting tasks; Perplexity/NotebookLM are best for research and fact-checking</li>
+                            <li>Always verify AI-generated facts, especially for academic or research purposes</li>
+                            <li>Tools that provide citations (RAG-enabled) are generally more trustworthy for factual queries</li>
+                            <li>NotebookLM's document-grounded approach ensures responses stay within your source material</li>
+                        </ul>
+
+                        <div class="completion-section">
+                            <h4>Mark as Complete</h4>
+                            <p style="margin-bottom: 15px;">Have you finished this activity?</p>
+                            <button class="mark-complete-btn" onclick="toggleComplete(this)">Mark as Complete</button>
+                            <div class="completion-feedback">
+                                <strong>✓ Activity completed!</strong> Great work. Your progress has been saved.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity 3: Tokens & Context Windows -->
+            <div class="activity-accordion" data-duration="18" data-category="core" data-completed="false">
+                <div class="activity-header-bar" onclick="toggleActivity(this)">
+                    <div class="activity-number" style="width:0; margin:0; font-size:0; color:transparent;">3</div>
+                    <div class="activity-header-info">
+                        <h3>Tokens & Context Windows: Understanding Limits</h3>
+                        <div class="activity-meta">
+                <span class="duration-badge">18 min</span>
+                <span class="category-badge">Core Concepts</span>
+                <span class="tool-mini-badge">Claude</span>
+                <span class="tool-mini-badge">ChatGPT</span>
+            </div>
+        </div>
+        <div class="chevron">▼</div>
+    </div>
+    <div class="activity-content">
+        <div class="activity-body">
+            <h3>Core Concepts</h3>
+            <p><strong>Tokens:</strong> Basic units of text that AI models process. Think of tokens as the "atoms" of language for AI—they're roughly equivalent to words or word fragments. A typical English word is 1-2 tokens. For example, "cat" is 1 token, "running" is 1 token, but "extraordinary" might be 2 tokens (extra + ordinary). Numbers, punctuation, and spaces also count as tokens. This matters because AI models have limits on how many tokens they can process at once.</p>
+
+            <p><strong>Context Window:</strong> The maximum amount of text (measured in tokens) that an AI model can consider at one time, including both your input (prompts, uploaded documents) and the model's output (responses). Think of it as the model's "working memory." Once you exceed the context window, the model starts "forgetting" earlier parts of the conversation. A larger context window means the model can handle longer documents, maintain longer conversations, and reference more information when generating responses.</p>
+
+            <p><strong>Key Insight:</strong> Different AI tools have dramatically different context windows. ChatGPT handles ~128,000 tokens (~96,000 words or ~300 pages). Claude handles ~200,000 tokens (~150,000 words or ~500 pages). This difference matters when working with long documents, extensive conversations, or complex research tasks.</p>
+
+            <span class="tool-badge">Claude</span>
+            <span class="tool-badge">ChatGPT</span>
+
+            <h3>Exercise: Test Context Window Limits</h3>
+
+            <ol class="steps">
+                <li>
+                    <strong>Test with a short document (2-3 pages)</strong>
+                    <p style="margin-top: 10px;">Upload or paste a short research paper, article, or document into ChatGPT or Claude.</p>
+                    <div class="prompt-box" style="margin-top: 10px;">
+                        <div class="prompt-text" id="prompt7">Summarize the main argument and key findings of this document in 3 paragraphs. Then identify any methodological limitations discussed by the author.</div>
+                        <button class="copy-button" onclick="copyPrompt('prompt7', this)">Copy Prompt</button>
+                    </div>
+                    <p style="margin-top: 10px;">Observe: The AI should handle this easily and reference specific sections accurately.</p>
+                </li>
+                <li>
+                    <strong>Test with a longer document (10-20 pages)</strong>
+                    <p style="margin-top: 10px;">Upload a longer paper, book chapter, or report.</p>
+                    <div class="prompt-box" style="margin-top: 10px;">
+                        <div class="prompt-text" id="prompt8">How does the argument in section 2 connect to the conclusions in the final section? Provide specific examples from both sections.</div>
+                        <button class="copy-button" onclick="copyPrompt('prompt8', this)">Copy Prompt</button>
+                    </div>
+                    <p style="margin-top: 10px;">Observe: Does the AI maintain accuracy across different sections? Can it connect ideas from the beginning and end?</p>
+                </li>
+                <li>
+                    <strong>Test with an extremely long document (50+ pages) in Claude</strong>
+                    <p style="margin-top: 10px;">Upload a dissertation chapter, book, or comprehensive report to Claude (which has a larger context window).</p>
+                    <div class="prompt-box" style="margin-top: 10px;">
+                        <div class="prompt-text" id="prompt9">Create a detailed outline of this document's structure, including all major sections and their key points. Then identify the 3 most important arguments made across the entire document.</div>
+                        <button class="copy-button" onclick="copyPrompt('prompt9', this)">Copy Prompt</button>
+                    </div>
+                    <p style="margin-top: 10px;">Observe: Even with a large context window, very long documents may lead to the AI emphasizing recent sections over earlier ones.</p>
+                </li>
+                <li>
+                    <strong>Advanced: Test conversation length limits</strong>
+                    <p style="margin-top: 10px;">Have an extended conversation with multiple back-and-forth exchanges (10+ turns). Then ask the AI to reference something from your first message. Does it remember accurately, or has it "forgotten" earlier context?</p>
+                </li>
+            </ol>
+
+            <h3>Understanding Context Window Trade-offs</h3>
+
+            <div class="info-box">
+                <h4>When Context Window Size Matters</h4>
+                <p><strong>Choose tools with larger context windows when:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Analyzing long documents:</strong> Research papers, books, dissertations, comprehensive reports</li>
+                    <li><strong>Comparing multiple sources:</strong> Literature reviews requiring synthesis across many papers</li>
+                    <li><strong>Extended conversations:</strong> Multi-turn dialogues where context from early exchanges matters</li>
+                    <li><strong>Complex projects:</strong> Tasks requiring the AI to reference many different pieces of information</li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Example:</strong> Claude's 200K token window can handle an entire PhD dissertation (~500 pages) in one conversation, while ChatGPT's 128K window might require breaking it into chunks.</p>
+            </div>
+
+            <div class="strategy-box">
+                <h4>⚡ Pro Strategy: Chunking for Better Results</h4>
+                <p>Even with large context windows, breaking complex analysis into focused questions often yields better results than asking the AI to process everything at once. Instead of "Analyze this 300-page book," try:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>"What are the main arguments in chapters 1-3?"</li>
+                    <li>"How does the author's methodology in chapter 4 address the limitations identified earlier?"</li>
+                    <li>"Synthesize the key findings from chapters 5-7 and explain how they support the thesis."</li>
+                </ul>
+                <p style="margin-top: 10px;">This approach works better because it directs the AI's attention to specific sections rather than trying to "see" the entire document at once.</p>
+            </div>
+
+            <h3>Comparing Context Windows Across Tools</h3>
+
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin: 20px 0;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid #13294B;">
+                        <h4 style="color: #13294B; margin-bottom: 10px;">ChatGPT</h4>
+                        <p style="font-size: 1.3em; font-weight: 700; color: #E84A27; margin: 10px 0;">128,000 tokens</p>
+                        <p style="font-size: 0.9em; color: #666;">~96,000 words</p>
+                        <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">~300 pages</p>
+                        <p style="font-size: 0.85em;"><strong>Best for:</strong> Most research papers, book chapters, typical academic documents</p>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid #13294B;">
+                        <h4 style="color: #13294B; margin-bottom: 10px;">Claude</h4>
+                        <p style="font-size: 1.3em; font-weight: 700; color: #E84A27; margin: 10px 0;">200,000 tokens</p>
+                        <p style="font-size: 0.9em; color: #666;">~150,000 words</p>
+                        <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">~500 pages</p>
+                        <p style="font-size: 0.85em;"><strong>Best for:</strong> Entire books, dissertations, large codebases, comprehensive literature reviews</p>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; padding: 15px; background: #fff3e0; border-radius: 8px; border-left: 4px solid #E84A27; font-size: 0.9em;">
+                    <strong>⚠️ Important:</strong> Context window includes BOTH input and output. If you upload a 100,000 token document, the AI has only 28,000 tokens left (in ChatGPT) or 100,000 tokens left (in Claude) for its response and any follow-up conversation.
+                </p>
+            </div>
+
+            <h3>Reflection Questions</h3>
+            <ul>
+                <li>What types of documents or tasks in your work would benefit from larger context windows?</li>
+                <li>Have you ever had an AI "forget" earlier parts of a conversation? What was happening with the context window?</li>
+                <li>When might it be better to break a task into smaller chunks rather than using a large context window?</li>
+                <li>How would you explain to students why an AI might give different answers when you upload a document all at once vs. in sections?</li>
+            </ul>
+
+            <h3>Key Takeaways</h3>
+            <ul>
+                <li>Tokens are the basic units AI models process—roughly 1.3 tokens per English word on average</li>
+                <li>Context windows limit how much text an AI can "see" at once, including both input and output</li>
+                <li>Different tools have different context window sizes—choose accordingly for your task</li>
+                <li>Larger context doesn't always mean better understanding—focused questions often work better</li>
+                <li>When working with very long documents, expect the AI to emphasize recent sections more than earlier ones</li>
+                <li>The context window includes your conversation history—long conversations can "fill up" the window</li>
+            </ul>
+
+            <div class="completion-section">
+                <h4>Mark as Complete</h4>
+                <p style="margin-bottom: 15px;">Have you finished this activity?</p>
+                <button class="mark-complete-btn" onclick="toggleComplete(this)">Mark as Complete</button>
+                <div class="completion-feedback">
+                    <strong>✓ Activity completed!</strong> Great work. Your progress has been saved.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        </div>
+
+        <!-- Resources Box -->
+        <div class="resources-box">
+            <h2>Quick Links</h2>
+            
+            <h3>AI Tools</h3>
+            <div style="margin: 15px 0;">
+                <a href="https://copilot.microsoft.com/" target="_blank" class="button">Microsoft Copilot</a>
+                <a href="https://chat.openai.com/" target="_blank" class="button">ChatGPT</a>
+                <a href="https://claude.ai/" target="_blank" class="button">Claude</a>
+                <a href="https://www.perplexity.ai/" target="_blank" class="button">Perplexity</a>
+            </div>
+            <div style="margin: 15px 0;">
+                <a href="https://notebooklm.google.com/" target="_blank" class="button">NotebookLM</a>
+                <a href="https://gemini.google.com/" target="_blank" class="button">Google Gemini</a>
+                <a href="https://firefly.adobe.com/" target="_blank" class="button">Adobe Firefly</a>
+                <a href="https://github.com/features/copilot" target="_blank" class="button">GitHub Copilot</a>
+            </div>
+
+            <h3>Continue Learning</h3>
+            <ul>
+                <li><a href="https://boldly.illinois.edu/" target="_blank">Boldly Illinois - AI Resources</a></li>
+                <li><a href="https://citl.illinois.edu/citl-101/teaching-learning/resources/teaching-strategies/generative-ai" target="_blank">CITL Teaching Strategies for Generative AI</a></li>
+                <li><a href="https://provost.illinois.edu/policies/policies/academic-integrity/students-quick-reference-guide-to-academic-integrity/" target="_blank">Academic Integrity Quick Reference Guide</a></li>
+                <li>Experiment with tools in low-stakes scenarios before high-stakes use</li>
+                <li>Stay current with AI developments—this field evolves rapidly</li>
+            </ul>
+
+            <h3>Questions or Support?</h3>
+            <p style="margin-top: 15px;">Contact <a href="mailto:citl-info@illinois.edu">citl-info@illinois.edu</a> for additional support and guidance.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Copy prompt function
+        function copyPrompt(promptId, button) {
+            const promptText = document.getElementById(promptId).textContent;
+            navigator.clipboard.writeText(promptText).then(() => {
+                button.textContent = '✓ Copied!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = 'Copy Prompt';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Toggle accordion
+        function toggleActivity(element) {
+            const accordion = element.closest('.activity-accordion');
+            accordion.classList.toggle('active');
+        }
+
+        // Toggle completion
+        function toggleComplete(button) {
+            const accordion = button.closest('.activity-accordion');
+            const feedback = button.closest('.completion-section').querySelector('.completion-feedback');
+            const isCompleted = accordion.dataset.completed === 'true';
+            
+            if (!isCompleted) {
+                accordion.dataset.completed = 'true';
+                accordion.classList.add('completed');
+                button.textContent = 'Mark as Incomplete';
+                button.classList.add('completed');
+                feedback.classList.add('show');
+                setTimeout(() => feedback.classList.remove('show'), 3000);
+            } else {
+                accordion.dataset.completed = 'false';
+                accordion.classList.remove('completed');
+                button.textContent = 'Mark as Complete';
+                button.classList.remove('completed');
+            }
+            
+            saveProgress();
+        }
+
+        // Save/load progress
+        function saveProgress() {
+            const progress = {};
+            document.querySelectorAll('.activity-accordion').forEach((activity, index) => {
+                progress[index] = { completed: activity.dataset.completed };
+            });
+            localStorage.setItem('aiWorkshopProgress', JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('aiWorkshopProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                document.querySelectorAll('.activity-accordion').forEach((activity, index) => {
+                    if (progress[index]?.completed === 'true') {
+                        activity.dataset.completed = 'true';
+                        activity.classList.add('completed');
+                        const button = activity.querySelector('.mark-complete-btn');
+                        button.textContent = 'Mark as Incomplete';
+                        button.classList.add('completed');
+                    }
+                });
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

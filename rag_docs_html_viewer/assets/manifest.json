@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "00-readme",
+    "filename": "00_README.md",
+    "title": "AI Fluency Certificate \u2014 RAG Pack (Institutional Design Corpus)",
+    "path": "docs/00-readme.html",
+    "kind": "markdown"
+  },
+  {
+    "slug": "01-certificate-canonical-overview",
+    "filename": "01_Certificate_Canonical_Overview.md",
+    "title": "Generative AI Fluency Certificate",
+    "path": "docs/01-certificate-canonical-overview.html",
+    "kind": "markdown"
+  },
+  {
+    "slug": "02-design-process-transparency-provenance",
+    "filename": "02_Design_Process_Transparency_Provenance.md",
+    "title": "Design Process, Transparency, and Provenance",
+    "path": "docs/02-design-process-transparency-provenance.html",
+    "kind": "markdown"
+  },
+  {
+    "slug": "03-design-rationale-and-decisions",
+    "filename": "03_Design_Rationale_and_Decisions.md",
+    "title": "Design Rationale & Decisions",
+    "path": "docs/03-design-rationale-and-decisions.html",
+    "kind": "markdown"
+  },
+  {
+    "slug": "04-uiuc-branding-and-accessibility-guardrails",
+    "filename": "04_UIUC_Branding_and_Accessibility_Guardrails.md",
+    "title": "University of Illinois Branding & Accessibility Guardrails",
+    "path": "docs/04-uiuc-branding-and-accessibility-guardrails.html",
+    "kind": "markdown"
+  },
+  {
+    "slug": "05-tool-documentation-references",
+    "filename": "05_Tool_Documentation_References.md",
+    "title": "Tool Documentation References (Official)",
+    "path": "docs/05-tool-documentation-references.html",
+    "kind": "markdown"
+  },
+  {
+    "slug": "06-canvas-designplus-implementation-guide",
+    "filename": "06_Canvas_DesignPLUS_Implementation_Guide.md",
+    "title": "Canvas + DesignPLUS Implementation Guide",
+    "path": "docs/06-canvas-designplus-implementation-guide.html",
+    "kind": "markdown"
+  },
+  {
+    "slug": "07-example-canvas-page-designplus",
+    "filename": "07_Example_Canvas_Page_DesignPLUS.html",
+    "title": "Example Page Title (H2)",
+    "path": "docs/07-example-canvas-page-designplus.html",
+    "kind": "html"
+  },
+  {
+    "slug": "08-content-and-prompt-templates",
+    "filename": "08_Content_and_Prompt_Templates.md",
+    "title": "Content & Prompt Templates",
+    "path": "docs/08-content-and-prompt-templates.html",
+    "kind": "markdown"
+  },
+  {
+    "slug": "09-faqs-living-document",
+    "filename": "09_FAQs_Living_Document.md",
+    "title": "AI Fluency Certificate \u2014 Frequently Asked Questions (Living Document)",
+    "path": "docs/09-faqs-living-document.html",
+    "kind": "markdown"
+  }
+]

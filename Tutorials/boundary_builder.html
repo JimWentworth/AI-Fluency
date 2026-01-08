@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Boundary‑Setting Builder – Interaction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --illinois-blue: #13294B;
+      --illinois-orange: #E84A27;
+      --bg-light: #f3f4f6;
+      --gray: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      font-family: system-ui, sans-serif;
+      background: var(--bg-light);
+      color: #111827;
+    }
+    header {
+      background: linear-gradient(135deg, var(--illinois-blue), #1f3f73);
+      padding: 1.5rem;
+      color: white;
+    }
+    header h1 {
+      margin: 0 0 .5rem;
+      font-size: 1.6rem;
+    }
+    .pill {
+      display: inline-block;
+      padding: 0.25rem .6rem;
+      border-radius: 999px;
+      background: var(--illinois-orange);
+      color: white;
+      font-size: .75rem;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    main {
+      max-width: 1000px;
+      margin: 1.5rem auto;
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    h2 { color: var(--illinois-blue); }
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .dropzone {
+      background: #fff;
+      border: 2px dashed var(--gray);
+      padding: .7rem;
+      border-radius: 10px;
+      min-height: 140px;
+    }
+    .dropzone.over { background: #fff7f3; border-color: var(--illinois-orange); }
+    .dropzone h3 {
+      margin: 0 0 .3rem;
+      font-size: .95rem;
+      color: var(--illinois-blue);
+    }
+    .dropzone p {
+      margin: 0;
+      color: #6b7280;
+      font-size: .8rem;
+    }
+    .card {
+      background: #f9fafb;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: .45rem .6rem;
+      margin-bottom: .35rem;
+      cursor: grab;
+      font-size: .85rem;
+    }
+    .card.dragging { opacity: .6; }
+    #pool { margin-top: 1.5rem; }
+    #pool h3 { margin: 0 0 .3rem; color: var(--illinois-blue); }
+    .btnrow { margin-top: 1rem; display:flex; gap:.5rem; }
+    button {
+      border-radius: 999px;
+      padding: .4rem 1rem;
+      border: none;
+      font-size: .85rem;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--illinois-blue); color: white;}
+    .btn-secondary { background: #d1d5db; color:#111;}
+    .feedback { margin-top: .6rem; font-size: .88rem; }
+    textarea {
+      width:100%; height:140px;
+      padding:.6rem;
+      font-family: system-ui, sans-serif;
+      border-radius: 8px;
+      border:1px solid #d1d5db;
+      margin-top:1rem;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="pill">Interaction 4</div>
+    <h1>Boundary‑Setting Builder</h1>
+    <p>Decide what tasks AI should (and should NOT) handle — then export a clean boundary statement.</p>
+  </header>
+
+  <main>
+    <h2>Drag each task/behavior into the appropriate boundary category</h2>
+
+    <div class="columns">
+      <div class="dropzone" data-zone="allowed">
+        <h3>AI CAN do</h3>
+        <p>Safe, routine, low‑risk tasks.</p>
+      </div>
+
+      <div class="dropzone" data-zone="clarify">
+        <h3>AI must ask first</h3>
+        <p>Ambiguous or sensitive tasks requiring double‑checks.</p>
+      </div>
+
+      <div class="dropzone" data-zone="human">
+        <h3>Humans only</h3>
+        <p>High‑judgment or restricted decisions.</p>
+      </div>
+    </div>
+
+    <div id="pool">
+      <h3>Task cards</h3>
+      <div class="card" draggable="true" data-answer="allowed">
+        Generate a first‑pass summary of readings.
+      </div>
+      <div class="card" draggable="true" data-answer="allowed">
+        Draft sample feedback stems.
+      </div>
+      <div class="card" draggable="true" data-answer="clarify">
+        Suggest assignment wording changes affecting grading clarity.
+      </div>
+      <div class="card" draggable="true" data-answer="clarify">
+        Identify potential equity concerns in discussion prompts.
+      </div>
+      <div class="card" draggable="true" data-answer="human">
+        Determine final grades.
+      </div>
+      <div class="card" draggable="true" data-answer="human">
+        Make accommodation or accessibility decisions.
+      </div>
+    </div>
+
+    <div class="btnrow">
+      <button class="btn-primary" id="check">Check</button>
+      <button class="btn-secondary" id="reset">Reset</button>
+    </div>
+    <div class="feedback" id="fb"></div>
+
+    <h2>Export your boundary statement</h2>
+    <textarea id="output"></textarea>
+  </main>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    const zones = document.querySelectorAll('.dropzone');
+    const pool = document.getElementById('pool');
+    const fb = document.getElementById('fb');
+    const output = document.getElementById('output');
+    let dragged = null;
+
+    cards.forEach(c => {
+      c.addEventListener('dragstart', e => {
+        dragged = c;
+        c.classList.add('dragging');
+      });
+      c.addEventListener('dragend', () => {
+        dragged = null;
+        c.classList.remove('dragging');
+      });
+    });
+
+    [pool, ...zones].forEach(zone => {
+      zone.addEventListener('dragover', e => {
+        e.preventDefault();
+        if (zone.classList.contains('dropzone')) zone.classList.add('over');
+      });
+      zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+      zone.addEventListener('drop', e => {
+        e.preventDefault();
+        zone.classList.remove('over');
+        if (dragged) zone.appendChild(dragged);
+      });
+    });
+
+    document.getElementById('check').onclick = () => {
+      let correct = 0, total = 0;
+      fb.textContent = '';
+
+      cards.forEach(c => {
+        total++;
+        const correctZone = c.dataset.answer;
+        const parent = c.parentElement.dataset.zone;
+        if (parent === correctZone) {
+          correct++;
+          c.style.borderColor = '#16a34a';
+        } else {
+          c.style.borderColor = '#b91c1c';
+        }
+      });
+
+      fb.textContent = `Matched ${correct} of ${total}.`;
+
+      generateExport();
+    };
+
+    function generateExport() {
+      const allowed = [], clarify = [], human = [];
+      zones.forEach(z => {
+        const which = z.dataset.zone;
+        const texts = Array.from(z.querySelectorAll('.card')).map(c => '- ' + c.textContent.trim());
+        if (which === 'allowed') allowed.push(...texts);
+        if (which === 'clarify') clarify.push(...texts);
+        if (which === 'human') human.push(...texts);
+      });
+
+      const block = 
+`AI CAN do:
+${allowed.join("\n")}
+
+AI must ask before performing:
+${clarify.join("\n")}
+
+Humans only:
+${human.join("\n")}`;
+
+      output.value = block.trim();
+    }
+
+    document.getElementById('reset').onclick = () => {
+      fb.textContent = '';
+      cards.forEach(c => {
+        pool.appendChild(c);
+        c.style.borderColor = '#d1d5db';
+      });
+      output.value = '';
+    };
+  </script>
+</body>
+</html>

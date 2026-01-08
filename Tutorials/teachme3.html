@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Essentials Workshop - University of Illinois</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #13294B;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: #13294B;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 5px solid #E84A27;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .intro {
+            background: white;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-left: 4px solid #E84A27;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .intro h2 {
+            color: #13294B;
+            margin-bottom: 15px;
+        }
+
+        .filter-sort {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #13294B;
+        }
+
+        .filter-group select {
+            padding: 8px 12px;
+            border: 2px solid #13294B;
+            border-radius: 4px;
+            font-size: 1em;
+            background: white;
+            cursor: pointer;
+        }
+
+        .activities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-accordion {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .activity-accordion:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .activity-accordion.completed {
+            border-left: 5px solid #4caf50;
+        }
+
+        .activity-header-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            cursor: pointer;
+            background: white;
+            transition: background 0.3s ease;
+        }
+
+        .activity-header-bar:hover {
+            background: #f8f9fa;
+        }
+
+        .activity-accordion.active .activity-header-bar {
+            background: #f8f9fa;
+            border-bottom: 2px solid #E84A27;
+        }
+
+        .activity-number {
+            background: #E84A27;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-right: 20px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .activity-accordion.completed .activity-number::after {
+            content: "✓";
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: #4caf50;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            border: 2px solid white;
+        }
+
+        .activity-header-info {
+            flex-grow: 1;
+        }
+
+        .activity-header-info h3 {
+            color: #13294B;
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .activity-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .duration-badge {
+            background: #13294B;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .category-badge {
+            background: #E84A27;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .tool-mini-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .chevron {
+            font-size: 1.5em;
+            color: #13294B;
+            transition: transform 0.3s ease;
+            margin-left: 15px;
+        }
+
+        .activity-accordion.active .chevron {
+            transform: rotate(180deg);
+        }
+
+        .activity-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .activity-accordion.active .activity-content {
+            max-height: 5000px;
+        }
+
+        .activity-body {
+            padding: 30px;
+            border-top: 2px solid #E84A27;
+        }
+
+        .concept-box {
+            background: #f8f9fa;
+            border-left: 4px solid #13294B;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .concept-box h3 {
+            color: #13294B;
+            margin-bottom: 10px;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            background: #13294B;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 5px 5px 5px 0;
+        }
+
+        .prompt-box {
+            background: #fff;
+            border: 2px solid #13294B;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+
+        .prompt-box::before {
+            content: "📝 Try This Prompt";
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: white;
+            padding: 0 10px;
+            color: #E84A27;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .example-box {
+            background: #fff;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .example-box::before {
+            content: "💡 Example";
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: white;
+            padding: 0 10px;
+            color: #4caf50;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        .steps {
+            counter-reset: step-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .steps li {
+            counter-increment: step-counter;
+            margin-bottom: 20px;
+            padding-left: 45px;
+            position: relative;
+        }
+
+        .steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #E84A27;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #13294B;
+        }
+
+        .comparison-box h4 {
+            color: #13294B;
+            margin-bottom: 10px;
+        }
+
+        .reflection-box {
+            background: #fff3e0;
+            border-left: 4px solid #E84A27;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .reflection-box h4 {
+            color: #E84A27;
+            margin-bottom: 10px;
+        }
+
+        .key-takeaways {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .key-takeaways h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .key-takeaways ul {
+            margin-left: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #E84A27;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #d43d1f;
+        }
+
+     .button.secondary {
+    background: #E84A27;
+}
+
+.button.secondary:hover {
+    background: #d43d1f;
+}
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .warning-box strong {
+            color: #856404;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .success-box strong {
+            color: #155724;
+        }
+
+        .completion-section {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 8px;
+            border: 2px solid #13294B;
+            text-align: center;
+        }
+
+        .completion-section h4 {
+            color: #13294B;
+            margin-bottom: 15px;
+        }
+
+        .mark-complete-btn {
+            background: #4caf50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mark-complete-btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        .mark-complete-btn.completed {
+            background: #13294B;
+        }
+
+        .mark-complete-btn.completed:hover {
+            background: #0d1a30;
+        }
+
+        .completion-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .completion-feedback.show {
+            display: block;
+        }
+
+        .resources-box {
+            background: #13294B;
+            color: white;
+            padding: 30px;
+            margin-top: 40px;
+            border-radius: 8px;
+        }
+
+        .resources-box h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .resources-box h3 {
+            color: #E84A27;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .template-box {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .template-box h4 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .activity-body {
+                padding: 20px;
+            }
+
+            .filter-sort {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-group select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI Essentials for Faculty</h1>
+        <p>Interactive Learning Activities for R1 Research and Teaching</p>
+        <p style="font-size: 0.9em; margin-top: 10px;">University of Illinois</p>
+    </div>
+
+    <div class="container">
+        <div class="intro">
+            <h2>Choose Your Own Learning Path</h2>
+            <p>Explore these hands-on activities in any order. Each activity teaches core AI concepts through practical application with real tools. Click any activity to expand it, complete the exercises at your own pace, and mark activities as completed to track your progress.</p>
+            <p style="margin-top: 15px;"><strong>How it works:</strong> Click to open an activity, complete the hands-on exercises, then mark it as complete. Completed activities are highlighted with a green checkmark.</p>
+        </div>
+
+        <div class="filter-sort">
+            <div class="filter-group">
+                <label for="sortSelect">Sort by:</label>
+                <select id="sortSelect" onchange="sortActivities()">
+                    <option value="default">Default Order</option>
+                    <option value="duration">Shortest First</option>
+                    <option value="duration-desc">Longest First</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filterSelect">Filter by:</label>
+                <select id="filterSelect" onchange="filterActivities()">
+                    <option value="all">All Activities</option>
+                    <option value="core">Core Concepts</option>
+                    <option value="teaching">Teaching Applications</option>
+                    <option value="policy">Policy & Ethics</option>
+                    <option value="assessment">Assessment & Grading</option>
+                    <option value="completed">Completed</option>
+                    <option value="not-completed">Not Completed</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="activities-list" id="activitiesList">
+            <!-- Activities will be inserted here by JavaScript -->
+        </div>
+
+        <!-- Resources Box -->
+        <div class="resources-box">
+            <h2>Resources & Next Steps</h2>
+            
+            <h3>Access Your Tools</h3>
+            <div style="margin: 15px 0;">
+                <a href="https://copilot.microsoft.com/" target="_blank" class="button">Microsoft Copilot</a>
+                <a href="https://chat.openai.com/" target="_blank" class="button">ChatGPT</a>
+                <a href="https://claude.ai/" target="_blank" class="button">Claude</a>
+                <a href="https://www.perplexity.ai/" target="_blank" class="button">Perplexity</a>
+            </div>
+            <div style="margin: 15px 0;">
+                <a href="https://notebooklm.google.com/" target="_blank" class="button secondary">NotebookLM</a>
+                <a href="https://gemini.google.com/" target="_blank" class="button secondary">Google Gemini</a>
+                <a href="https://firefly.adobe.com/" target="_blank" class="button secondary">Adobe Firefly</a>
+                <a href="https://github.com/features/copilot" target="_blank" class="button secondary">GitHub Copilot</a>
+            </div>
+
+            <h3>Continue Learning</h3>
+            <ul style="margin-left: 20px; margin-top: 15px; line-height: 1.8;">
+                <li>Explore the full AI Terminology Reference Guide for deeper concept definitions</li>
+                <li>Join faculty AI working groups to share practices and policies</li>
+                <li>Experiment with tools in low-stakes scenarios before high-stakes use</li>
+                <li>Stay current with AI developments—this field evolves rapidly</li>
+            </ul>
+
+            <h3>Questions or Support?</h3>
+            <p style="margin-top: 15px;">Contact your campus AI resources or educational technology team for ongoing support and guidance.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Activity data
+        const activities = [
+            {
+                number: 1,
+                title: "Prompts & Temperature: The Foundation",
+                duration: 15,
+                category: "core",
+                categoryDisplay: "Core Concepts",
+                tools: ["ChatGPT", "Copilot"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Prompt:</strong> The input text or instructions given to an AI model to guide its response or behavior.</p>
+                        <p style="margin-top: 10px;"><strong>Temperature:</strong> A parameter that controls randomness in text generation. Lower values (0.0-0.3) make output focused and deterministic; higher values (0.7-1.0) increase creativity and variability.</p>
+                    </div>
+
+                    <span class="tool-badge">ChatGPT</span>
+                    <span class="tool-badge">Microsoft Copilot</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Test Temperature Settings</h3>
+                    
+                    <ol class="steps">
+                        <li>
+                            <strong>Open ChatGPT</strong> (accessible via campus license)
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Explain quantum entanglement to an undergraduate physics student in 3 sentences.
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Generate the response 3 times</strong> by clicking regenerate. Notice how the core information stays similar but the phrasing varies.
+                        </li>
+                        <li>
+                            <strong>Now try a more creative prompt:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Write a creative opening line for a research paper about climate change impacts on migration patterns.
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Regenerate this 3 times.</strong> Notice the increased variability in creative tasks.
+                        </li>
+                    </ol>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Reflection Questions</h4>
+                        <ul>
+                            <li>When would you want more deterministic (lower temperature) outputs in your work?</li>
+                            <li>When might higher variability be beneficial?</li>
+                            <li>How does this relate to grading student work that may use AI?</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>Clear, specific prompts yield better results than vague requests</li>
+                            <li>AI outputs vary even with identical prompts due to temperature settings</li>
+                            <li>You can't always recreate exact AI outputs—this matters for academic integrity discussions</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 2,
+                title: "Tokens & Context Windows: Understanding Limits",
+                duration: 12,
+                category: "core",
+                categoryDisplay: "Core Concepts",
+                tools: ["Claude", "ChatGPT"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Tokens:</strong> Basic units of text that AI models process, roughly equivalent to words or word fragments. A typical word is 1-2 tokens.</p>
+                        <p style="margin-top: 10px;"><strong>Context Window:</strong> The maximum amount of text (in tokens) that an AI model can consider at once, including both input and output.</p>
+                    </div>
+
+                    <span class="tool-badge">Claude</span>
+                    <span class="tool-badge">ChatGPT</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Test Context Limits</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Upload a research paper or long document</strong> (5-10 pages) to Claude
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Summarize the main argument and key findings of this paper in 3 paragraphs.
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Follow up with questions that require the full context:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                How does the methodology in section 3 support the conclusions in section 5?
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Try the same with an even longer document</strong> (20+ pages) and notice if the AI asks you to specify which sections to focus on.
+                        </li>
+                    </ol>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-box">
+                            <h4>ChatGPT (128K tokens)</h4>
+                            <p>~96,000 words or ~300 pages</p>
+                            <p style="margin-top: 10px; font-size: 0.9em;">Good for: Most research papers, book chapters</p>
+                        </div>
+                        <div class="comparison-box">
+                            <h4>Claude (200K tokens)</h4>
+                            <p>~150,000 words or ~500 pages</p>
+                            <p style="margin-top: 10px; font-size: 0.9em;">Good for: Entire books, dissertations, large datasets</p>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>Important:</strong> When working with very long documents, AI may lose track of earlier details. Break complex analyses into focused questions.
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>Different AI tools have different context window limits—choose accordingly</li>
+                            <li>Longer context doesn't always mean better understanding of all details</li>
+                            <li>For comprehensive analysis, chunk your work into focused queries</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 3,
+                title: "Identifying Hallucinations & Using RAG",
+                duration: 20,
+                category: "core",
+                categoryDisplay: "Core Concepts",
+                tools: ["Perplexity", "NotebookLM"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Hallucinations:</strong> When AI models generate false or nonsensical information that appears plausible, often occurring when the model lacks sufficient knowledge or context.</p>
+                        <p style="margin-top: 10px;"><strong>RAG (Retrieval-Augmented Generation):</strong> A technique that enhances AI responses by retrieving relevant information from external sources before generating answers, improving accuracy and reducing hallucinations.</p>
+                    </div>
+
+                    <span class="tool-badge">Perplexity</span>
+                    <span class="tool-badge">ChatGPT</span>
+                    <span class="tool-badge">NotebookLM</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Compare Outputs & Verify Claims</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Ask ChatGPT for specific information from your field:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                What were the key findings of the [specific recent study] published in [specific journal] in 2024?
+                            </div>
+                            <p style="margin-top: 10px;">Note: Pick a real but somewhat obscure recent study from your field.</p>
+                        </li>
+                        <li>
+                            <strong>Now ask the same question in Perplexity</strong> (which uses RAG by default)
+                            <p style="margin-top: 10px;">Perplexity will search the web and cite sources for its response.</p>
+                        </li>
+                        <li>
+                            <strong>Compare the outputs:</strong>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Did ChatGPT provide citations? Were they accurate?</li>
+                                <li>Did Perplexity find the actual study and cite it correctly?</li>
+                                <li>Which response is more trustworthy for research purposes?</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Advanced: Use NotebookLM with your own documents</strong>
+                            <p style="margin-top: 10px;">Upload 3-5 papers from your research area and ask questions. NotebookLM only answers based on uploaded documents, eliminating hallucinations.</p>
+                        </li>
+                    </ol>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-box">
+                            <h4>Without RAG (ChatGPT)</h4>
+                            <p><strong>Pros:</strong> Fast, conversational, creative</p>
+                            <p><strong>Cons:</strong> May hallucinate facts, no citations, training data cutoff</p>
+                            <p style="margin-top: 10px; font-size: 0.9em;"><strong>Best for:</strong> Brainstorming, writing assistance, general questions</p>
+                        </div>
+                        <div class="comparison-box">
+                            <h4>With RAG (Perplexity, NotebookLM)</h4>
+                            <p><strong>Pros:</strong> Cites sources, current information, verifiable</p>
+                            <p><strong>Cons:</strong> May miss nuanced interpretations</p>
+                            <p style="margin-top: 10px; font-size: 0.9em;"><strong>Best for:</strong> Research, fact-checking, literature review</p>
+                        </div>
+                    </div>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Critical Questions</h4>
+                        <ul>
+                            <li>When did you notice hallucinations? What made them seem plausible?</li>
+                            <li>How would you teach students to identify potential hallucinations?</li>
+                            <li>What verification steps should be non-negotiable in academic work?</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>All AI models can hallucinate—especially with specific, recent, or niche information</li>
+                            <li>RAG-based tools (Perplexity, NotebookLM) significantly reduce hallucinations by grounding responses in real sources</li>
+                            <li>Always verify critical claims, especially for research and publication</li>
+                            <li>Choose tools based on whether you need creative generation or factual accuracy</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 4,
+                title: "Recognizing Bias & Practicing Ethical AI",
+                duration: 18,
+                category: "policy",
+                categoryDisplay: "Policy & Ethics",
+                tools: ["ChatGPT", "Claude"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>AI Bias:</strong> Systematic errors or unfair outcomes in AI systems that favor certain groups over others, often reflecting biases in training data or design.</p>
+                        <p style="margin-top: 10px;"><strong>Ethical AI:</strong> The practice of developing and deploying AI systems that are fair, transparent, accountable, and aligned with human values and societal norms.</p>
+                    </div>
+
+                    <span class="tool-badge">ChatGPT</span>
+                    <span class="tool-badge">Claude</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Test for Bias</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Test gendered language assumptions:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Write a recommendation letter for a nurse named Alex.
+                            </div>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Write a recommendation letter for an engineer named Jordan.
+                            </div>
+                            <p style="margin-top: 10px;">Examine the language used. Are there gendered assumptions? Stereotypical traits emphasized?</p>
+                        </li>
+                        <li>
+                            <strong>Test cultural assumptions:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Describe a typical family dinner in America.
+                            </div>
+                            <p style="margin-top: 10px;">What assumptions are made? Whose "typical" is represented?</p>
+                        </li>
+                        <li>
+                            <strong>Test with your research domain:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Summarize the major contributors to [your field] in the 20th century.
+                            </div>
+                            <p style="margin-top: 10px;">Who is included? Who might be missing? Are there demographic patterns?</p>
+                        </li>
+                        <li>
+                            <strong>Try corrective prompting:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Summarize the major contributors to [your field] in the 20th century. Include diverse perspectives and highlight contributions from underrepresented groups.
+                            </div>
+                        </li>
+                    </ol>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Discussion Points for Your Courses</h4>
+                        <ul>
+                            <li>How might AI bias affect your students' research or learning?</li>
+                            <li>What biases exist in your own field's literature that AI might amplify?</li>
+                            <li>How can you teach students to critically evaluate AI outputs for bias?</li>
+                            <li>What ethical guidelines should you establish for AI use in your courses?</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>AI models inherit biases from their training data (which includes internet text, books, etc.)</li>
+                            <li>Bias appears in subtle ways: word choice, whose perspectives are centered, what's normalized</li>
+                            <li>You can partially mitigate bias through careful prompting, but never eliminate it entirely</li>
+                            <li>Teaching critical evaluation of AI outputs is essential for ethical AI use</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 5,
+                title: "Understanding Model Behavior: Fine-tuning vs. Black Box",
+                duration: 15,
+                category: "core",
+                categoryDisplay: "Core Concepts",
+                tools: ["Copilot", "Claude"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Fine-tuning:</strong> The process of further training a pre-trained model on specific data to specialize it for particular tasks or domains.</p>
+                        <p style="margin-top: 10px;"><strong>Black Box:</strong> AI systems whose internal workings are opaque or difficult to understand, making it challenging to explain how they arrive at specific decisions.</p>
+                        <p style="margin-top: 10px;"><strong>Explainable AI:</strong> AI systems designed to provide clear, understandable explanations of their decisions and reasoning processes.</p>
+                    </div>
+
+                    <span class="tool-badge">Microsoft Copilot</span>
+                    <span class="tool-badge">Claude</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Request Explanations</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Ask for a complex analysis in your field:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Analyze the strengths and weaknesses of [specific research methodology] for studying [your research topic].
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Follow up with explanation requests:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Explain your reasoning step-by-step. What assumptions did you make? What alternative perspectives exist?
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Test the black box nature:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Why did you choose to emphasize [specific point] over [other point]? What in your training led to this prioritization?
+                            </div>
+                            <p style="margin-top: 10px;">Notice: The AI can't actually explain its internal decision-making process—it can only rationalize after the fact.</p>
+                        </li>
+                    </ol>
+
+                    <div class="warning-box">
+                        <strong>Important Limitation:</strong> When AI explains its reasoning, it's generating a plausible explanation, not revealing its actual decision process. The model itself doesn't "know" why it chose certain words or emphasized certain points.
+                    </div>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Understanding Fine-tuning in Practice</h3>
+
+                    <p>While you won't fine-tune models yourself in this workshop, it's important to understand that:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Microsoft Copilot</strong> is fine-tuned for workplace/productivity tasks</li>
+                        <li><strong>GitHub Copilot</strong> is fine-tuned specifically for code</li>
+                        <li><strong>Claude</strong> is fine-tuned for helpfulness, harmlessness, and honesty</li>
+                        <li>These specializations affect how the models respond to similar prompts</li>
+                    </ul>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Implications for Research & Teaching</h4>
+                        <ul>
+                            <li>If you can't fully explain why an AI made a decision, should you use it for high-stakes evaluations?</li>
+                            <li>How do you balance the utility of AI tools with their opacity?</li>
+                            <li>What transparency standards should you set for AI use in your courses?</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>AI models are fundamentally "black boxes"—we can't fully explain their internal processes</li>
+                            <li>When AI "explains" its reasoning, it's generating plausible explanations, not revealing truth</li>
+                            <li>Different tools are fine-tuned for different purposes—choose accordingly</li>
+                            <li>This opacity has important implications for accountability and trust in academic settings</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 6,
+                title: "Synthesis: Choosing the Right Tool for the Task",
+                duration: 10,
+                category: "core",
+                categoryDisplay: "Core Concepts",
+                tools: ["All Tools"],
+                content: `
+                    <h3 style="color: #13294B;">Decision Framework</h3>
+
+                    <p style="margin: 20px 0;">Based on what you've learned, here's a quick decision guide for selecting AI tools:</p>
+
+                    <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin: 20px 0;">
+                        <h4 style="color: #13294B; margin-bottom: 15px;">📝 For Research & Writing</h4>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Literature review:</strong> Perplexity (citations) → NotebookLM (deep analysis of specific papers)</li>
+                            <li><strong>Brainstorming:</strong> ChatGPT or Claude (creative generation)</li>
+                            <li><strong>Editing & refinement:</strong> Microsoft Copilot in Word or Claude</li>
+                            <li><strong>Fact-checking:</strong> Perplexity (current info with sources)</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin: 20px 0;">
+                        <h4 style="color: #13294B; margin-bottom: 15px;">👩‍🏫 For Teaching</h4>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Creating assignments:</strong> ChatGPT or Claude (varied outputs with regeneration)</li>
+                            <li><strong>Generating examples:</strong> ChatGPT (quick iterations)</li>
+                            <li><strong>Explaining concepts:</strong> Claude (detailed, thoughtful explanations)</li>
+                            <li><strong>Course materials with campus integration:</strong> Microsoft Copilot</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin: 20px 0;">
+                        <h4 style="color: #13294B; margin-bottom: 15px;">🔬 For Specialized Work</h4>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>Code:</strong> GitHub Copilot</li>
+                            <li><strong>Visual content:</strong> Adobe Firefly</li>
+                            <li><strong>Document analysis:</strong> NotebookLM or Claude (large context)</li>
+                            <li><strong>Multi-modal tasks:</strong> Google Gemini</li>
+                        </ul>
+                    </div>
+
+                    <h3 style="color: #13294B; margin-top: 30px;">Final Exercise: Plan Your Integration</h3>
+
+                    <div class="reflection-box">
+                        <h4>✍️ Action Planning</h4>
+                        <p>Take 5 minutes to write down:</p>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>One way you'll use AI in your research this month</li>
+                            <li>One way you'll integrate AI into your teaching</li>
+                            <li>One policy or guideline you'll establish for AI use in your courses</li>
+                            <li>One concern or question you still have about AI in academia</li>
+                        </ol>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Overall Workshop Takeaways</h4>
+                        <ul>
+                            <li>Different AI tools have different strengths—match the tool to the task</li>
+                            <li>Always verify critical information, especially for research and publication</li>
+                            <li>Be transparent about AI use with students and colleagues</li>
+                            <li>Teach critical evaluation skills alongside AI adoption</li>
+                            <li>Policies should enable innovation while maintaining academic integrity</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 7,
+                title: "Crafting Syllabus AI Policies",
+                duration: 25,
+                category: "policy",
+                categoryDisplay: "Policy & Ethics",
+                tools: ["ChatGPT", "Claude"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Syllabus AI Policies:</strong> Course guidelines that specify acceptable AI use, transparency requirements, and boundaries for AI assistance in assignments and assessments.</p>
+                        <p style="margin-top: 10px;"><strong>Academic Integrity with AI:</strong> Ethical guidelines and practices for using AI tools in academic work while maintaining honesty, proper attribution, and original thinking.</p>
+                    </div>
+
+                    <span class="tool-badge">ChatGPT</span>
+                    <span class="tool-badge">Claude</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Draft Your AI Policy</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Identify your course context:</strong>
+                            <p style="margin-top: 10px;">Consider: Course level, learning objectives, types of assignments, assessment methods</p>
+                        </li>
+                        <li>
+                            <strong>Use AI to generate a starting draft:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                I teach a [course level] course in [subject] with the following learning objectives: [list 2-3 key objectives]. Help me draft an AI use policy for my syllabus that: 1) Clarifies when AI is permitted, prohibited, or required to be disclosed, 2) Explains how AI use should be cited, 3) Maintains academic integrity, and 4) Supports student learning. The policy should be clear, practical, and enforceable.
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Review and customize the generated policy by considering:</strong>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Which assignments benefit from AI assistance vs. which test fundamental skills?</li>
+                                <li>How will you detect and address policy violations?</li>
+                                <li>What citation format will you require for AI assistance?</li>
+                                <li>How does this align with university-wide policies?</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Test your policy with hypothetical scenarios:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Based on this AI policy: [paste your draft], would the following scenario be acceptable? A student uses ChatGPT to [describe scenario]. If not acceptable, explain why and how you would address it.
+                            </div>
+                        </li>
+                    </ol>
+
+                    <div class="template-box">
+                        <h4>Policy Components to Consider</h4>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Permitted uses:</strong> Brainstorming, research assistance, editing for clarity</li>
+                            <li><strong>Prohibited uses:</strong> Generating entire assignments, taking assessments, replacing critical thinking</li>
+                            <li><strong>Required disclosure:</strong> When and how to acknowledge AI assistance</li>
+                            <li><strong>Citation format:</strong> How to properly cite AI tools used</li>
+                            <li><strong>Consequences:</strong> What happens if the policy is violated</li>
+                            <li><strong>Resources:</strong> Where students can learn to use AI responsibly</li>
+                        </ul>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>Sample Policy Statement</h4>
+                        <p>"In this course, you are permitted to use AI tools like ChatGPT or Claude for brainstorming ideas and revising your writing for clarity. However, you must write your initial drafts without AI assistance and clearly indicate any sections where AI was used for revision. On exams and in-class assignments, AI tools are prohibited. Any use of AI must be cited in your work using the format: 'AI assistance (ChatGPT, accessed [date]) was used to [specific purpose].' Failure to disclose AI use constitutes an academic integrity violation."</p>
+                    </div>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Critical Questions</h4>
+                        <ul>
+                            <li>How will you explain the reasoning behind your policy to students?</li>
+                            <li>What support will you provide to help students use AI appropriately?</li>
+                            <li>How might your policy need to evolve as AI tools change?</li>
+                            <li>How does your policy balance innovation with integrity?</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>Clear policies reduce confusion and prevent unintentional violations</li>
+                            <li>Policies should be specific about permitted, prohibited, and disclosure-required uses</li>
+                            <li>Consider testing policies with hypothetical scenarios before implementation</li>
+                            <li>Frame policies around learning objectives, not just enforcement</li>
+                            <li>Communicate the "why" behind policies to build student buy-in</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 8,
+                title: "Designing AI-Aware Assignments",
+                duration: 20,
+                category: "teaching",
+                categoryDisplay: "Teaching Applications",
+                tools: ["ChatGPT", "Claude"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>AI-Assisted Learning:</strong> Educational approaches that leverage AI tools to support and enhance student learning experiences.</p>
+                        <p style="margin-top: 10px;"><strong>Critical Thinking with AI:</strong> Skills for evaluating AI outputs, questioning assumptions, verifying information, and maintaining independent analytical thinking when using AI tools.</p>
+                    </div>
+
+                    <span class="tool-badge">ChatGPT</span>
+                    <span class="tool-badge">Claude</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Transform a Traditional Assignment</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Select a typical assignment from your course</strong>
+                            <p style="margin-top: 10px;">Example: "Write a 5-page paper analyzing the causes of World War I"</p>
+                        </li>
+                        <li>
+                            <strong>Test it with AI to see how easily it can be completed:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                [Paste your assignment prompt exactly as you give it to students]
+                            </div>
+                            <p style="margin-top: 10px;">Evaluate: Could a student submit this with minimal edits? Does it still test your learning objectives?</p>
+                        </li>
+                        <li>
+                            <strong>Redesign using one of these strategies:</strong>
+                            <div class="comparison-grid">
+                                <div class="comparison-box">
+                                    <h4>Strategy 1: Build on AI</h4>
+                                    <p style="font-size: 0.9em;">Ask students to generate an AI response, then critique, expand, or correct it with course concepts</p>
+                                </div>
+                                <div class="comparison-box">
+                                    <h4>Strategy 2: Use Course-Specific Context</h4>
+                                    <p style="font-size: 0.9em;">Reference specific class discussions, readings, or data that AI doesn't have access to</p>
+                                </div>
+                            </div>
+                            <div class="comparison-grid">
+                                <div class="comparison-box">
+                                    <h4>Strategy 3: Require Process Documentation</h4>
+                                    <p style="font-size: 0.9em;">Ask for research notes, drafts, AI conversation logs, and reflection on AI use</p>
+                                </div>
+                                <div class="comparison-box">
+                                    <h4>Strategy 4: Add Personal Connection</h4>
+                                    <p style="font-size: 0.9em;">Require students to connect concepts to their own experiences or local context</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Get AI help revising your assignment:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Here's my original assignment: [paste assignment]. I want to redesign it so students can use AI as a tool but still demonstrate deep learning of [specific concepts]. Use Strategy [number] to help me revise this assignment to be AI-aware while maintaining rigor.
+                            </div>
+                        </li>
+                    </ol>
+
+                    <div class="example-box">
+                        <h4>Before & After Example</h4>
+                        <p><strong>Before:</strong> "Write a 5-page paper analyzing the causes of World War I."</p>
+                        <p style="margin-top: 10px;"><strong>After (Strategy 1):</strong> "Use ChatGPT to generate an analysis of WWI causes. Then write a 3-page response that: 1) Identifies what the AI got right and wrong based on our course readings, 2) Adds depth using specific evidence from Thompson's article we discussed in class, 3) Explains one cause the AI overlooked and why it matters. Include your AI conversation as an appendix."</p>
+                    </div>
+
+                    <div class="success-box">
+                        <strong>Design Principle:</strong> The goal isn't to eliminate AI use, but to design assignments where AI becomes a tool for deeper learning rather than a shortcut around it.
+                    </div>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Questions to Consider</h4>
+                        <ul>
+                            <li>Does this assignment still assess my core learning objectives?</li>
+                            <li>Would completing this assignment help students learn to use AI thoughtfully?</li>
+                            <li>Am I teaching students skills they'll actually use in their careers?</li>
+                            <li>Have I provided clear expectations for how AI should be used?</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>Test your assignments with AI to identify vulnerabilities</li>
+                            <li>Many traditional assignments can be easily completed by AI without learning</li>
+                            <li>AI-aware assignments require higher-order thinking skills like analysis, evaluation, and creation</li>
+                            <li>Including process documentation helps you assess learning, not just product</li>
+                            <li>Teaching students to critically evaluate AI outputs is itself a valuable skill</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 9,
+                title: "Teaching Citation Practices with AI",
+                duration: 15,
+                category: "teaching",
+                categoryDisplay: "Teaching Applications",
+                tools: ["ChatGPT", "Perplexity"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Citation Practices with AI:</strong> Standards and methods for properly crediting AI tools in academic work, including when and how to acknowledge AI assistance.</p>
+                        <p style="margin-top: 10px;"><strong>Academic Integrity with AI:</strong> Maintaining honesty, proper attribution, and original thinking while using AI tools.</p>
+                    </div>
+
+                    <span class="tool-badge">ChatGPT</span>
+                    <span class="tool-badge">Perplexity</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Develop Citation Standards</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Understand current citation guidance:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                What are the current APA and MLA guidelines for citing AI tools like ChatGPT in academic writing? Provide specific examples of how to format these citations.
+                            </div>
+                            <p style="margin-top: 10px;">Note: Use Perplexity for the most current citation guidelines with sources.</p>
+                        </li>
+                        <li>
+                            <strong>Create citation examples for different scenarios:</strong>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Scenario A:</strong> Student uses AI to brainstorm ideas but writes everything themselves</li>
+                                <li><strong>Scenario B:</strong> Student uses AI to improve grammar and clarity</li>
+                                <li><strong>Scenario C:</strong> Student asks AI for information and paraphrases it</li>
+                                <li><strong>Scenario D:</strong> Student includes a direct quote from AI</li>
+                            </ul>
+                            <p style="margin-top: 10px;">For each scenario, determine: Should it be cited? If yes, how?</p>
+                        </li>
+                        <li>
+                            <strong>Develop a citation template for your students:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Help me create a simple, clear template for students to use when citing AI assistance in their work. It should include: 1) What AI tool was used, 2) When it was accessed, 3) What specific purpose it served, and 4) How the output was incorporated. Format this for [your preferred citation style].
+                            </div>
+                        </li>
+                    </ol>
+
+                    <div class="template-box">
+                        <h4>Sample Citation Template</h4>
+                        <p><strong>AI Assistance Disclosure Statement:</strong></p>
+                        <p style="margin-top: 10px; font-family: 'Courier New', monospace; font-size: 0.9em;">
+                            "AI assistance from [Tool Name] (accessed [Date]) was used for [specific purpose, e.g., 'brainstorming initial ideas for the argument structure' or 'editing for grammar and clarity in paragraphs 3-5']. All final ideas, arguments, and analysis are my own."
+                        </p>
+                        <p style="margin-top: 15px;"><strong>For Direct AI Quotes (if permitted):</strong></p>
+                        <p style="margin-top: 10px; font-family: 'Courier New', monospace; font-size: 0.9em;">
+                            ChatGPT. (2025, January 7). Response to prompt about [topic]. OpenAI. https://chat.openai.com/
+                        </p>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>Teaching Exercise for Students</h4>
+                        <p>Give students this assignment: "Use AI to help you with [specific task]. Then write a 1-paragraph reflection explaining: 1) Exactly how you used the AI, 2) What you learned from the process, 3) How you verified or modified the AI's output, and 4) What value you added beyond what the AI provided. Include your AI conversation as an appendix with proper citation."</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong>Important:</strong> Students may not realize that failing to cite AI assistance is plagiarism. Make expectations explicit from day one.
+                    </div>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Discussion Points</h4>
+                        <ul>
+                            <li>How do we balance transparency with not overburdening students with documentation?</li>
+                            <li>Should all AI use be cited, or only certain types?</li>
+                            <li>How does AI citation differ from citing human experts or sources?</li>
+                            <li>What message does requiring citation send about AI's role in scholarship?</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>Citation standards for AI are still evolving—stay current with disciplinary guidelines</li>
+                            <li>Clear citation requirements reduce ambiguity and prevent unintentional violations</li>
+                            <li>Citation serves both academic integrity and pedagogical purposes</li>
+                            <li>Teaching why we cite AI (not just how) builds student understanding</li>
+                            <li>Provide templates and examples to make compliance easy for students</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 10,
+                title: "Using AI Detection Tools Critically",
+                duration: 20,
+                category: "assessment",
+                categoryDisplay: "Assessment & Grading",
+                tools: ["ChatGPT"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>AI Detection Tools:</strong> Software designed to identify AI-generated content in student submissions, though accuracy and reliability vary significantly.</p>
+                        <p style="margin-top: 10px;"><strong>Academic Integrity with AI:</strong> Maintaining honesty and proper attribution while using AI tools in academic contexts.</p>
+                    </div>
+
+                    <span class="tool-badge">ChatGPT</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Understand Detection Limitations</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Learn about detection tool capabilities:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Explain how AI detection tools work, their accuracy rates, and their known limitations. Include information about false positives and false negatives.
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Test detection variability:</strong>
+                            <p style="margin-top: 10px;">Generate a 250-word response about a topic in your field using ChatGPT. Then:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Copy the text as-is</li>
+                                <li>Ask ChatGPT to "rewrite this in a different style"</li>
+                                <li>Manually edit the text yourself (fixing awkward phrasing, adding examples)</li>
+                            </ul>
+                            <p style="margin-top: 10px;">Consider: How would a detection tool handle each version? Could you reliably distinguish them?</p>
+                        </li>
+                        <li>
+                            <strong>Understand false positives:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                What kinds of human writing might trigger false positives in AI detection tools? Give specific examples and explain why these occur.
+                            </div>
+                            <p style="margin-top: 10px;">Key insight: ESL students, neurodivergent students, and students with formulaic writing styles may be falsely flagged.</p>
+                        </li>
+                        <li>
+                            <strong>Develop an alternative approach:</strong>
+                            <p style="margin-top: 10px;">Instead of relying on detection tools, what assessment methods would make it obvious whether a student understands the material?</p>
+                        </li>
+                    </ol>
+
+                    <div class="warning-box">
+                        <strong>Critical Warning:</strong> AI detection tools have high false positive rates and can discriminate against certain student populations. Many experts advise against using them for high-stakes decisions. Never accuse a student of AI use based solely on detection tool results.
+                    </div>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-box">
+                            <h4>Why Not Detection Tools?</h4>
+                            <ul style="font-size: 0.85em; margin-left: 15px;">
+                                <li>30-50% false positive rates</li>
+                                <li>Bias against ESL students</li>
+                                <li>Easy to circumvent</li>
+                                <li>Arms race mentality</li>
+                                <li>Damages student trust</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-box">
+                            <h4>Better Alternatives</h4>
+                            <ul style="font-size: 0.85em; margin-left: 15px;">
+                                <li>In-class assessments</li>
+                                <li>Process documentation</li>
+                                <li>Oral defenses/presentations</li>
+                                <li>Course-specific prompts</li>
+                                <li>Revision-based assignments</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>Assessment Redesign Example</h4>
+                        <p><strong>Instead of:</strong> "Detect if students used AI on their take-home essay"</p>
+                        <p style="margin-top: 10px;"><strong>Try:</strong> "Have students write a brief essay draft in class (handwritten or on locked computers), then allow AI-assisted revision at home with required documentation of changes made and reasoning behind them."</p>
+                        <p style="margin-top: 10px;"><strong>Why it's better:</strong> You see their thinking process, they practice AI use ethically, and you don't rely on unreliable detection tools.</p>
+                    </div>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Ethical Considerations</h4>
+                        <ul>
+                            <li>Is it fair to accuse students based on tools with 30%+ error rates?</li>
+                            <li>How do detection tools affect your relationship with students?</li>
+                            <li>What happens when a false positive targets a vulnerable student?</li>
+                            <li>Are we teaching students skills they need, or playing "gotcha"?</li>
+                        </ul>
+                    </div>
+
+                    <div class="success-box">
+                        <strong>Recommended Approach:</strong> Focus on designing assessments that demonstrate learning, not on catching AI use. Build trust through clear policies, and address concerns through conversation, not accusations.
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>AI detection tools have significant accuracy problems and bias issues</li>
+                            <li>False positives can seriously harm innocent students, especially ESL and neurodivergent learners</li>
+                            <li>Detection tools are easily circumvented and create an adversarial environment</li>
+                            <li>Better approach: Design assessments that make AI use either permitted or pointless</li>
+                            <li>Focus on student learning, not surveillance</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 11,
+                title: "Prompt Engineering for Educational Content",
+                duration: 22,
+                category: "teaching",
+                categoryDisplay: "Teaching Applications",
+                tools: ["ChatGPT", "Claude"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Prompt Engineering for Education:</strong> The practice of crafting effective prompts to guide AI tools in generating appropriate educational content, assessments, or learning support.</p>
+                        <p style="margin-top: 10px;"><strong>AI-Assisted Learning:</strong> Leveraging AI tools to support and enhance student learning experiences.</p>
+                    </div>
+
+                    <span class="tool-badge">ChatGPT</span>
+                    <span class="tool-badge">Claude</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Create Better Educational Prompts</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Start with a basic request:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Create a quiz on [your course topic]
+                            </div>
+                            <p style="margin-top: 10px;">Examine the output. Is it at the right level? Does it test what you want? Probably not.</p>
+                        </li>
+                        <li>
+                            <strong>Now add educational context:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                I teach a [level] course on [topic] to [audience type]. Create a 10-question quiz that: 1) Tests [specific concepts], 2) Uses [preferred question formats], 3) Ranges from [difficulty levels], 4) Includes an answer key with explanations. Our class has covered [specific content]. Make questions that require application, not just recall.
+                            </div>
+                            <p style="margin-top: 10px;">Compare: Much better alignment with your needs, right?</p>
+                        </li>
+                        <li>
+                            <strong>Practice with different educational tasks:</strong>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li><strong>Task A:</strong> Create discussion prompts that generate deep engagement</li>
+                                <li><strong>Task B:</strong> Generate worked examples with common misconceptions</li>
+                                <li><strong>Task C:</strong> Design scaffolded practice problems with progressive difficulty</li>
+                                <li><strong>Task D:</strong> Create rubrics aligned with learning outcomes</li>
+                            </ul>
+                            <p style="margin-top: 10px;">For each task, write both a basic and an enhanced prompt.</p>
+                        </li>
+                        <li>
+                            <strong>Develop your prompt template library:</strong>
+                            <p style="margin-top: 10px;">Save your best-performing prompts as templates you can reuse and adapt.</p>
+                        </li>
+                    </ol>
+
+                    <div class="template-box">
+                        <h4>Educational Prompt Formula</h4>
+                        <p style="margin-top: 10px;"><strong>Context:</strong> Course level, student background, prior knowledge</p>
+                        <p style="margin-top: 5px;"><strong>Task:</strong> What you want the AI to create (be specific)</p>
+                        <p style="margin-top: 5px;"><strong>Constraints:</strong> Format, length, difficulty level, required elements</p>
+                        <p style="margin-top: 5px;"><strong>Quality criteria:</strong> What makes a good output for your purpose</p>
+                        <p style="margin-top: 5px;"><strong>Examples (optional):</strong> Show what you want or don't want</p>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>Example: Discussion Prompt Generator</h4>
+                        <p><strong>Poor prompt:</strong> "Create a discussion question about photosynthesis"</p>
+                        <p style="margin-top: 15px;"><strong>Better prompt:</strong> "I teach intro biology to non-majors. Create a discussion question about photosynthesis that: 1) Connects to students' everyday experiences, 2) Has no single right answer to encourage diverse perspectives, 3) Requires them to apply the concept to a real-world scenario, 4) Can generate 10+ minutes of productive discussion. Avoid questions that just test recall of facts."</p>
+                    </div>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-box">
+                            <h4>Vague Prompts Lead To:</h4>
+                            <ul style="font-size: 0.85em; margin-left: 15px;">
+                                <li>Generic content</li>
+                                <li>Wrong difficulty level</li>
+                                <li>Misaligned with goals</li>
+                                <li>Extensive editing needed</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-box">
+                            <h4>Detailed Prompts Lead To:</h4>
+                            <ul style="font-size: 0.85em; margin-left: 15px;">
+                                <li>Customized content</li>
+                                <li>Appropriate level</li>
+                                <li>Goal-aligned outputs</li>
+                                <li>Minor tweaks needed</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Refinement Questions</h4>
+                        <ul>
+                            <li>Does this output actually serve my pedagogical goals?</li>
+                            <li>What would I need to add/change to make it classroom-ready?</li>
+                            <li>How can I adjust my prompt to get closer to what I need?</li>
+                            <li>Am I providing enough context about my students and course?</li>
+                        </ul>
+                    </div>
+
+                    <div class="success-box">
+                        <strong>Pro Tip:</strong> Use follow-up prompts to refine. "Make it more challenging," "Add more real-world examples," "Simplify the language," etc. Iteration is key!
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>Specific, detailed prompts yield much better educational content than vague requests</li>
+                            <li>Include course context, student level, and learning objectives in prompts</li>
+                            <li>Iterate and refine—rarely does the first output meet all needs</li>
+                            <li>Build a library of effective prompt templates for common tasks</li>
+                            <li>Good prompts save time and produce higher-quality materials</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                number: 12,
+                title: "Comparing AI Model Capabilities",
+                duration: 18,
+                category: "core",
+                categoryDisplay: "Core Concepts",
+                tools: ["ChatGPT", "Claude", "Copilot"],
+                content: `
+                    <div class="concept-box">
+                        <h3>Core Concepts</h3>
+                        <p><strong>Large Language Models (LLMs):</strong> Advanced AI models trained on vast amounts of text data that can understand and generate human-like text across diverse topics and tasks.</p>
+                        <p style="margin-top: 10px;"><strong>Model Types:</strong> Different AI architectures optimized for specific purposes—from general conversation to specialized tasks like coding or image generation.</p>
+                    </div>
+
+                    <span class="tool-badge">ChatGPT</span>
+                    <span class="tool-badge">Claude</span>
+                    <span class="tool-badge">Microsoft Copilot</span>
+
+                    <h3 style="margin-top: 25px; color: #13294B;">Exercise: Test Different Models on the Same Task</h3>
+
+                    <ol class="steps">
+                        <li>
+                            <strong>Choose a task from your work:</strong>
+                            <p style="margin-top: 10px;">Select something you'd actually use AI for. Examples:</p>
+                            <ul style="margin-left: 20px; margin-top: 10px;">
+                                <li>Explaining a complex concept to undergraduates</li>
+                                <li>Generating exam questions with answer keys</li>
+                                <li>Summarizing a research article</li>
+                                <li>Drafting an email to students about policy changes</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Use the exact same prompt with three different models:</strong>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                [Your chosen task prompt - use it identically across all three tools]
+                            </div>
+                            <p style="margin-top: 10px;">Test with: ChatGPT, Claude, and Microsoft Copilot</p>
+                        </li>
+                        <li>
+                            <strong>Compare the outputs systematically:</strong>
+                            <div class="template-box" style="margin-top: 10px;">
+                                <h4>Evaluation Criteria</h4>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li><strong>Accuracy:</strong> Is the information correct and current?</li>
+                                    <li><strong>Depth:</strong> Does it provide sufficient detail and nuance?</li>
+                                    <li><strong>Clarity:</strong> Is it easy to understand for your audience?</li>
+                                    <li><strong>Tone:</strong> Is the writing style appropriate?</li>
+                                    <li><strong>Structure:</strong> Is it well-organized and formatted?</li>
+                                    <li><strong>Usefulness:</strong> How much editing would you need to do?</li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Try a different type of task:</strong>
+                            <p style="margin-top: 10px;">Now test something more analytical or creative:</p>
+                            <div class="prompt-box" style="margin-top: 10px;">
+                                Analyze the methodological strengths and limitations of [a research approach in your field]. Provide specific examples and suggest when this approach is most appropriate.
+                            </div>
+                            <p style="margin-top: 10px;">Do you notice different models excelling at different task types?</p>
+                        </li>
+                    </ol>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-box">
+                            <h4>ChatGPT</h4>
+                            <p style="font-size: 0.85em;"><strong>Strengths:</strong> Fast, conversational, good at creative tasks, broad knowledge</p>
+                            <p style="font-size: 0.85em; margin-top: 5px;"><strong>Watch for:</strong> Outdated info (knowledge cutoff), can be too brief, may lack depth on specialized topics</p>
+                        </div>
+                        <div class="comparison-box">
+                            <h4>Claude</h4>
+                            <p style="font-size: 0.85em;"><strong>Strengths:</strong> Nuanced analysis, long documents, detailed explanations, careful reasoning</p>
+                            <p style="font-size: 0.85em; margin-top: 5px;"><strong>Watch for:</strong> Can be verbose, may over-explain, sometimes overly careful</p>
+                        </div>
+                    </div>
+                    <div class="comparison-grid">
+                        <div class="comparison-box">
+                            <h4>Microsoft Copilot</h4>
+                            <p style="font-size: 0.85em;"><strong>Strengths:</strong> Microsoft 365 integration, current info via search, workplace-focused</p>
+                            <p style="font-size: 0.85em; margin-top: 5px;"><strong>Watch for:</strong> Less sophisticated reasoning than others, better for practical tasks than deep analysis</p>
+                        </div>
+                        <div class="comparison-box">
+                            <h4>Model Selection Strategy</h4>
+                            <p style="font-size: 0.85em;"><strong>Quick tasks:</strong> ChatGPT or Copilot</p>
+                            <p style="font-size: 0.85em;"><strong>Deep analysis:</strong> Claude</p>
+                            <p style="font-size: 0.85em;"><strong>Research:</strong> Perplexity or NotebookLM</p>
+                            <p style="font-size: 0.85em;"><strong>Office work:</strong> Copilot</p>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>Real Faculty Experience</h4>
+                        <p>"I tried generating discussion questions about ethical dilemmas with all three models. ChatGPT gave me quick, decent options. Claude provided more nuanced scenarios with multiple perspectives built in. Copilot was fastest but the questions felt more generic. Now I use ChatGPT for quantity, then refine the best ones with Claude for depth."</p>
+                    </div>
+
+                    <div class="success-box">
+                        <strong>Pro Strategy:</strong> Don't stick to just one tool. Different models excel at different tasks. Test a few options, identify patterns in what works best for your needs, then develop a personalized toolkit.
+                    </div>
+
+                    <div class="reflection-box">
+                        <h4>🤔 Observation Questions</h4>
+                        <ul>
+                            <li>Which model output required the least editing for your purposes?</li>
+                            <li>Did any model surprise you with its performance?</li>
+                            <li>What criteria matter most for your typical use cases?</li>
+                            <li>Would you use different models for research vs. teaching tasks?</li>
+                        </ul>
+                    </div>
+
+                    <div class="key-takeaways">
+                        <h4>✓ Key Takeaways</h4>
+                        <ul>
+                            <li>Different AI models have different strengths—there's no "best" for everything</li>
+                            <li>The same prompt can yield very different outputs across models</li>
+                            <li>Task type matters: creative vs. analytical, quick vs. deep, general vs. specialized</li>
+                            <li>Build a toolkit approach: use the right model for each specific need</li>
+                            <li>Regularly test models as they're updated—capabilities change over time</li>
+                        </ul>
+                    </div>
+                `
+            }
+        ];
+
+        // Render activities
+        function renderActivities() {
+            const list = document.getElementById('activitiesList');
+            
+            activities.forEach(activity => {
+                const accordion = document.createElement('div');
+                accordion.className = 'activity-accordion';
+                accordion.dataset.duration = activity.duration;
+                accordion.dataset.category = activity.category;
+                accordion.dataset.completed = 'false';
+                
+                accordion.innerHTML = `
+                    <div class="activity-header-bar" onclick="toggleActivity(this)">
+                        <div class="activity-number">${activity.number}</div>
+                        <div class="activity-header-info">
+                            <h3>${activity.title}</h3>
+                            <div class="activity-meta">
+                                <span class="duration-badge">${activity.duration} min</span>
+                                <span class="category-badge">${activity.categoryDisplay}</span>
+                                ${activity.tools.map(tool => `<span class="tool-mini-badge">${tool}</span>`).join('')}
+                            </div>
+                        </div>
+                        <div class="chevron">▼</div>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-body">
+                            ${activity.content}
+                            <div class="completion-section">
+                                <h4>Mark as Complete</h4>
+                                <p style="margin-bottom: 15px;">Have you finished this activity?</p>
+                                <button class="mark-complete-btn" onclick="toggleComplete(this)">Mark as Complete</button>
+                                <div class="completion-feedback">
+                                    <strong>✓ Activity completed!</strong> Great work. Your progress has been saved.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                list.appendChild(accordion);
+            });
+        }
+
+        // Toggle accordion
+        function toggleActivity(element) {
+            const accordion = element.closest('.activity-accordion');
+            const allAccordions = document.querySelectorAll('.activity-accordion');
+            
+            allAccordions.forEach(acc => {
+                if (acc !== accordion) {
+                    acc.classList.remove('active');
+                }
+            });
+            
+            accordion.classList.toggle('active');
+        }
+
+        // Toggle completion
+        function toggleComplete(button) {
+            const accordion = button.closest('.activity-accordion');
+            const feedback = button.closest('.completion-section').querySelector('.completion-feedback');
+            const isCompleted = accordion.dataset.completed === 'true';
+            
+            if (!isCompleted) {
+                accordion.dataset.completed = 'true';
+                accordion.classList.add('completed');
+                button.textContent = 'Mark as Incomplete';
+                button.classList.add('completed');
+                feedback.classList.add('show');
+                setTimeout(() => feedback.classList.remove('show'), 3000);
+            } else {
+                accordion.dataset.completed = 'false';
+                accordion.classList.remove('completed');
+                button.textContent = 'Mark as Complete';
+                button.classList.remove('completed');
+            }
+            
+            saveProgress();
+        }
+
+        // Sort activities
+        function sortActivities() {
+            const sortBy = document.getElementById('sortSelect').value;
+            const list = document.getElementById('activitiesList');
+            const items = Array.from(list.children);
+            
+            items.sort((a, b) => {
+                switch(sortBy) {
+                    case 'duration':
+                        return parseInt(a.dataset.duration) - parseInt(b.dataset.duration);
+                    case 'duration-desc':
+                        return parseInt(b.dataset.duration) - parseInt(a.dataset.duration);
+                    default:
+                        return 0;
+                }
+            });
+            
+            items.forEach(item => list.appendChild(item));
+        }
+
+        // Filter activities
+        function filterActivities() {
+            const filterBy = document.getElementById('filterSelect').value;
+            const activities = document.querySelectorAll('.activity-accordion');
+            
+            activities.forEach(activity => {
+                const category = activity.dataset.category;
+                const completed = activity.dataset.completed === 'true';
+                
+                let shouldShow = filterBy === 'all' ||
+                    (filterBy === 'completed' && completed) ||
+                    (filterBy === 'not-completed' && !completed) ||
+                    category === filterBy;
+                
+                activity.style.display = shouldShow ? 'block' : 'none';
+            });
+        }
+
+        // Save/load progress
+        function saveProgress() {
+            const progress = {};
+            document.querySelectorAll('.activity-accordion').forEach((activity, index) => {
+                progress[index] = { completed: activity.dataset.completed };
+            });
+            localStorage.setItem('aiWorkshopProgress', JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('aiWorkshopProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                document.querySelectorAll('.activity-accordion').forEach((activity, index) => {
+                    if (progress[index]?.completed === 'true') {
+                        activity.dataset.completed = 'true';
+                        activity.classList.add('completed');
+                        const button = activity.querySelector('.mark-complete-btn');
+                        button.textContent = 'Mark as Incomplete';
+                        button.classList.add('completed');
+                    }
+                });
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderActivities();
+            loadProgress();
+        });
+    </script>
+</body>
+</html>

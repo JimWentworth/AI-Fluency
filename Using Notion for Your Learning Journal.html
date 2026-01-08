@@ -1,0 +1,713 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Using Notion for Your Learning Journal - Quick Guide</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+/* Override strong tags inside headings to maintain consistent weight */
+h1 strong,
+h2 strong,
+h3 strong {
+	font-weight: 600;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 10px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.collection-content td {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.callout img.notion-static-icon {
+	width: 1em;
+	height: 1em;
+}
+
+.callout p {
+	margin: 0;
+}
+
+.callout h1,
+.callout h2,
+.callout h3 {
+	margin: 0 0 0.6rem;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+blockquote.quote-large {
+	font-size: 1.25em;
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.highlight-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.highlight-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.highlight-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.highlight-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.highlight-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.highlight-default_background {
+	color: rgba(44, 44, 43, 1);
+}
+.highlight-gray_background {
+	background: rgba(42, 28, 0, 0.07);
+}
+.highlight-brown_background {
+	background: rgba(139, 46, 0, 0.086);
+}
+.highlight-orange_background {
+	background: rgba(224, 101, 1, 0.129);
+}
+.highlight-yellow_background {
+	background: rgba(211, 168, 0, 0.137);
+}
+.highlight-teal_background {
+	background: rgba(0, 100, 45, 0.09);
+}
+.highlight-blue_background {
+	background: rgba(0, 124, 215, 0.094);
+}
+.highlight-purple_background {
+	background: rgba(102, 0, 178, 0.078);
+}
+.highlight-pink_background {
+	background: rgba(197, 0, 93, 0.086);
+}
+.highlight-red_background {
+	background: rgba(223, 22, 0, 0.094);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(125, 122, 117, 1);
+	fill: rgba(125, 122, 117, 1);
+}
+.block-color-brown {
+	color: rgba(159, 118, 90, 1);
+	fill: rgba(159, 118, 90, 1);
+}
+.block-color-orange {
+	color: rgba(210, 123, 45, 1);
+	fill: rgba(210, 123, 45, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 148, 52, 1);
+	fill: rgba(203, 148, 52, 1);
+}
+.block-color-teal {
+	color: rgba(80, 148, 110, 1);
+	fill: rgba(80, 148, 110, 1);
+}
+.block-color-blue {
+	color: rgba(56, 125, 201, 1);
+	fill: rgba(56, 125, 201, 1);
+}
+.block-color-purple {
+	color: rgba(154, 107, 180, 1);
+	fill: rgba(154, 107, 180, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(207, 81, 72, 1);
+	fill: rgba(207, 81, 72, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(240, 239, 237, 1);
+}
+.block-color-brown_background {
+	background: rgba(245, 237, 233, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 235, 222, 1);
+}
+.block-color-yellow_background {
+	background: rgba(249, 243, 220, 1);
+}
+.block-color-teal_background {
+	background: rgba(232, 241, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(229, 242, 252, 1);
+}
+.block-color-purple_background {
+	background: rgba(243, 235, 249, 1);
+}
+.block-color-pink_background {
+	background: rgba(250, 233, 241, 1);
+}
+.block-color-red_background {
+	background: rgba(252, 233, 231, 1);
+}
+.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
+.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
+.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
+.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
+.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
+.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
+.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
+.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
+.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
+.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="f63633f0-01c7-40a8-ab58-1cff4539b894" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">📓</span></div><h1 class="page-title" dir="auto">Using Notion for Your Learning Journal - Quick Guide</h1><p class="page-description" dir="auto"></p></header><div class="page-body"><div style="display:contents" dir="auto"><p id="965fc008-c8d8-404e-9cb3-ea7a11fcbe18" class="">A simple guide to help students track their learning journey in the AI Certificate program using Notion.</p></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Getting Started with Notion</summary><div class="indented"><div style="display:contents" dir="auto"><p id="64c0b180-d83f-4cee-be2a-34c52e41de52" class=""><strong>Step 1: Create Your Account</strong></p></div><div style="display:contents" dir="auto"><ul id="e7f069ef-9cc2-426f-bee9-58c0e44c0f62" class="bulleted-list"><li style="list-style-type:disc">Visit <a href="http://notion.so">notion.so</a> and sign up for a free account</li></ul></div><div style="display:contents" dir="auto"><ul id="914cb8d0-bba1-4755-ba37-c6e3dace871c" class="bulleted-list"><li style="list-style-type:disc">Download the desktop or mobile app (optional but recommended)</li></ul></div><div style="display:contents" dir="auto"><p id="b6cef914-1dd2-4d5e-a983-a3526d4fd085" class=""><strong>Step 2: Copy the Template (Recommended)</strong></p></div><div style="display:contents" dir="auto"><ul id="86c27424-580d-4aca-96a3-2d0145e88cb0" class="bulleted-list"><li style="list-style-type:disc">Visit the <a href="https://www.notion.so/AI-Fluency-Journal-2c977045afdd80dabd11d7c1e5b99ab7?pvs=21">AI Fluency Journal Template</a></li></ul></div><div style="display:contents" dir="auto"><ul id="8caeedfb-05ef-4558-9f96-a96d6e02293a" class="bulleted-list"><li style="list-style-type:disc">Click <strong>Duplicate</strong> in the top-right corner</li></ul></div><div style="display:contents" dir="auto"><ul id="3b6b84a5-38a8-4fdd-a786-e2e1ec60f815" class="bulleted-list"><li style="list-style-type:disc">The template will be copied to your workspace with all modules pre-organized</li></ul></div><div style="display:contents" dir="auto"><ul id="287a1a7d-51ae-426c-ab0b-f70fd7b77c6b" class="bulleted-list"><li style="list-style-type:disc">You can edit, add, or remove sections as you prefer</li></ul></div><div style="display:contents" dir="auto"><p id="1fe1d76f-7844-4850-acc4-4bb4c4bbf7a8" class=""><strong>Step 3: Or Create Your Own from Scratch</strong></p></div><div style="display:contents" dir="auto"><ul id="7df23ae5-6c64-4dde-84ce-6a2a57e18a44" class="bulleted-list"><li style="list-style-type:disc">Click <strong>+ New Page</strong> in your sidebar</li></ul></div><div style="display:contents" dir="auto"><ul id="cac47663-397b-43a8-812a-918f50927ee3" class="bulleted-list"><li style="list-style-type:disc">Give it a title like &quot;AI Certificate Learning Journal&quot;</li></ul></div><div style="display:contents" dir="auto"><ul id="4402cd4f-78fd-469a-b9f5-ecf4d2bcd51d" class="bulleted-list"><li style="list-style-type:disc">Choose an icon and cover image to personalize it</li></ul></div><div style="display:contents" dir="auto"><p id="56535c3b-c076-45d4-bed7-6d60e6d499c3" class=""><strong>Step 4: Structure Your Journal</strong></p></div><div style="display:contents" dir="auto"><p id="1670a5c4-f822-4eb8-ab30-dc4f99af6d1b" class="">If you&#x27;re creating from scratch, here are two simple approaches:</p></div><div style="display:contents" dir="auto"><h3 id="7e9ffd9e-496b-4667-a7da-590277a25f5b" class="">Option A: Weekly Pages</h3></div><div style="display:contents" dir="auto"><ul id="f7036c5f-6223-4372-a655-60e7f744bf93" class="bulleted-list"><li style="list-style-type:disc">Create a new page for each week</li></ul></div><div style="display:contents" dir="auto"><ul id="e2022204-416b-476d-bf6d-37eb351c30dc" class="bulleted-list"><li style="list-style-type:disc">Use headings to organize by topic or day</li></ul></div><div style="display:contents" dir="auto"><ul id="c01545b1-eaaf-48a1-90c5-cd31ed701990" class="bulleted-list"><li style="list-style-type:disc">Add bullet points for key learnings, questions, and reflections</li></ul></div><div style="display:contents" dir="auto"><h3 id="e92a45f5-d3b6-4eba-9427-25d716c2fc53" class="">Option B: Database Approach</h3></div><div style="display:contents" dir="auto"><ul id="8cd259c9-95c5-47db-a83f-e207ec9803b7" class="bulleted-list"><li style="list-style-type:disc">Create a database with these properties:<div style="display:contents" dir="auto"><ul id="6906a896-5274-475e-b7af-11a1bcf0c145" class="bulleted-list"><li style="list-style-type:circle"><strong>Date</strong> - when you learned something</li></ul></div><div style="display:contents" dir="auto"><ul id="80b7959f-2824-4676-baf3-4cee116a4441" class="bulleted-list"><li style="list-style-type:circle"><strong>Topic</strong> - what you studied (AI concepts, tools, projects)</li></ul></div><div style="display:contents" dir="auto"><ul id="f340e950-1a34-4b28-a104-aefa6bcf6f1a" class="bulleted-list"><li style="list-style-type:circle"><strong>Key Learnings</strong> - main takeaways</li></ul></div><div style="display:contents" dir="auto"><ul id="f3fb2fb7-9b06-422f-84ca-806f86d33653" class="bulleted-list"><li style="list-style-type:circle"><strong>Questions</strong> - things you want to explore further</li></ul></div><div style="display:contents" dir="auto"><ul id="4eecbfa4-c35f-4390-bc95-563c60dff53c" class="bulleted-list"><li style="list-style-type:circle"><strong>Status</strong> - Not Started, In Progress, Completed</li></ul></div></li></ul></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Tips for Effective Journaling</summary><div class="indented"><div style="display:contents" dir="auto"><p id="b18991c0-c114-4158-9043-d8f081011db1" class=""><strong>Daily Habit</strong></p></div><div style="display:contents" dir="auto"><ul id="0dabf6f5-372a-4e1d-acca-4b1143f3c462" class="bulleted-list"><li style="list-style-type:disc">Spend 5-10 minutes after each learning session to capture thoughts</li></ul></div><div style="display:contents" dir="auto"><ul id="61685825-c7e4-46de-9066-6220e941fc8f" class="bulleted-list"><li style="list-style-type:disc">Write while concepts are fresh in your mind</li></ul></div><div style="display:contents" dir="auto"><p id="19785e10-7e80-4446-bf61-eadd99aa56ab" class=""><strong>What to Include</strong></p></div><div style="display:contents" dir="auto"><ul id="3160a2ea-789e-4512-b6f9-32b39de2d9bb" class="bulleted-list"><li style="list-style-type:disc">New concepts and definitions you learned</li></ul></div><div style="display:contents" dir="auto"><ul id="a9c8e0f6-810e-4403-9d91-136270cee27b" class="bulleted-list"><li style="list-style-type:disc">Code snippets or examples that helped you understand</li></ul></div><div style="display:contents" dir="auto"><ul id="a3b615ac-b1db-445b-8725-ccbfaaea380c" class="bulleted-list"><li style="list-style-type:disc">Connections between different topics</li></ul></div><div style="display:contents" dir="auto"><ul id="a666a209-824a-422e-b6fb-7e95fa2777fc" class="bulleted-list"><li style="list-style-type:disc">Challenges you faced and how you solved them</li></ul></div><div style="display:contents" dir="auto"><ul id="d91b0e31-351d-47ee-8b8d-5c0514ed35aa" class="bulleted-list"><li style="list-style-type:disc">Resources you found helpful (links, videos, articles)</li></ul></div><div style="display:contents" dir="auto"><ul id="fcc88b6b-757c-4b1c-b99b-be19d6e09055" class="bulleted-list"><li style="list-style-type:disc">Personal insights and &quot;aha&quot; moments</li></ul></div><div style="display:contents" dir="auto"><p id="72850830-bcc6-4dd7-acf3-66dccadd454f" class=""><strong>Use Notion Features</strong></p></div><div style="display:contents" dir="auto"><ul id="6bb67fa6-46d4-4984-b50f-6bc5e19712f5" class="bulleted-list"><li style="list-style-type:disc"><strong>Toggles</strong> - hide detailed notes to keep your page clean</li></ul></div><div style="display:contents" dir="auto"><ul id="432b9a26-ece7-487c-9b54-74131b7d2014" class="bulleted-list"><li style="list-style-type:disc"><strong>Callouts</strong> - highlight important insights or questions</li></ul></div><div style="display:contents" dir="auto"><ul id="846595e0-4f7b-465c-ae17-fa2144fbf864" class="bulleted-list"><li style="list-style-type:disc"><strong>Code blocks</strong> - save code examples with syntax highlighting</li></ul></div><div style="display:contents" dir="auto"><ul id="7674a7b1-d4c3-4453-83eb-2cca011d245f" class="bulleted-list"><li style="list-style-type:disc"><strong>Bookmarks</strong> - save helpful links with previews</li></ul></div><div style="display:contents" dir="auto"><ul id="c12ce50d-8f81-4c5a-8fcc-351129ee6204" class="bulleted-list"><li style="list-style-type:disc"><strong>Inline databases</strong> - create tables for tracking projects or resources</li></ul></div></div></details></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Example Journal Entry</summary><div class="indented"><div style="display:contents" dir="auto"><blockquote id="67ac07bc-6862-48e3-98cd-4564dba536eb" class=""><strong>Week 3: Neural Networks</strong></blockquote></div><div style="display:contents" dir="auto"><blockquote id="44812c4f-069e-473a-b74d-c54b5035fc50" class=""></blockquote></div><div style="display:contents" dir="auto"><blockquote id="bd2fec46-bddd-459d-b10d-64c4a8cf5e83" class=""><strong>Key Learning:</strong> Neural networks use layers of interconnected nodes to process information, similar to how the brain works.</blockquote></div><div style="display:contents" dir="auto"><blockquote id="f91a86b1-a3e2-4372-919a-9e71875fa50d" class=""></blockquote></div><div style="display:contents" dir="auto"><blockquote id="a483d427-45ac-4fc3-93b4-3125b4446575" class=""><strong>What I practiced:</strong></blockquote></div><div style="display:contents" dir="auto"><blockquote id="fae872b3-3ed4-4638-9549-d746e351c630" class="">- Built my first neural network using TensorFlow</blockquote></div><div style="display:contents" dir="auto"><blockquote id="9ac626f9-8580-416b-b68c-ef55d4d9cb9d" class="">- Experimented with different activation functions</blockquote></div><div style="display:contents" dir="auto"><blockquote id="8833ac55-c3e9-4119-9fd2-f26b82cce5b1" class=""></blockquote></div><div style="display:contents" dir="auto"><blockquote id="77256cc1-f300-4def-a76a-a5588998ed4b" class=""><strong>Questions:</strong></blockquote></div><div style="display:contents" dir="auto"><blockquote id="6d2ebc13-7cdf-44b8-8c4c-816d3e4c3806" class="">- How do I know how many hidden layers to use?</blockquote></div><div style="display:contents" dir="auto"><blockquote id="4e1c6a85-75c0-4da1-a437-482f8c5966e4" class="">- What&#x27;s the difference between SGD and Adam optimizers?</blockquote></div><div style="display:contents" dir="auto"><blockquote id="6b3efd8d-86a2-4726-b1f5-cefd31d1149a" class=""></blockquote></div><div style="display:contents" dir="auto"><blockquote id="15471915-7b61-4cfe-9b98-feb6ddd7d742" class=""><strong>Resources:</strong></blockquote></div><div style="display:contents" dir="auto"><blockquote id="e4fefadc-ec95-4dca-860e-0a7adcbaa956" class="">- <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi">3Blue1Brown Neural Networks series</a></blockquote></div></div></details></div><div style="display:contents" dir="auto"><hr id="2e6a72cf-2bfd-4ad6-aced-16990af3f395"/></div><div style="display:contents" dir="auto"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Four Alternatives to Notion</summary><div class="indented"><div style="display:contents" dir="auto"><h3 id="8c282adc-3fc5-47d2-8c25-1b99075df470" class="">1. <strong>Google Docs</strong></h3></div><div style="display:contents" dir="auto"><p id="fdea8a6f-99e2-41f6-90dc-8ae48c4fbb87" class=""><strong>Best for:</strong> Students who want simplicity and are already in the Google ecosystem</p></div><div style="display:contents" dir="auto"><p id="c4a72fa9-b7eb-4d1a-ac2b-eb5bccc1a03d" class=""><strong>Pros:</strong></p></div><div style="display:contents" dir="auto"><ul id="5d692bc6-8818-4740-95e1-c793a13da16b" class="bulleted-list"><li style="list-style-type:disc">Extremely simple to use - no learning curve</li></ul></div><div style="display:contents" dir="auto"><ul id="33600ace-1127-4b47-82de-6d989731d410" class="bulleted-list"><li style="list-style-type:disc">Automatic saving and version history</li></ul></div><div style="display:contents" dir="auto"><ul id="f7abae1e-d5c9-4126-bb25-9c14ba435574" class="bulleted-list"><li style="list-style-type:disc">Easy sharing with instructors or peers</li></ul></div><div style="display:contents" dir="auto"><ul id="9df7ac42-d769-43a1-83fe-58bf03a23c88" class="bulleted-list"><li style="list-style-type:disc">Works on any device with a browser</li></ul></div><div style="display:contents" dir="auto"><ul id="45bc05c7-39eb-4074-8240-6408bd1239c6" class="bulleted-list"><li style="list-style-type:disc">Free with Google account</li></ul></div><div style="display:contents" dir="auto"><ul id="930e8a08-f0ac-4bac-9e92-47576217a0e2" class="bulleted-list"><li style="list-style-type:disc">Familiar interface most students already know</li></ul></div><div style="display:contents" dir="auto"><p id="c3608956-7d50-4344-8074-af3b7c477992" class=""><strong>Cons:</strong></p></div><div style="display:contents" dir="auto"><ul id="432d5c6e-f87a-4a84-8c95-ad5672fcefe6" class="bulleted-list"><li style="list-style-type:disc">Limited organizational features for long-term journaling</li></ul></div><div style="display:contents" dir="auto"><ul id="5fab6310-c94e-48a8-b8b2-e52a83683d5c" class="bulleted-list"><li style="list-style-type:disc">Not as flexible as dedicated note-taking tools</li></ul></div><div style="display:contents" dir="auto"><ul id="9f70472f-6a39-425d-9f7e-8038589df3a2" class="bulleted-list"><li style="list-style-type:disc">Can become cluttered with many entries</li></ul></div><div style="display:contents" dir="auto"><ul id="4b0c8d53-53aa-4376-85d8-cdaa6be4f2aa" class="bulleted-list"><li style="list-style-type:disc">Fewer formatting options than specialized tools</li></ul></div><div style="display:contents" dir="auto"><h3 id="bcaca96b-510a-4695-a44f-80c8dfd671d9" class="">2. <strong>Adobe Express (formerly Adobe Spark)</strong></h3></div><div style="display:contents" dir="auto"><p id="dacb42a6-e4a7-4303-9908-82b548a29ec8" class=""><strong>Best for:</strong> Students who want a visual, creative approach to their learning journal</p></div><div style="display:contents" dir="auto"><p id="00151eba-cac6-4936-bd08-104af2f1fbc8" class=""><strong>Pros:</strong></p></div><div style="display:contents" dir="auto"><ul id="ee4aadf5-0cda-46c1-bdca-c6c5cf57a75b" class="bulleted-list"><li style="list-style-type:disc">Beautiful templates for creating visual journal entries</li></ul></div><div style="display:contents" dir="auto"><ul id="6a1e2d63-98b4-4917-b460-4563b7c24547" class="bulleted-list"><li style="list-style-type:disc">Great for incorporating images, graphics, and design elements</li></ul></div><div style="display:contents" dir="auto"><ul id="98a2a151-a54c-4b06-8cef-51f01e21df58" class="bulleted-list"><li style="list-style-type:disc">Can create web pages or PDFs from your journal</li></ul></div><div style="display:contents" dir="auto"><ul id="5deab0e0-8231-4d65-8eee-3ce327aa21cb" class="bulleted-list"><li style="list-style-type:disc">Free tier available with Adobe account</li></ul></div><div style="display:contents" dir="auto"><ul id="9820ac05-e3ce-448a-bfae-4f0d1e16e98b" class="bulleted-list"><li style="list-style-type:disc">Easy to share polished versions with others</li></ul></div><div style="display:contents" dir="auto"><ul id="e2d3afa3-9adf-4fbf-a6b3-50c598a58472" class="bulleted-list"><li style="list-style-type:disc">Perfect for students who think visually</li></ul></div><div style="display:contents" dir="auto"><p id="e23cd479-946c-4a45-bd8d-a47c1e925185" class=""><strong>Cons:</strong></p></div><div style="display:contents" dir="auto"><ul id="d22228f5-8b72-486b-9eda-d2a649c43589" class="bulleted-list"><li style="list-style-type:disc">More focused on presentation than quick note-taking</li></ul></div><div style="display:contents" dir="auto"><ul id="d9f2c275-3062-4797-9f3e-371897fd31c1" class="bulleted-list"><li style="list-style-type:disc">Can be overkill if you just want text notes</li></ul></div><div style="display:contents" dir="auto"><ul id="58788ee4-4489-42cd-8a63-6e331a91976f" class="bulleted-list"><li style="list-style-type:disc">Requires internet connection</li></ul></div><div style="display:contents" dir="auto"><ul id="3d5df257-383a-4287-8f7f-9404ca88184d" class="bulleted-list"><li style="list-style-type:disc">May take more time to make entries look good</li></ul></div><div style="display:contents" dir="auto"><ul id="81a7dd15-58bc-46a5-819f-600150680c87" class="bulleted-list"><li style="list-style-type:disc">Learning curve for design features</li></ul></div><div style="display:contents" dir="auto"><h3 id="cde25fc7-8809-4e91-ba1e-75e999c7152e" class="">3. <strong>Day One</strong></h3></div><div style="display:contents" dir="auto"><p id="5fe49212-8d1c-4a10-a337-1c0ac895a013" class=""><strong>Best for:</strong> Students who want a dedicated, polished journaling experience</p></div><div style="display:contents" dir="auto"><p id="a71a29b0-a7dc-4868-aa7c-745da70d664c" class=""><strong>Pros:</strong></p></div><div style="display:contents" dir="auto"><ul id="73a8b0de-22e8-4ad9-b232-befc97b0c764" class="bulleted-list"><li style="list-style-type:disc">Specifically designed for journaling with beautiful interface</li></ul></div><div style="display:contents" dir="auto"><ul id="dff9bbb6-185c-41f0-b470-38e7393135b7" class="bulleted-list"><li style="list-style-type:disc">Automatic prompts and reminders to encourage consistent journaling</li></ul></div><div style="display:contents" dir="auto"><ul id="6d57d9e5-941f-4a82-8f38-b912e26782b1" class="bulleted-list"><li style="list-style-type:disc">Excellent search and tagging system</li></ul></div><div style="display:contents" dir="auto"><ul id="68a0f462-3c17-45c2-88da-009664b3d320" class="bulleted-list"><li style="list-style-type:disc">End-to-end encryption for privacy</li></ul></div><div style="display:contents" dir="auto"><ul id="81446172-d739-401c-93b2-ab3a93a02015" class="bulleted-list"><li style="list-style-type:disc">Photo integration and location tracking</li></ul></div><div style="display:contents" dir="auto"><ul id="64da8666-dd0b-45be-8671-f105a337cf53" class="bulleted-list"><li style="list-style-type:disc">Available on Mac, iOS, Android, and web</li></ul></div><div style="display:contents" dir="auto"><p id="4c47d46c-3932-4fc2-84cd-483fd005974c" class=""><strong>Cons:</strong></p></div><div style="display:contents" dir="auto"><ul id="76475983-bf4c-4721-8954-09d1812b9180" class="bulleted-list"><li style="list-style-type:disc">Premium features require subscription (around $35/year)</li></ul></div><div style="display:contents" dir="auto"><ul id="09a49f12-b867-42c0-9e7d-6b20de5ddc93" class="bulleted-list"><li style="list-style-type:disc">Less flexible than general note-taking apps</li></ul></div><div style="display:contents" dir="auto"><ul id="62b5cdef-1b15-4e9f-a24b-841cf25ff41e" class="bulleted-list"><li style="list-style-type:disc">Not ideal for collaborative work or sharing with instructors</li></ul></div><div style="display:contents" dir="auto"><ul id="b1288e08-14f7-4ed6-a631-2673cb44b15e" class="bulleted-list"><li style="list-style-type:disc">Can&#x27;t easily embed code snippets or technical content</li></ul></div><div style="display:contents" dir="auto"><h3 id="9b72dadd-4180-4be6-87cd-549d6a3ffa78" class="">4. <strong>Journey</strong></h3></div><div style="display:contents" dir="auto"><p id="a2981ce5-636a-47f6-a028-72d283700e8d" class=""><strong>Best for:</strong> Students who want a cross-platform journaling app with multimedia features</p></div><div style="display:contents" dir="auto"><p id="019a31c7-5da6-4e76-b420-5cba7d478d41" class=""><strong>Pros:</strong></p></div><div style="display:contents" dir="auto"><ul id="804495e6-b2f2-4356-98df-fcfa9e9ab5c0" class="bulleted-list"><li style="list-style-type:disc">Works across all platforms (Windows, Mac, Linux, iOS, Android, web)</li></ul></div><div style="display:contents" dir="auto"><ul id="053a4de2-43a5-4d67-ac67-5810c360a7bd" class="bulleted-list"><li style="list-style-type:disc">Supports photos, videos, audio recordings, and drawings</li></ul></div><div style="display:contents" dir="auto"><ul id="23b50222-7013-406a-b70b-ed04f04deb5a" class="bulleted-list"><li style="list-style-type:disc">Google Drive and Google Photos integration</li></ul></div><div style="display:contents" dir="auto"><ul id="a6c1d081-8a1c-481c-9efe-8b61e105aef5" class="bulleted-list"><li style="list-style-type:disc">Mood tracking and weather automatically logged</li></ul></div><div style="display:contents" dir="auto"><ul id="fe61555e-9167-4fc0-87a9-227b4c69c6d5" class="bulleted-list"><li style="list-style-type:disc">Export options to PDF, DOCX, or JSON</li></ul></div><div style="display:contents" dir="auto"><ul id="3c770808-caaf-4856-9759-fde17217ef9c" class="bulleted-list"><li style="list-style-type:disc">Free version available with good features</li></ul></div><div style="display:contents" dir="auto"><p id="4e219a1b-b6db-4fe5-9861-1d9cca40f7bc" class=""><strong>Cons:</strong></p></div><div style="display:contents" dir="auto"><ul id="e134ecbe-8cb8-4a79-8381-d92e1a741fa1" class="bulleted-list"><li style="list-style-type:disc">Premium features require subscription</li></ul></div><div style="display:contents" dir="auto"><ul id="a056c9a6-292c-45d0-85d9-697317b5b212" class="bulleted-list"><li style="list-style-type:disc">Can feel overwhelming with all the extra features</li></ul></div><div style="display:contents" dir="auto"><ul id="cee37737-5f07-46f7-a728-c5c2acff8514" class="bulleted-list"><li style="list-style-type:disc">Interface not as polished as Day One</li></ul></div><div style="display:contents" dir="auto"><ul id="4558519a-2b89-4715-b347-1384163b089b" class="bulleted-list"><li style="list-style-type:disc">May be too diary-focused for technical learning journals</li></ul></div></div></details></div><div style="display:contents" dir="auto"><hr id="5152b0f4-f342-44b6-b878-844c099e01cb"/></div><div style="display:contents" dir="auto"><h2 id="bf57fc40-c2f8-4c66-bb9e-76689748c837" class="">Final Recommendation</h2></div><div style="display:contents" dir="auto"><p id="77fb30aa-e282-4378-9d13-b3d27e24b594" class="">The best tool is the one you&#x27;ll actually use consistently. <strong>Start simple</strong> - whether you choose Notion or an alternative, begin with basic entries and add complexity as needed. The goal is to capture your learning journey, not to create perfect notes.</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

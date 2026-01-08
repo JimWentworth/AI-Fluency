@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>RAG Docs — AI Fluency Certificate</title>
+  <link rel="stylesheet" href="assets/site.css"/>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar" role="banner">
+  <div class="brand">
+    <span class="brand-dot" aria-hidden="true"></span>
+    <div class="brand-text">
+      <div class="brand-title">AI Fluency Certificate</div>
+      <div class="brand-sub">RAG Docs • Static HTML viewer</div>
+    </div>
+  </div>
+  <nav class="topnav" aria-label="Top">
+    <a href="index.html">Home</a>
+    <a href="#about">About</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" aria-label="Document navigation">
+    <div class="sidebar-inner">
+      <div class="sidebar-title">Documents</div>
+      <div class="sidebar-search">
+        <label class="sr-only" for="q">Search documents</label>
+        <input id="q" type="search" placeholder="Search titles + content…" autocomplete="off"/>
+        <div id="searchResults" class="search-results" role="listbox" aria-label="Search results"></div>
+      </div>
+      <div class="doclist" id="docList" aria-label="Doc list"></div>
+    </div>
+  </aside>
+
+  <main id="main" class="content" role="main">
+    <div class="card hero">
+      <h1>Project RAG Docs</h1>
+      <p>
+        This is a lightweight, static HTML interface that turns the certificate’s RAG corpus into browsable pages.
+        Use the left sidebar to open any doc, or search across titles + content.
+      </p>
+      <div class="grid" style="margin-top:14px">
+        <div class="card" style="padding:14px">
+          <div style="font-weight:800; margin-bottom:6px">Start here</div>
+          <div style="opacity:.78; line-height:1.5">
+            If you’re new: open <em>00_README</em> for the “how this corpus works” orientation, then jump to
+            <em>01_Certificate_Canonical_Overview</em> for the source-of-truth on the learning arc.
+          </div>
+        </div>
+        <div class="card" style="padding:14px">
+          <div style="font-weight:800; margin-bottom:6px">What this is (and isn’t)</div>
+          <div style="opacity:.78; line-height:1.5">
+            A viewer for the authoritative design docs. It’s not a CMS; it won’t auto-sync unless regenerated.
+            Treat it as a “shared brain” snapshot you can hand to collaborators.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:18px; margin-top:14px" id="about">
+      <div style="font-weight:800; font-size:18px; margin-bottom:8px">About</div>
+      <div style="opacity:.78; line-height:1.6">
+        <ul>
+          <li><strong>No server required:</strong> open <code>index.html</code> in a browser (or host on GitHub Pages).</li>
+          <li><strong>Accessible:</strong> skip-link, semantic landmarks, keyboard-friendly search.</li>
+          <li><strong>UIUC-aware styling:</strong> Illini colors used lightly; readability first.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="padding:18px; margin-top:14px">
+      <div style="font-weight:800; font-size:18px; margin-bottom:8px">Quick links</div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px">
+        <a class="pill" href="docs/00-readme.html">00_README</a>
+        <a class="pill" href="docs/01-certificate-canonical-overview.html">01_Canonical_Overview</a>
+        <a class="pill" href="docs/09-faqs-living-document.html">09_FAQs</a>
+        <a class="pill" href="docs/06-canvas-designplus-implementation-guide.html">06_DesignPLUS Guide</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer class="footer" role="contentinfo">
+  <div>Generated {now}. Local static viewer for project use.</div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>window.__CURRENT__ = null;</script>
+</body>
+</html>

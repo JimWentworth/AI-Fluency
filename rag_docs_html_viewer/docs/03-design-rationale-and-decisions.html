@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Design Rationale &amp; Decisions — RAG Docs</title>
+  <link rel="stylesheet" href="../assets/site.css"/>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar" role="banner">
+  <div class="brand">
+    <span class="brand-dot" aria-hidden="true"></span>
+    <div class="brand-text">
+      <div class="brand-title">AI Fluency Certificate</div>
+      <div class="brand-sub">RAG Docs • Static HTML viewer</div>
+    </div>
+  </div>
+  <nav class="topnav" aria-label="Top">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#about">About</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" aria-label="Document navigation">
+    <div class="sidebar-inner">
+      <div class="sidebar-title">Documents</div>
+      <div class="sidebar-search">
+        <label class="sr-only" for="q">Search documents</label>
+        <input id="q" type="search" placeholder="Search titles + content…" autocomplete="off"/>
+        <div id="searchResults" class="search-results" role="listbox" aria-label="Search results"></div>
+      </div>
+      <div class="doclist" id="docList" aria-label="Doc list"></div>
+    </div>
+  </aside>
+
+  <main id="main" class="content" role="main">
+    <article class="doc">
+      <div class="doc-meta">
+        <div class="doc-title">Design Rationale &amp; Decisions</div>
+        <div class="doc-sub">
+          <span class="pill">03_Design_Rationale_and_Decisions.md</span>
+          <span class="pill">markdown</span>
+        </div>
+      </div>
+      <hr class="rule"/>
+      <div class="doc-body">
+        <h1 id="design-rationale-decisions">Design Rationale &amp; Decisions</h1>
+
+<h2 id="decision-log-summarized-decision-focused">Decision log (summarized, decision-focused)</h2>
+
+<blockquote>
+  <p>Use this document to record the “why” behind major design choices.
+  Keep entries short. Prefer bullets. Include tradeoffs when relevant.</p>
+</blockquote>
+
+<h3 id="current-major-decisions">Current major decisions</h3>
+
+<ul>
+<li><strong>Module arc</strong>: Understanding → Collaborating → Designing → Expanding
+<ul>
+<li>Rationale: increases participant responsibility and transfer across contexts.</li>
+</ul></li>
+<li><strong>Module 3 framing</strong>: “Designing Consistent AI Interactions” (not “Customizing tools”)
+<ul>
+<li>Rationale: emphasizes interaction design, reuse, accountability, and documentation—beyond cosmetic or tool-specific tweaks.</li>
+</ul></li>
+<li><strong>Personalization placement</strong>: included in Module 2 as lightweight, conversational tuning
+<ul>
+<li>Rationale: supports collaboration and inquiry without implying persistence or workflow reuse.</li>
+</ul></li>
+<li><strong>Documentation emphasis (internal)</strong>: certificate creation itself follows transparent, documented workflows
+<ul>
+<li>Rationale: institutional defensibility; avoids “black box” creation; enables shared maintenance.</li>
+</ul></li>
+</ul>
+
+<h3 id="open-questions-future-decisions">Open questions / future decisions</h3>
+
+<ul>
+<li>Elective governance: how strict should “acceptable elective” criteria be?</li>
+<li>Canvas packaging: IMSCC vs. direct page build vs. hybrid</li>
+<li>DesignPLUS conventions: standard set of wrappers, components, and iframe patterns</li>
+<li>Branding: which UIUC brand assets are approved for Canvas pages (logos, marks, photography)</li>
+</ul>
+
+      </div>
+    </article>
+  </main>
+</div>
+
+<footer class="footer" role="contentinfo">
+  <div>Generated 2025-12-26 14:45. Local static viewer for project use.</div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script>
+  window.__DOCS__ = window.__DOCS__ || [];
+  window.__CURRENT__ = "03-design-rationale-and-decisions";
+</script>
+</body>
+</html>

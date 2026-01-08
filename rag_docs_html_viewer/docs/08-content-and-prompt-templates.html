@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Content &amp; Prompt Templates — RAG Docs</title>
+  <link rel="stylesheet" href="../assets/site.css"/>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar" role="banner">
+  <div class="brand">
+    <span class="brand-dot" aria-hidden="true"></span>
+    <div class="brand-text">
+      <div class="brand-title">AI Fluency Certificate</div>
+      <div class="brand-sub">RAG Docs • Static HTML viewer</div>
+    </div>
+  </div>
+  <nav class="topnav" aria-label="Top">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#about">About</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" aria-label="Document navigation">
+    <div class="sidebar-inner">
+      <div class="sidebar-title">Documents</div>
+      <div class="sidebar-search">
+        <label class="sr-only" for="q">Search documents</label>
+        <input id="q" type="search" placeholder="Search titles + content…" autocomplete="off"/>
+        <div id="searchResults" class="search-results" role="listbox" aria-label="Search results"></div>
+      </div>
+      <div class="doclist" id="docList" aria-label="Doc list"></div>
+    </div>
+  </aside>
+
+  <main id="main" class="content" role="main">
+    <article class="doc">
+      <div class="doc-meta">
+        <div class="doc-title">Content &amp; Prompt Templates</div>
+        <div class="doc-sub">
+          <span class="pill">08_Content_and_Prompt_Templates.md</span>
+          <span class="pill">markdown</span>
+        </div>
+      </div>
+      <hr class="rule"/>
+      <div class="doc-body">
+        <h1 id="content-prompt-templates">Content &amp; Prompt Templates</h1>
+
+<h2 id="reusable-patterns-for-building-certificate-content">Reusable patterns for building certificate content</h2>
+
+<h3 id="canvas-content-page-scaffold-recommended">Canvas content page scaffold (recommended)</h3>
+
+<ul>
+<li><strong>H2:</strong> Page Title  </li>
+<li>Intro paragraph (1 short paragraph): what learners will gain  </li>
+<li><strong>H3:</strong> Why This Matters (2–3 bullets)  </li>
+<li><strong>H3:</strong> Key Concepts (2–4 short explanations)  </li>
+<li><strong>H3:</strong> Activity or Knowledge Check (short, actionable)  </li>
+<li><strong>H3:</strong> Optional: Discipline-specific variants (faculty/staff/student)  </li>
+<li><strong>Embed section (if needed):</strong> responsive iframe wrapper + instructions  </li>
+</ul>
+
+<hr />
+
+<h2 id="prompt-template-design-first-page-drafting">Prompt template: “Design-first page drafting”</h2>
+
+<p>Use this when drafting a Canvas page while preserving human authority.</p>
+
+<p><strong>Prompt:</strong>
+You are helping draft a Canvas content page for the Generative AI Fluency Certificate.
+Follow this structure exactly: H2 title; intro paragraph; H3 Why This Matters (bullets); H3 Key Concepts; H3 Activity/Knowledge Check.
+Constraints:</p>
+
+<ul>
+<li>Keep it tool-agnostic unless the page explicitly teaches a tool.</li>
+<li>Use UIUC-friendly tone: clear, direct, non-hype.</li>
+<li>Include at least one “boundary” sentence describing what the concept is NOT.
+Topic: {paste topic}
+Audience: {faculty/staff/students/varied}
+Length: ~350–600 words</li>
+</ul>
+
+<hr />
+
+<h2 id="prompt-template-document-a-design-decision-internal">Prompt template: “Document a design decision” (internal)</h2>
+
+<p><strong>Prompt:</strong>
+Summarize the following design discussion into a decision log entry.
+Output:</p>
+
+<ul>
+<li>Decision (1 sentence)</li>
+<li>Rationale (2–4 bullets)</li>
+<li>Tradeoffs (1–3 bullets)</li>
+<li>Follow-ups (bullets, if any)
+Text to summarize: {paste thread or notes}</li>
+</ul>
+
+      </div>
+    </article>
+  </main>
+</div>
+
+<footer class="footer" role="contentinfo">
+  <div>Generated 2025-12-26 14:45. Local static viewer for project use.</div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script>
+  window.__DOCS__ = window.__DOCS__ || [];
+  window.__CURRENT__ = "08-content-and-prompt-templates";
+</script>
+</body>
+</html>

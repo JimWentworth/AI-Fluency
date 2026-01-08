@@ -1,0 +1,578 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Settings Sandbox – Interaction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --illinois-blue: #13294B;
+      --illinois-orange: #E84A27;
+      --bg-light: #f3f4f6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-light);
+      color: #111827;
+    }
+    header {
+      background: linear-gradient(135deg, var(--illinois-blue), #1f3f73);
+      color: white;
+      padding: 1.4rem 1.5rem;
+    }
+    header .title-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.6rem;
+    }
+    header p {
+      margin: 0;
+      font-size: 0.9rem;
+      opacity: 0.95;
+    }
+    .pill {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: var(--illinois-orange);
+      color: white;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+    main {
+      max-width: 960px;
+      margin: 1.5rem auto 2.5rem;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(15,23,42,0.08);
+      padding: 1.5rem 1.75rem;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: var(--illinois-blue);
+    }
+    p {
+      font-size: 0.95rem;
+    }
+    button, select, input {
+      font-family: inherit;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+    }
+    @media (max-width: 880px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    .panel {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      padding: 1rem 1.1rem;
+    }
+    .panel h3 {
+      margin: 0 0 0.4rem;
+      font-size: 1rem;
+      color: var(--illinois-blue);
+    }
+    .field-group {
+      margin-bottom: 0.7rem;
+      font-size: 0.9rem;
+    }
+    .field-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+      color: #374151;
+    }
+    .field-group select, .field-group input[type="range"] {
+      width: 100%;
+    }
+    select {
+      padding: 0.35rem 0.45rem;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 0.9rem;
+      background: white;
+    }
+    .small-label {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 0.1rem;
+    }
+    .range-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      border-radius: 999px;
+      background: #d1d5db;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--illinois-blue);
+      cursor: pointer;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--illinois-blue);
+      cursor: pointer;
+    }
+    .toggle-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.4rem 0.75rem;
+      margin-top: 0.4rem;
+    }
+    .toggle-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+    }
+    .toggle-item input {
+      margin-top: 0.1rem;
+    }
+    .tag-row {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+    .tag-row span {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      margin-right: 0.25rem;
+      margin-bottom: 0.15rem;
+    }
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.45rem;
+      border-radius: 999px;
+      background: #e5e7eb;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #374151;
+    }
+    .card {
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      background: white;
+      padding: 0.7rem 0.8rem;
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+    }
+    .card pre {
+      margin: 0.4rem 0 0;
+      white-space: pre-wrap;
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.8rem;
+    }
+    .pill-small {
+      display: inline-block;
+      padding: 0.1rem 0.4rem;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .note {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 0.4rem;
+    }
+    .btn-row {
+      margin-top: 0.6rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.4rem;
+    }
+    .btn-copy {
+      border-radius: 999px;
+      border: none;
+      background: var(--illinois-blue);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+    .btn-copy:hover {
+      background: #1f3f73;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title-wrap">
+      <div class="pill">Interaction – Settings Sandbox</div>
+      <h1>AI Settings Sandbox</h1>
+      <p>Adjust temperature and behavior toggles to see how they change a sample ChatGPT response — without touching real data.</p>
+    </div>
+  </header>
+  <main>
+    <section>
+      <h2>Experiment with behavior, not just prompts</h2>
+      <p>
+        This sandbox simulates how different configuration choices can shape an AI response.
+        Pick a scenario, tweak “settings,” and compare the prompt you <em>think</em> you are sending
+        with the kind of response you’re likely to get.
+      </p>
+      <div class="layout">
+        <!-- Controls -->
+        <div class="panel">
+          <h3>1. Configure the settings</h3>
+
+          <div class="field-group">
+            <label for="scenarioSelect">Scenario</label>
+            <select id="scenarioSelect">
+              <option value="summary">Summarize a journal article for students</option>
+              <option value="assignment">Draft an assignment description</option>
+              <option value="feedback">Generate formative feedback on drafts</option>
+            </select>
+            <div class="small-label">
+              These are generic examples — no real student data involved.
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="tempRange">Temperature (exploration vs. stability)</label>
+            <div class="range-row">
+              <input type="range" id="tempRange" min="0" max="2" step="1" value="1" />
+              <span id="tempLabel" style="font-size:0.85rem; color:#374151;">Medium</span>
+            </div>
+            <div class="small-label">
+              Lower = more predictable, Higher = more varied and exploratory.
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label>Behavior toggles</label>
+            <div class="toggle-list">
+              <label class="toggle-item">
+                <input type="checkbox" id="toggleClarify" checked />
+                <span>Ask 2–3 clarifying questions before answering.</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="toggleExamples" checked />
+                <span>Include concrete examples whenever possible.</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="toggleConcise" />
+                <span>Use concise mode (shorter outputs, no fluff).</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="toggleHeadings" checked />
+                <span>Organize responses with headings and bullet points.</span>
+              </label>
+              <label class="toggle-item">
+                <input type="checkbox" id="toggleIllinois" />
+                <span>Match Illinois teaching tone (student-centered, clear, inclusive).</span>
+              </label>
+            </div>
+            <div class="tag-row" id="settingsTags">
+              <!-- dynamic tags -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Output -->
+        <div class="panel">
+          <div class="output-header">
+            <h3>2. Preview the prompt & response</h3>
+            <span class="badge" id="scenarioBadge">Scenario: Summary</span>
+          </div>
+
+          <div class="card">
+            <div class="pill-small">Prompt you’d send</div>
+            <pre id="promptPreview"></pre>
+            <div class="btn-row">
+              <button class="btn-copy" id="copyPromptBtn" type="button">Copy prompt</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="pill-small">Simulated AI response</div>
+            <pre id="responsePreview"></pre>
+          </div>
+
+          <div class="note">
+            This is a <strong>simulation</strong> to help you reason about settings.
+            In a real tool, check institutional policies before using any student or sensitive data.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const scenarioSelect = document.getElementById('scenarioSelect');
+    const tempRange = document.getElementById('tempRange');
+    const tempLabel = document.getElementById('tempLabel');
+    const toggleClarify = document.getElementById('toggleClarify');
+    const toggleExamples = document.getElementById('toggleExamples');
+    const toggleConcise = document.getElementById('toggleConcise');
+    const toggleHeadings = document.getElementById('toggleHeadings');
+    const toggleIllinois = document.getElementById('toggleIllinois');
+
+    const scenarioBadge = document.getElementById('scenarioBadge');
+    const settingsTags = document.getElementById('settingsTags');
+    const promptPreview = document.getElementById('promptPreview');
+    const responsePreview = document.getElementById('responsePreview');
+    const copyPromptBtn = document.getElementById('copyPromptBtn');
+
+    function getTempLabel(value) {
+      if (value === 0 || value === '0') return 'Low (stable)';
+      if (value === 1 || value === '1') return 'Medium';
+      return 'High (exploratory)';
+    }
+
+    function buildPrompt() {
+      const scenario = scenarioSelect.value;
+      const temp = parseInt(tempRange.value, 10);
+
+      let taskLine = '';
+      if (scenario === 'summary') {
+        taskLine = 'Summarize the attached journal article for my undergraduate students.';
+      } else if (scenario === 'assignment') {
+        taskLine = 'Draft an assignment description for my course.';
+      } else {
+        taskLine = 'Help me generate formative feedback on student drafts.';
+      }
+
+      let base = 'You are an AI assistant helping me in a university teaching context.\n\n';
+      base += 'Task: ' + taskLine + '\n';
+
+      base += '\nContext:\n';
+      base += '- Audience: undergraduate students.\n';
+      base += '- Discipline: unspecified; assume a typical social sciences or humanities course unless stated otherwise.\n';
+
+      base += '\nBehavior constraints:\n';
+      if (toggleClarify.checked) {
+        base += '- Before you answer, ask me 2–3 brief clarifying questions if the request seems underspecified.\n';
+      }
+      if (toggleExamples.checked) {
+        base += '- Include at least 1–2 concrete examples where helpful.\n';
+      }
+      if (toggleConcise.checked) {
+        base += '- Keep the response concise and focused on essentials.\n';
+      } else {
+        base += '- Provide enough detail that a new instructor could follow your reasoning.\n';
+      }
+      if (toggleHeadings.checked) {
+        base += '- Organize your response with short headings and bullet points.\n';
+      }
+      if (toggleIllinois.checked) {
+        base += '- Match an Illinois teaching tone: student-centered, clear, and inclusive. Avoid jargon where possible.\n';
+      }
+
+      base += '\nTemperature setting (conceptual): ' + getTempLabel(temp) + '.\n';
+      base += 'If you are uncertain, surface that uncertainty instead of guessing.';
+
+      return base;
+    }
+
+    function buildResponse() {
+      const scenario = scenarioSelect.value;
+      const temp = parseInt(tempRange.value, 10);
+
+      const useHeadings = toggleHeadings.checked;
+      const concise = toggleConcise.checked;
+      const examples = toggleExamples.checked;
+      const clarifying = toggleClarify.checked;
+      const illinois = toggleIllinois.checked;
+
+      function maybeHead(title) {
+        return useHeadings ? title + '\n' + (title.replace(/./g, '-')) + '\n' : '';
+      }
+
+      let response = '';
+
+      if (scenario === 'summary') {
+        response += maybeHead('High-level summary');
+        if (temp === 0) {
+          response += 'This article examines how a specific educational intervention influences student learning outcomes. ';
+          response += 'The authors use a clearly described methodology and report moderate but meaningful effects.';
+        } else if (temp === 1) {
+          response += 'This article explores how a particular teaching strategy affects students’ learning and engagement. ';
+          response += 'Across the study, the authors find generally positive effects, with important nuances around context and implementation.';
+        } else {
+          response += 'This article follows a group of students as they move through a redesigned learning experience, asking what changes when instruction shifts from lecture-heavy to more active, student-centered work. ';
+          response += 'The findings suggest not just changes in test scores, but shifts in how students talk about their own learning.';
+        }
+
+        response += '\n\n';
+
+        if (examples) {
+          response += maybeHead('Concrete example for students');
+          if (concise) {
+            response += '- For example, in one class, students who used the new approach reported feeling more confident applying concepts to real cases.\n';
+          } else {
+            response += '- For example, in one course, students who participated in small, structured discussion groups not only scored slightly higher on exams, but also reported feeling more confident applying concepts to real cases, such as analyzing news articles or workplace scenarios.\n';
+          }
+        }
+
+        if (illinois) {
+          response += '\n';
+          response += maybeHead('How to share this with your students');
+          response += 'You might say to your class: “This study suggests that when we actively work with ideas, rather than only listening, you’re more likely to remember them and use them later. That’s why I’m asking you to engage in these activities—not to make things harder, but to make your learning more durable.”';
+        }
+      } else if (scenario === 'assignment') {
+        response += maybeHead('Draft assignment description');
+        if (temp === 0) {
+          response += 'In this assignment, you will write a short, structured analysis of a course-related topic. ';
+          response += 'You will apply concepts from lecture and readings, follow a clear rubric, and submit a draft for feedback before the final version.';
+        } else if (temp === 1) {
+          response += 'In this assignment, you will select a real-world example that connects to a key concept from the course and analyze it in a short, structured paper. ';
+          response += 'You will demonstrate that you can explain the concept accurately, apply it to the example, and reflect briefly on implications.';
+        } else {
+          response += 'For this assignment, you’ll choose something from your own experience—a news story, workplace example, or community issue—and use one of our core course concepts to analyze it. ';
+          response += 'The goal is to help you see how ideas from class show up in the world around you.';
+        }
+
+        response += '\n\n';
+
+        if (examples) {
+          response += maybeHead('Example student-friendly framing');
+          response += '- “Choose a recent news story about education, technology, or policy. Use one course concept (for example, learner autonomy or equity) to interpret what is happening in that story.”\n';
+        }
+
+        if (illinois) {
+          response += '\n';
+          response += maybeHead('Inclusive guidance');
+          response += 'Offer multiple types of examples (news, workplace, community, campus) so students with different backgrounds can see themselves in the assignment. ';
+          response += 'Invite students to check in if they are unsure whether their example is appropriate.';
+        }
+      } else {
+        response += maybeHead('Feedback focus');
+        if (temp === 0) {
+          response += 'This feedback focuses on clarity of argument, connection to course concepts, and basic organization. ';
+          response += 'Suggestions are direct and tied to the rubric criteria.';
+        } else if (temp === 1) {
+          response += 'This feedback balances what is working in the draft with specific, actionable suggestions for improvement, especially around argument, use of evidence, and organization.';
+        } else {
+          response += 'This feedback highlights strengths in the student’s voice and ideas, then offers a few targeted questions to help them rethink structure and deepen their use of course concepts.';
+        }
+
+        response += '\n\n';
+
+        if (examples) {
+          response += maybeHead('Sample feedback snippet');
+          if (concise) {
+            response += '- “Your main idea is interesting, but it gets a bit lost in the middle paragraphs. Try adding a clear topic sentence at the start of each paragraph that links back to your central claim.”\n';
+          } else {
+            response += '- “Your main idea is interesting, and I can see where you’re trying to connect it to the course concept of equity. Right now, the connection gets a bit lost in the middle paragraphs. Try adding a clear topic sentence at the start of each paragraph that links back to your central claim, and make the connection to equity explicit in at least one sentence per paragraph.”\n';
+          }
+        }
+
+        if (illinois) {
+          response += '\n';
+          response += maybeHead('Tone and student agency');
+          response += 'Keep the tone supportive and emphasize that feedback is about growth, not judgment. ';
+          response += 'You might invite the student to reply with one or two specific questions about what they want to work on next.';
+        }
+      }
+
+      if (clarifying) {
+        response += '\n\nBefore answering in a real session, I would ask a couple of quick questions to avoid guessing, such as: “Who is the audience for this task?” or “Are there any constraints I should know about?”';
+      }
+
+      if (concise) {
+        // Already somewhat compact.
+      } else {
+        response += '\n\nNote: In a real setting, I would expand on any section you mark as especially important.';
+      }
+
+      return response;
+    }
+
+    function updateTags() {
+      const temp = parseInt(tempRange.value, 10);
+      let html = '';
+
+      html += '<span>' + getTempLabel(temp) + '</span>';
+      if (toggleClarify.checked) html += '<span>Clarifying questions</span>';
+      if (toggleExamples.checked) html += '<span>Concrete examples</span>';
+      if (toggleConcise.checked) html += '<span>Concise mode</span>';
+      if (toggleHeadings.checked) html += '<span>Headings + bullets</span>';
+      if (toggleIllinois.checked) html += '<span>Illinois tone</span>';
+
+      settingsTags.innerHTML = html;
+    }
+
+    function updateScenarioBadge() {
+      const scenario = scenarioSelect.value;
+      let label = 'Scenario: ';
+      if (scenario === 'summary') label += 'Summary';
+      else if (scenario === 'assignment') label += 'Assignment';
+      else label += 'Feedback';
+      scenarioBadge.textContent = label;
+    }
+
+    function updateAll() {
+      tempLabel.textContent = getTempLabel(tempRange.value);
+      updateScenarioBadge();
+      updateTags();
+      promptPreview.textContent = buildPrompt();
+      responsePreview.textContent = buildResponse();
+    }
+
+    tempRange.addEventListener('input', updateAll);
+    scenarioSelect.addEventListener('change', updateAll);
+    [toggleClarify, toggleExamples, toggleConcise, toggleHeadings, toggleIllinois].forEach(cb => {
+      cb.addEventListener('change', updateAll);
+    });
+
+    copyPromptBtn.addEventListener('click', () => {
+      const text = promptPreview.textContent || '';
+      if (!navigator.clipboard || !navigator.clipboard.writeText) {
+        alert('Copy is not available in this browser.');
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        const original = copyPromptBtn.textContent;
+        copyPromptBtn.textContent = 'Copied!';
+        setTimeout(() => { copyPromptBtn.textContent = original; }, 1200);
+      });
+    });
+
+    // Initialize
+    updateAll();
+  </script>
+</body>
+</html>

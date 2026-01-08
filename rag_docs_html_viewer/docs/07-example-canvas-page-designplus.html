@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Example Page Title (H2) — RAG Docs</title>
+  <link rel="stylesheet" href="../assets/site.css"/>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topbar" role="banner">
+  <div class="brand">
+    <span class="brand-dot" aria-hidden="true"></span>
+    <div class="brand-text">
+      <div class="brand-title">AI Fluency Certificate</div>
+      <div class="brand-sub">RAG Docs • Static HTML viewer</div>
+    </div>
+  </div>
+  <nav class="topnav" aria-label="Top">
+    <a href="../index.html">Home</a>
+    <a href="../index.html#about">About</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" aria-label="Document navigation">
+    <div class="sidebar-inner">
+      <div class="sidebar-title">Documents</div>
+      <div class="sidebar-search">
+        <label class="sr-only" for="q">Search documents</label>
+        <input id="q" type="search" placeholder="Search titles + content…" autocomplete="off"/>
+        <div id="searchResults" class="search-results" role="listbox" aria-label="Search results"></div>
+      </div>
+      <div class="doclist" id="docList" aria-label="Doc list"></div>
+    </div>
+  </aside>
+
+  <main id="main" class="content" role="main">
+    <article class="doc">
+      <div class="doc-meta">
+        <div class="doc-title">Example Page Title (H2)</div>
+        <div class="doc-sub">
+          <span class="pill">07_Example_Canvas_Page_DesignPLUS.html</span>
+          <span class="pill">html</span>
+        </div>
+      </div>
+      <hr class="rule"/>
+      <div class="doc-body">
+        
+        <div class="notice">
+          <strong>Note:</strong> This source file is HTML. You can view it rendered or view the source.
+          <div class="toggle-row">
+            <button class="btn btn-small" data-toggle="rendered" aria-pressed="true">Rendered</button>
+            <button class="btn btn-small" data-toggle="source" aria-pressed="false">Source</button>
+          </div>
+        </div>
+        <div class="html-dual" data-mode="rendered">
+          <div class="rendered"><!--
+AI Fluency Certificate — Example Canvas Page (DesignPLUS-compatible)
+Purpose: Demonstrate a “known-good” HTML structure for Canvas pages using DesignPLUS wrappers
+and responsive iframe containers.
+
+Notes:
+- Keep the outer dp-wrapper intact when using DesignPLUS features.
+- If you paste into Canvas, use the HTML editor view.
+-->
+
+<div id="dp-wrapper" class="dp-wrapper dp-rounded-corners variation-2">
+  <h2>Example Page Title (H2)</h2>
+  <p>
+    One short paragraph explaining what learners will gain on this page. Keep it tight and scannable.
+  </p>
+
+  <h3>Why This Matters</h3>
+  <ul>
+    <li>Connect the concept to student/faculty success or course goals.</li>
+    <li>Explain a realistic risk or misconception this page helps prevent.</li>
+    <li>Describe how this skill transfers beyond a single tool.</li>
+  </ul>
+
+  <h3>Key Concepts</h3>
+  <p><strong>Concept A:</strong> 1–2 sentences explaining the idea in plain language.</p>
+  <p><strong>Concept B:</strong> 1–2 sentences explaining the idea in plain language.</p>
+
+  <h3>Embedded Interactive (Responsive iFrame)</h3>
+  <p>
+    Use an embed when it adds real value (e.g., external interactive, hosted HTML activity, media).
+    Include a clear title and a short instruction.
+  </p>
+
+  <!-- DesignPLUS iframe wrapper pattern (per Cidi Labs guidance) -->
+  <div class="kl_iframe_responsive_scale">
+    <iframe
+      class="kl_iframe_fill_width"
+      src="https://example.com/your-embedded-content"
+      title="Interactive: Example embedded tool"
+      loading="lazy"
+      allowfullscreen
+      style="border:0;"
+    ></iframe>
+  </div>
+
+  <h3>Knowledge Check</h3>
+  <p><strong>Prompt:</strong> In 2–3 sentences, explain what changed when we moved from “collaboration” to “designing consistent interactions.”</p>
+
+  <h3>Optional: Faculty/Staff Adaptation</h3>
+  <p>
+    Add a short variation to show how this concept looks in teaching, research, or administrative contexts.
+  </p>
+</div>
+</div>
+          <pre class="source" aria-label="HTML source code"><code>&lt;!--
+AI Fluency Certificate — Example Canvas Page (DesignPLUS-compatible)
+Purpose: Demonstrate a “known-good” HTML structure for Canvas pages using DesignPLUS wrappers
+and responsive iframe containers.
+
+Notes:
+- Keep the outer dp-wrapper intact when using DesignPLUS features.
+- If you paste into Canvas, use the HTML editor view.
+--&gt;
+
+&lt;div id=&quot;dp-wrapper&quot; class=&quot;dp-wrapper dp-rounded-corners variation-2&quot;&gt;
+  &lt;h2&gt;Example Page Title (H2)&lt;/h2&gt;
+  &lt;p&gt;
+    One short paragraph explaining what learners will gain on this page. Keep it tight and scannable.
+  &lt;/p&gt;
+
+  &lt;h3&gt;Why This Matters&lt;/h3&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Connect the concept to student/faculty success or course goals.&lt;/li&gt;
+    &lt;li&gt;Explain a realistic risk or misconception this page helps prevent.&lt;/li&gt;
+    &lt;li&gt;Describe how this skill transfers beyond a single tool.&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;h3&gt;Key Concepts&lt;/h3&gt;
+  &lt;p&gt;&lt;strong&gt;Concept A:&lt;/strong&gt; 1–2 sentences explaining the idea in plain language.&lt;/p&gt;
+  &lt;p&gt;&lt;strong&gt;Concept B:&lt;/strong&gt; 1–2 sentences explaining the idea in plain language.&lt;/p&gt;
+
+  &lt;h3&gt;Embedded Interactive (Responsive iFrame)&lt;/h3&gt;
+  &lt;p&gt;
+    Use an embed when it adds real value (e.g., external interactive, hosted HTML activity, media).
+    Include a clear title and a short instruction.
+  &lt;/p&gt;
+
+  &lt;!-- DesignPLUS iframe wrapper pattern (per Cidi Labs guidance) --&gt;
+  &lt;div class=&quot;kl_iframe_responsive_scale&quot;&gt;
+    &lt;iframe
+      class=&quot;kl_iframe_fill_width&quot;
+      src=&quot;https://example.com/your-embedded-content&quot;
+      title=&quot;Interactive: Example embedded tool&quot;
+      loading=&quot;lazy&quot;
+      allowfullscreen
+      style=&quot;border:0;&quot;
+    &gt;&lt;/iframe&gt;
+  &lt;/div&gt;
+
+  &lt;h3&gt;Knowledge Check&lt;/h3&gt;
+  &lt;p&gt;&lt;strong&gt;Prompt:&lt;/strong&gt; In 2–3 sentences, explain what changed when we moved from “collaboration” to “designing consistent interactions.”&lt;/p&gt;
+
+  &lt;h3&gt;Optional: Faculty/Staff Adaptation&lt;/h3&gt;
+  &lt;p&gt;
+    Add a short variation to show how this concept looks in teaching, research, or administrative contexts.
+  &lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+        </div>
+        
+      </div>
+    </article>
+  </main>
+</div>
+
+<footer class="footer" role="contentinfo">
+  <div>Generated 2025-12-26 14:45. Local static viewer for project use.</div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script>
+  window.__DOCS__ = window.__DOCS__ || [];
+  window.__CURRENT__ = "07-example-canvas-page-designplus";
+</script>
+</body>
+</html>

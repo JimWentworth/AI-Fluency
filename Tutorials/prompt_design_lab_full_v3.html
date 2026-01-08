@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prompt Design Lab – Optimized Builder (Generic Prompts)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --blue:#13294B;
+      --orange:#E84A27;
+      --light:#f3f4f6;
+    }
+    * { box-sizing:border-box; }
+    body {
+      font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin:0;
+      background:var(--light);
+      color:#111827;
+    }
+    header {
+      background:linear-gradient(135deg,var(--blue),#1f3f73);
+      padding:1.3rem 1.6rem 1.4rem;
+      color:white;
+    }
+    .pill {
+      padding:.18rem .6rem;
+      background:var(--orange);
+      border-radius:999px;
+      font-size:.72rem;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      display:inline-block;
+      margin-bottom:.3rem;
+    }
+    header h1 {
+      margin:0 0 .25rem;
+      font-size:1.5rem;
+    }
+    header p {
+      margin:0;
+      font-size:.9rem;
+      opacity:.95;
+    }
+    main {
+      max-width:1120px;
+      margin:1.4rem auto 2.3rem;
+      background:white;
+      padding:1.5rem 1.8rem;
+      border-radius:12px;
+      box-shadow:0 10px 25px rgba(15,23,42,0.1);
+    }
+    .steps-bar {
+      display:flex;
+      gap:.4rem;
+      flex-wrap:wrap;
+      font-size:.8rem;
+      color:#4b5563;
+    }
+    .step-chip {
+      display:flex;
+      align-items:center;
+      gap:.25rem;
+      padding:.2rem .6rem;
+      border-radius:999px;
+      background:#eef2ff;
+      color:#1d4ed8;
+    }
+    .step-chip span:first-child {
+      font-weight:600;
+      font-size:.78rem;
+    }
+    h2 {
+      margin:1rem 0 .4rem;
+      color:var(--blue);
+      font-size:1.1rem;
+    }
+    .layout {
+      display:grid;
+      grid-template-columns:minmax(0,1.25fr) minmax(0,1.35fr);
+      gap:1.4rem;
+      margin-top:.8rem;
+    }
+    @media(max-width:900px){
+      .layout { grid-template-columns:minmax(0,1fr); }
+    }
+    .panel {
+      border-radius:10px;
+      border:1px solid #e5e7eb;
+      background:#f9fafb;
+      padding:1rem 1.1rem;
+    }
+    .panel h3 {
+      margin:0 0 .35rem;
+      font-size:1rem;
+      color:var(--blue);
+    }
+    .hint {
+      font-size:.8rem;
+      color:#6b7280;
+      margin-top:.15rem;
+      margin-bottom:.4rem;
+    }
+    .columns {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:.8rem;
+      margin-top:.4rem;
+    }
+    .dropzone {
+      background:#fff;
+      border:2px dashed #d1d5db;
+      padding:.6rem;
+      border-radius:10px;
+      min-height:110px;
+      position:relative;
+    }
+    .dropzone.over {
+      background:#fff7f3;
+      border-color:var(--orange);
+    }
+    .drop-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:.2rem;
+    }
+    .dropzone h4 {
+      margin:0;
+      font-size:.9rem;
+      color:var(--blue);
+    }
+    .zone-count {
+      font-size:.7rem;
+      padding:.05rem .4rem;
+      border-radius:999px;
+      background:#e5e7eb;
+      color:#374151;
+    }
+    .dropzone p {
+      margin:.05rem 0 0;
+      font-size:.78rem;
+      color:#6b7280;
+    }
+    #pool {
+      margin-top:1rem;
+    }
+    #pool h4 {
+      margin:0 0 .3rem;
+      font-size:.9rem;
+      color:var(--blue);
+    }
+    .card {
+      background:#fff;
+      border:1px solid #d1d5db;
+      border-radius:8px;
+      padding:.45rem .6rem;
+      margin-bottom:.3rem;
+      cursor:grab;
+      font-size:.83rem;
+      box-shadow:0 2px 4px rgba(15,23,42,0.05);
+    }
+    .card.dragging { opacity:.6; }
+    .btnrow {
+      margin-top:.7rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:.4rem;
+    }
+    button {
+      border-radius:999px;
+      padding:.38rem .9rem;
+      border:none;
+      font-size:.83rem;
+      cursor:pointer;
+      font-family:inherit;
+    }
+    .btn-primary { background:var(--blue); color:white; }
+    .btn-secondary { background:#e5e7eb; color:#111827; }
+    .controls-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:.8rem;
+      margin-top:.4rem;
+    }
+    .field-group {
+      font-size:.86rem;
+    }
+    .field-group label {
+      display:block;
+      font-weight:600;
+      margin-bottom:.15rem;
+      color:#374151;
+      font-size:.82rem;
+    }
+    select {
+      width:100%;
+      padding:.35rem .45rem;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      font-size:.88rem;
+      background:white;
+    }
+    .small-label {
+      font-size:.78rem;
+      color:#6b7280;
+      margin-top:.08rem;
+    }
+    .range-row {
+      display:flex;
+      align-items:center;
+      gap:.5rem;
+    }
+    input[type="range"] {
+      -webkit-appearance:none;
+      appearance:none;
+      height:4px;
+      border-radius:999px;
+      background:#d1d5db;
+      flex:1;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance:none;
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:var(--blue);
+      cursor:pointer;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:var(--blue);
+      cursor:pointer;
+    }
+    .toggle-list {
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:.3rem .7rem;
+      margin-top:.25rem;
+    }
+    .toggle-item {
+      display:flex;
+      align-items:flex-start;
+      gap:.4rem;
+      font-size:.84rem;
+    }
+    .toggle-item input { margin-top:.17rem; }
+    .tag-row {
+      margin-top:.35rem;
+      font-size:.78rem;
+      color:#6b7280;
+    }
+    .tag-row span {
+      display:inline-block;
+      padding:.12rem .45rem;
+      border-radius:999px;
+      border:1px solid #d1d5db;
+      margin-right:.22rem;
+      margin-bottom:.15rem;
+    }
+    .output-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap:.5rem;
+      flex-wrap:wrap;
+      margin-top:.7rem;
+    }
+    .output-header h3 {
+      margin:0;
+      font-size:1rem;
+      color:var(--blue);
+    }
+    .badge {
+      padding:.15rem .5rem;
+      border-radius:999px;
+      background:#e5e7eb;
+      font-size:.75rem;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:#374151;
+    }
+    textarea {
+      width:100%;
+      min-height:230px;
+      margin-top:.5rem;
+      border-radius:8px;
+      border:1px solid #d1d5db;
+      padding:.6rem;
+      font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+      font-size:.82rem;
+      white-space:pre-wrap;
+    }
+    .note {
+      font-size:.8rem;
+      color:#6b7280;
+      margin-top:.35rem;
+    }
+    .copy-row {
+      margin-top:.35rem;
+      display:flex;
+      justify-content:flex-end;
+      gap:.4rem;
+      font-size:.78rem;
+      color:#6b7280;
+      align-items:center;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="pill">Prompt Design Lab</div>
+  <h1>Prompt Builder: Structure + Settings</h1>
+  <p>Use this lab to design strong prompts for any domain: first sort key ideas, then tune task type, format, audience, tone, and temperature.</p>
+</header>
+<main>
+  <div class="steps-bar">
+    <div class="step-chip"><span>1</span><span>Sort key ideas into sections</span></div>
+    <div class="step-chip"><span>2</span><span>Adjust settings & behaviors</span></div>
+    <div class="step-chip"><span>3</span><span>Copy and adapt the final prompt</span></div>
+  </div>
+  <h2>Design a reusable prompt for your own use case</h2>
+  <div class="layout">
+    <!-- Left: conceptual structure -->
+    <div class="panel">
+      <h3>Step 1 · Arrange the core ideas</h3>
+      <p class="hint">Drag cards into the section where they fit best. This shapes <strong>what</strong> the model should attend to before any formatting or tone.</p>
+
+      <div class="columns">
+        <div class="dropzone" data-zone="goal">
+          <div class="drop-header">
+            <h4>Task & goal</h4>
+            <span class="zone-count" data-count-for="goal">0</span>
+          </div>
+          <p>What outcome you want from the model.</p>
+        </div>
+        <div class="dropzone" data-zone="context">
+          <div class="drop-header">
+            <h4>Audience & context</h4>
+            <span class="zone-count" data-count-for="context">0</span>
+          </div>
+          <p>Who this is for and what they know.</p>
+        </div>
+        <div class="dropzone" data-zone="inputs">
+          <div class="drop-header">
+            <h4>Inputs & sources</h4>
+            <span class="zone-count" data-count-for="inputs">0</span>
+          </div>
+          <p>What information the AI can rely on.</p>
+        </div>
+        <div class="dropzone" data-zone="boundaries">
+          <div class="drop-header">
+            <h4>Boundaries & avoid</h4>
+            <span class="zone-count" data-count-for="boundaries">0</span>
+          </div>
+          <p>What to constrain, limit, or stay away from.</p>
+        </div>
+      </div>
+
+      <div id="pool">
+        <h4>Card pool</h4>
+        <!-- Task & goal examples -->
+        <div class="card" draggable="true" data-zone="goal">Help me understand this topic in clear, simple language.</div>
+        <div class="card" draggable="true" data-zone="goal">Break the problem into smaller steps and walk me through them.</div>
+
+        <!-- Audience & context examples -->
+        <div class="card" draggable="true" data-zone="context">Assume I have some familiarity with the topic but I am not an expert.</div>
+        <div class="card" draggable="true" data-zone="context">Explain any domain-specific jargon the first time it appears.</div>
+
+        <!-- Inputs & sources examples -->
+        <div class="card" draggable="true" data-zone="inputs">Use only the information I provide in this conversation; do not rely on outside sources.</div>
+        <div class="card" draggable="true" data-zone="inputs">If you need more information, list the specific follow-up questions you would ask me.</div>
+
+        <!-- Boundaries & avoid examples -->
+        <div class="card" draggable="true" data-zone="boundaries">Do not fabricate citations, data, or quotations.</div>
+        <div class="card" draggable="true" data-zone="boundaries">If you are uncertain, say so clearly instead of guessing.</div>
+        <div class="card" draggable="true" data-zone="boundaries">Offer multiple options when helpful and briefly explain the trade-offs.</div>
+        <div class="card" draggable="true" data-zone="boundaries">Keep any examples you use generic and non-identifying.</div>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn-secondary" id="resetCards">Reset cards</button>
+      </div>
+    </div>
+
+    <!-- Right: behavior & final prompt -->
+    <div class="panel">
+      <h3>Step 2 · Configure behavior & view the prompt</h3>
+      <p class="hint">These behave like “settings” you could embed in a prompt, system message, or custom GPT.</p>
+
+      <div class="controls-grid">
+        <div class="field-group">
+          <label for="taskType">Task type</label>
+          <select id="taskType">
+            <option value="explain">Explanation</option>
+            <option value="summarize">Summarization</option>
+            <option value="brainstorm">Brainstorming / idea generation</option>
+            <option value="critique">Critique / evaluation</option>
+            <option value="design">Planning or design</option>
+            <option value="transform">Rewrite / transform text</option>
+          </select>
+          <div class="small-label">What kind of cognitive work you want the model to do.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="outputFormat">Output format</label>
+          <select id="outputFormat">
+            <option value="paragraph">Single paragraph</option>
+            <option value="bullets">Bulleted list with headings</option>
+            <option value="steps">Step-by-step numbered list</option>
+            <option value="table">Table with columns</option>
+            <option value="outline">Outline with sections and subsections</option>
+            <option value="rubric">Short rubric with criteria and levels</option>
+          </select>
+          <div class="small-label">How the answer should be structured.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="audienceLevel">Audience level</label>
+          <select id="audienceLevel">
+            <option value="first-year">Beginner / novice</option>
+            <option value="advanced-undergrad">Intermediate learner</option>
+            <option value="grad">Advanced / graduate level</option>
+            <option value="expert">Expert / specialist</option>
+            <option value="mixed">Mixed audience with varied background</option>
+            <option value="general">General non-expert audience</option>
+          </select>
+          <div class="small-label">How much prior knowledge to assume.</div>
+        </div>
+
+        <div class="field-group">
+          <label for="tone">Tone / voice</label>
+          <select id="tone">
+            <option value="neutral-plain">Neutral and plain-language</option>
+            <option value="student-friendly">Friendly and encouraging</option>
+            <option value="neutral-academic">Neutral academic</option>
+            <option value="formal-policy">Formal and precise</option>
+            <option value="conversational">Conversational but professional</option>
+            <option value="coaching">Coaching / mentoring tone</option>
+          </select>
+          <div class="small-label">How the response should “sound.”</div>
+        </div>
+      </div>
+
+      <div class="field-group" style="margin-top:.6rem;">
+        <label for="tempRange">Temperature (exploration vs. stability)</label>
+        <div class="range-row">
+          <input type="range" id="tempRange" min="0" max="2" step="1" value="1">
+          <span id="tempLabel" style="font-size:.8rem;color:#374151;">Medium</span>
+        </div>
+        <div class="small-label">Lower = more predictable; Higher = more varied and exploratory.</div>
+      </div>
+
+      <div class="field-group" style="margin-top:.6rem;">
+        <label>Behavior toggles</label>
+        <div class="toggle-list">
+          <label class="toggle-item">
+            <input type="checkbox" id="toggleClarify" checked>
+            <span>Ask 2–3 clarifying questions if the request is underspecified.</span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" id="toggleExamples" checked>
+            <span>Include concrete examples where helpful.</span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" id="toggleConcise">
+            <span>Use concise mode (no unnecessary fluff).</span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" id="toggleHeadings" checked>
+            <span>Organize the output with headings and bullet points.</span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" id="toggleIllinois">
+            <span>Use an inclusive, respectful tone that avoids unnecessary jargon.</span>
+          </label>
+          <label class="toggle-item">
+            <input type="checkbox" id="toggleUncertainty" checked>
+            <span>Highlight uncertainties instead of guessing.</span>
+          </label>
+        </div>
+        <div class="tag-row" id="settingsTags"></div>
+      </div>
+
+      <div class="btnrow">
+        <button class="btn-primary" id="buildPrompt">Refresh prompt</button>
+        <button class="btn-secondary" id="clearPrompt">Clear text</button>
+      </div>
+
+      <div class="output-header">
+        <h3>Copy-paste prompt</h3>
+        <span class="badge">Auto-updates with your choices</span>
+      </div>
+      <textarea id="output" placeholder="As you sort cards and adjust settings, this prompt will update. You can still tweak the text before using it."></textarea>
+      <div class="copy-row">
+        <span id="copyStatus"></span>
+        <button class="btn-secondary" id="copyPromptBtn" type="button">Copy prompt</button>
+      </div>
+      <p class="note">
+        This lab is a thinking tool. Add your own domain, task details, or constraints before you rely on the prompt in real work.
+      </p>
+    </div>
+  </div>
+</main>
+
+<script>
+  let dragged = null;
+
+  const zoneCounts = {
+    goal: document.querySelector('[data-count-for="goal"]'),
+    context: document.querySelector('[data-count-for="context"]'),
+    inputs: document.querySelector('[data-count-for="inputs"]'),
+    boundaries: document.querySelector('[data-count-for="boundaries"]')
+  };
+
+  function updateZoneCounts() {
+    ['goal','context','inputs','boundaries'].forEach(zone => {
+      const dz = document.querySelector('.dropzone[data-zone="' + zone + '"]');
+      const count = dz ? dz.querySelectorAll('.card').length : 0;
+      if (zoneCounts[zone]) zoneCounts[zone].textContent = count;
+    });
+  }
+
+  // Drag & drop cards
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('dragstart', () => {
+      dragged = card;
+      card.classList.add('dragging');
+    });
+    card.addEventListener('dragend', () => {
+      dragged = null;
+      card.classList.remove('dragging');
+      updateZoneCounts();
+      buildPrompt();
+    });
+  });
+
+  [...document.querySelectorAll('.dropzone'), document.getElementById('pool')].forEach(zone => {
+    zone.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (zone.classList.contains('dropzone')) zone.classList.add('over');
+    });
+    zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('over');
+      if (dragged) zone.appendChild(dragged);
+      updateZoneCounts();
+      buildPrompt();
+    });
+  });
+
+  // Reset cards
+  document.getElementById('resetCards').onclick = () => {
+    const pool = document.getElementById('pool');
+    document.querySelectorAll('.card').forEach(card => pool.appendChild(card));
+    updateZoneCounts();
+    buildPrompt();
+  };
+
+  // Settings references
+  const taskType = document.getElementById('taskType');
+  const outputFormat = document.getElementById('outputFormat');
+  const audienceLevel = document.getElementById('audienceLevel');
+  const tone = document.getElementById('tone');
+  const tempRange = document.getElementById('tempRange');
+  const tempLabel = document.getElementById('tempLabel');
+
+  const toggleClarify = document.getElementById('toggleClarify');
+  const toggleExamples = document.getElementById('toggleExamples');
+  const toggleConcise = document.getElementById('toggleConcise');
+  const toggleHeadings = document.getElementById('toggleHeadings');
+  const toggleIllinois = document.getElementById('toggleIllinois');
+  const toggleUncertainty = document.getElementById('toggleUncertainty');
+  const settingsTags = document.getElementById('settingsTags');
+  const outputArea = document.getElementById('output');
+  const copyBtn = document.getElementById('copyPromptBtn');
+  const copyStatus = document.getElementById('copyStatus');
+
+  function getTempLabel(value) {
+    if (value === 0 || value === '0') return 'Low (stable)';
+    if (value === 1 || value === '1') return 'Medium';
+    return 'High (exploratory)';
+  }
+
+  function updateTempLabel() {
+    tempLabel.textContent = getTempLabel(tempRange.value);
+  }
+
+  function updateTags() {
+    let html = '';
+    html += '<span>' + getTempLabel(tempRange.value) + '</span>';
+    if (toggleClarify.checked) html += '<span>Clarifying questions</span>';
+    if (toggleExamples.checked) html += '<span>Concrete examples</span>';
+    if (toggleConcise.checked) html += '<span>Concise</span>';
+    if (toggleHeadings.checked) html += '<span>Headings + bullets</span>';
+    if (toggleIllinois.checked) html += '<span>Inclusive tone</span>';
+    if (toggleUncertainty.checked) html += '<span>Highlight uncertainty</span>';
+    settingsTags.innerHTML = html;
+  }
+
+  tempRange.addEventListener('input', () => {
+    updateTempLabel();
+    updateTags();
+    buildPrompt();
+  });
+
+  [taskType, outputFormat, audienceLevel, tone].forEach(sel => {
+    sel.addEventListener('change', buildPrompt);
+  });
+
+  [toggleClarify, toggleExamples, toggleConcise, toggleHeadings, toggleIllinois, toggleUncertainty].forEach(cb => {
+    cb.addEventListener('change', () => {
+      updateTags();
+      buildPrompt();
+    });
+  });
+
+  function section(label, arr) {
+    if (!arr.length) return label + '\n- (none specified)\n\n';
+    return label + '\n' + arr.map(x => '- ' + x).join('\n') + '\n\n';
+  }
+
+  function buildPrompt() {
+    const zones = { goal: [], context: [], inputs: [], boundaries: [] };
+
+    document.querySelectorAll('.dropzone').forEach(z => {
+      const type = z.dataset.zone;
+      const texts = [...z.querySelectorAll('.card')].map(c => c.textContent.trim());
+      zones[type] = texts;
+    });
+
+    let tempDesc = getTempLabel(tempRange.value);
+    let behaviorLines = [];
+
+    if (toggleClarify.checked) {
+      behaviorLines.push('- If the request is underspecified, ask 2–3 brief clarifying questions before answering.');
+    }
+    if (toggleExamples.checked) {
+      behaviorLines.push('- Include at least one concrete example where it would help understanding.');
+    }
+    if (toggleConcise.checked) {
+      behaviorLines.push('- Keep the response concise and focused on the most important points.');
+    } else {
+      behaviorLines.push('- Provide enough detail that a thoughtful reader could follow your reasoning.');
+    }
+    if (toggleHeadings.checked) {
+      behaviorLines.push('- Use clear headings and bullet points to organize the response where appropriate.');
+    }
+    if (toggleIllinois.checked) {
+      behaviorLines.push('- Use an inclusive, respectful tone and avoid unnecessary jargon.');
+    }
+    if (toggleUncertainty.checked) {
+      behaviorLines.push('- When you are uncertain, say so explicitly and avoid guessing.');
+    }
+
+    const behaviorBlock = behaviorLines.length
+      ? 'Behavior & style guidelines:\n' + behaviorLines.join('\n') + '\n\n'
+      : '';
+
+    const promptText =
+`You are an AI assistant helping a user think through a problem or concept.
+
+High-level task type:
+- ${taskType.options[taskType.selectedIndex].text}
+
+Intended audience:
+- ${audienceLevel.options[audienceLevel.selectedIndex].text}
+
+Preferred output format:
+- ${outputFormat.options[outputFormat.selectedIndex].text}
+
+Tone / voice:
+- ${tone.options[tone.selectedIndex].text}
+
+Conceptual temperature (creativity setting):
+- ${tempDesc}
+
+${section('Task & goal details (from cards):', zones.goal)}${section('Audience & context (from cards):', zones.context)}${section('Inputs & sources (from cards):', zones.inputs)}${section('Boundaries & things to avoid (from cards):', zones.boundaries)}${behaviorBlock}When generating your response, follow the structure and constraints above. If anything is missing or conflicts, ask for clarification before proceeding.`;
+
+    outputArea.value = promptText.trim();
+  }
+
+  document.getElementById('buildPrompt').onclick = buildPrompt;
+
+  document.getElementById('clearPrompt').onclick = () => {
+    outputArea.value = '';
+    copyStatus.textContent = '';
+  };
+
+  copyBtn.addEventListener('click', () => {
+    const text = outputArea.value || '';
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      copyStatus.textContent = 'Copy not available in this browser.';
+      return;
+    }
+    navigator.clipboard.writeText(text).then(() => {
+      copyStatus.textContent = 'Prompt copied to clipboard.';
+      setTimeout(() => { copyStatus.textContent = ''; }, 1500);
+    });
+  });
+
+  // Initial state
+  updateZoneCounts();
+  updateTempLabel();
+  updateTags();
+  buildPrompt();
+</script>
+</body>
+</html>
