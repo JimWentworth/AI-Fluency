@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Module 3: Customizing AI for Consistency – Workspaces</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --illinois-navy: #13294b;
+      --illinois-orange: #ff552e;
+      --illinois-light: #f5f5f7;
+      --text-main: #222222;
+      --text-muted: #555555;
+      --border-subtle: #d0d4dd;
+      --focus-outline: #ffb07b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #ffffff;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .page-wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    @media (min-width: 768px) {
+      .page-wrapper {
+        padding: 2.5rem 1.5rem 3.5rem;
+      }
+    }
+
+    header {
+      border-bottom: 4px solid var(--illinois-orange);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .eyebrow {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      color: var(--illinois-navy);
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 2.1rem;
+      }
+    }
+
+    .subtitle {
+      margin-top: 0.5rem;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+    }
+
+    main {
+      margin-top: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--illinois-navy);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin-top: 1.25rem;
+      margin-bottom: 0.35rem;
+      color: var(--illinois-navy);
+    }
+
+    p {
+      margin: 0.4rem 0 0.75rem;
+    }
+
+    .lead {
+      font-size: 1.02rem;
+      color: var(--text-main);
+      margin-bottom: 1rem;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .highlight-box {
+      background-color: var(--illinois-light);
+      border-left: 4px solid var(--illinois-orange);
+      padding: 0.9rem 1rem;
+      margin: 0.75rem 0 1.25rem;
+      border-radius: 4px;
+    }
+
+    .highlight-box strong {
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .flex-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    @media (min-width: 900px) {
+      .flex-layout {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+
+    .card {
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      background-color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.1rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background-color: var(--illinois-navy);
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .pill--orange {
+      background-color: var(--illinois-orange);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--illinois-navy);
+      margin: 0;
+    }
+
+    ul {
+      margin: 0.35rem 0 0.75rem 1.2rem;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    .one-line-summary {
+      margin-top: 2rem;
+      padding: 1rem 1.1rem;
+      border-radius: 8px;
+      background-color: var(--illinois-navy);
+      color: #ffffff;
+    }
+
+    .one-line-summary h2 {
+      color: #ffffff;
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    .summary-lines {
+      margin-top: 0.4rem;
+      font-size: 0.98rem;
+    }
+
+    .summary-lines span {
+      display: block;
+      margin: 0.2rem 0;
+    }
+
+    .summary-tag {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.85;
+      margin-bottom: 0.25rem;
+    }
+
+    a {
+      color: var(--illinois-orange);
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--focus-outline);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <header>
+      <div class="eyebrow">Module 3 &middot; Customizing AI for Consistency</div>
+      <h1>When to Use Project Folders vs. Temporary Chats</h1>
+      <p class="subtitle">
+        How to choose the right workspace when you want predictable behavior, privacy, and control.
+      </p>
+    </header>
+
+    <main aria-labelledby="module-heading">
+      <section aria-label="Introduction">
+        <p class="lead">
+          Choosing <strong>where</strong> you work with an AI system matters just as much as
+          <strong>how</strong> you prompt it. Modern tools offer multiple workspaces—some persistent,
+          some intentionally memory-free. These spaces sit on opposite ends of a control spectrum:
+        </p>
+
+        <div class="highlight-box" role="note" aria-label="Workspace overview">
+          <p class="tagline"><strong>Two primary workspace types:</strong></p>
+          <p>
+            <strong>Project folders</strong> – persistent, structured, retrieval-enabled workspaces.  
+            <strong>Temporary chats</strong> – clean-slate, zero-memory, high-control sessions.
+          </p>
+        </div>
+
+        <p>
+          If your goal is predictable behavior, responsible handling of sensitive information, or
+          prevention of cross-contamination between tasks, you need to choose intentionally between
+          these two modes.
+        </p>
+      </section>
+
+      <section aria-label="Workspace comparison" class="flex-layout">
+        <!-- Project Folders Card -->
+        <article class="card" aria-labelledby="projects-title">
+          <div class="card-header">
+            <div class="pill">Persistent</div>
+            <h2 id="projects-title" class="card-title">Why Use Project Folders</h2>
+          </div>
+          <p>
+            Project folders provide continuity by design. Anything you place inside—documents,
+            datasets, images—is stored, broken into chunks, and used as a retrieval base for future
+            prompts in that project. You don’t have to rebuild context every time; the system brings
+            it forward for you.
+          </p>
+
+          <h3>Choose a project when you need:</h3>
+          <ul>
+            <li>
+              <strong>Persistent grounding</strong> &mdash; you want the system to repeatedly draw
+              from the same files without re-uploading them.
+            </li>
+            <li>
+              <strong>Stable, consistent behavior</strong> &mdash; the AI should reference the same
+              sources across days or weeks.
+            </li>
+            <li>
+              <strong>Reduced cognitive load</strong> &mdash; you don’t want to restate the task
+              every session.
+            </li>
+            <li>
+              <strong>Reproducibility</strong> &mdash; you expect consistent answers derived from
+              the same underlying dataset.
+            </li>
+            <li>
+              <strong>Support for long-running work</strong> &mdash; research, curriculum design,
+              grant writing, documentation, iterative drafting.
+            </li>
+          </ul>
+
+          <p>
+            In short, <strong>projects give you a memory scaffold and a controlled knowledge
+            base</strong> for high-consistency work.
+          </p>
+        </article>
+
+        <!-- Temporary Chats Card -->
+        <article class="card" aria-labelledby="tempchats-title">
+          <div class="card-header">
+            <div class="pill pill--orange">Clean slate</div>
+            <h2 id="tempchats-title" class="card-title">Why Use Temporary Chats</h2>
+          </div>
+          <p>
+            Temporary chats deliberately remove persistence. No documents are stored, no prior
+            context is remembered, and custom instructions or AI memory features don’t apply.
+            What you type in the moment is all the model sees.
+          </p>
+
+          <h3>Choose a temporary chat when you need:</h3>
+          <ul>
+            <li>
+              <strong>Isolation</strong> &mdash; no bleed-over from earlier conversations,
+              projects, or custom settings.
+            </li>
+            <li>
+              <strong>Precise input control</strong> &mdash; useful for evaluating model behavior
+              or running prompt experiments.
+            </li>
+            <li>
+              <strong>A clean A/B testing environment</strong> &mdash; you can run variations
+              without hidden context shaping the result.
+            </li>
+            <li>
+              <strong>Privacy for sensitive tasks</strong> &mdash; nothing is retained, which is
+              ideal for notes you don’t want stored.
+            </li>
+            <li>
+              <strong>Fresh reasoning</strong> &mdash; no lingering assumptions, no hidden
+              context, no risk of model drift.
+            </li>
+          </ul>
+
+          <p>
+            Temporary chats function like a controlled lab bench:
+            <strong>sterile, repeatable, and free of historical influence</strong>.
+          </p>
+        </article>
+      </section>
+
+      <section class="one-line-summary" aria-label="Summary">
+        <div class="summary-tag">Quick summary</div>
+        <h2>One-Sentence Comparison</h2>
+        <div class="summary-lines">
+          <span><strong>Projects</strong> = persistent, retrieval-based, consistency-focused workspaces.</span>
+          <span><strong>Temporary Chats</strong> = isolated, memory-free, controlled experiments.</span>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

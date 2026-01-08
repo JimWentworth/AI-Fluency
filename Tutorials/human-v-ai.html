@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>When to Use AI vs. Human Judgment – Branching Case Study</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      background: #f5f5f7;
+    }
+    h1, h2, h3 {
+      margin-top: 1.2rem;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .decision {
+      border-left: 4px solid #0056a6; /* Illinois blue-ish */
+      padding-left: 0.75rem;
+    }
+    .choices {
+      margin-top: 0.75rem;
+      display: grid;
+      gap: 0.5rem;
+    }
+    button.choice-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border-radius: 0.5rem;
+      border: 1px solid #d0d4dd;
+      padding: 0.6rem 0.75rem;
+      background: #f8fafc;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    button.choice-btn:hover,
+    button.choice-btn:focus-visible {
+      outline: 2px solid #ff552e; /* Illinois orange */
+      background: #ffffff;
+    }
+    .feedback {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      background: #f1f5f9;
+      border: 1px solid #d0d4dd;
+    }
+    .tag {
+      display: inline-block;
+      padding: 0.1rem 0.45rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-right: 0.4rem;
+    }
+    .tag-ai {
+      background: #e0f2fe;
+      color: #075985;
+    }
+    .tag-human {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .tag-mixed {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    .hidden {
+      display: none;
+    }
+    .nav-footer {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .nav-footer button {
+      width: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Case Study: When to Use AI vs. Human Judgment</h1>
+
+  <div class="card">
+    <p><strong>Scenario:</strong> You are <em>Dr. Rivera</em>, designing and running a new upper-level assignment. You want to use AI to save time and spark ideas—but you also want to protect student learning, equity, and academic integrity.</p>
+    <p>At each step, choose how you’ll collaborate with AI. After each decision, you’ll see feedback on whether AI should support, or human expertise should lead.</p>
+    <p><strong>Guiding question:</strong> <em>Is this task exploratory and reversible, or consequential and value-laden?</em></p>
+  </div>
+
+  <!-- STEP 1 -->
+  <section id="step1" class="card decision">
+    <h2>Decision 1: Framing the Assignment</h2>
+    <p>You have a rough idea: a research-based project where students analyze a real-world problem. You’re starting from a blank page.</p>
+    <p><strong>How will you use AI here?</strong></p>
+    <div class="choices">
+      <button class="choice-btn" onclick="showStep('step1A')">
+        <span class="tag tag-ai">AI-heavy</span>
+        Ask AI to draft the entire assignment description from a short prompt and use it mostly as-is.
+      </button>
+      <button class="choice-btn" onclick="showStep('step1B')">
+        <span class="tag tag-mixed">Human leads</span>
+        Draft the assignment yourself, then ask AI to suggest clearer language and alternative framings.
+      </button>
+      <button class="choice-btn" onclick="showStep('step1C')">
+        <span class="tag tag-human">No AI</span>
+        Design the assignment entirely on your own without AI.
+      </button>
+    </div>
+  </section>
+
+  <!-- STEP 1 OUTCOMES -->
+  <section id="step1A" class="card hidden">
+    <h3>Decision 1 Outcome: AI Drafts the Assignment</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> This uses AI in a high-influence, low-judgment way. You gain speed, but you risk unclear expectations, misaligned outcomes, and generic prompts.</p>
+      <p><strong>Key idea:</strong> Assignment design is where human expertise should lead. AI can help with wording and examples, but it shouldn’t define what students will learn.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('step2')">Continue to Decision 2</button>
+  </section>
+
+  <section id="step1B" class="card hidden">
+    <h3>Decision 1 Outcome: Human Leads, AI Refines</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> This is a strong human → AI → human loop. You define the goals and structure, then use AI for clarity, examples, and alternative framings.</p>
+      <p><strong>Key idea:</strong> Use AI for exploration and language, not to decide what the assignment is about.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('step2')">Continue to Decision 2</button>
+  </section>
+
+  <section id="step1C" class="card hidden">
+    <h3>Decision 1 Outcome: No AI Used</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> This is safe, but underuses AI’s strengths. For low-risk, exploratory drafting and revising, AI can help you see options you might not consider on your own.</p>
+      <p><strong>Key idea:</strong> The question is not “AI or no AI,” but “Where can AI help without taking over judgment?”</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('step2')">Continue to Decision 2</button>
+  </section>
+
+  <!-- STEP 2 -->
+  <section id="step2" class="card decision hidden">
+    <h2>Decision 2: Designing the Rubric</h2>
+    <p>The assignment description is ready. Now you need a rubric to assess student work.</p>
+    <p><strong>How will you use AI for the rubric?</strong></p>
+    <div class="choices">
+      <button class="choice-btn" onclick="showStep('step2A')">
+        <span class="tag tag-ai">AI-heavy</span>
+        Ask AI for a full rubric with criteria and point values and adopt it mostly as-is.
+      </button>
+      <button class="choice-btn" onclick="showStep('step2B')">
+        <span class="tag tag-mixed">Human leads</span>
+        Outline your own criteria and performance levels, then use AI to refine wording and add examples.
+      </button>
+      <button class="choice-btn" onclick="showStep('step2C')">
+        <span class="tag tag-mixed">Mixed</span>
+        Ask AI for draft criteria, then heavily revise and reorganize them yourself.
+      </button>
+    </div>
+  </section>
+
+  <!-- STEP 2 OUTCOMES -->
+  <section id="step2A" class="card hidden">
+    <h3>Decision 2 Outcome: AI-Generated Rubric</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> Assessment is consequential for students. If AI defines the rubric, it’s effectively deciding what “good” looks like.</p>
+      <p><strong>Key idea:</strong> Rubrics are value-laden. AI can suggest criteria, but human judgment must define and approve them.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('step3')">Continue to Decision 3</button>
+  </section>
+
+  <section id="step2B" class="card hidden">
+    <h3>Decision 2 Outcome: Human Criteria, AI Refinement</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> This keeps human expertise at the center. You decide what matters; AI helps you express it clearly and consistently.</p>
+      <p><strong>Key idea:</strong> Use AI to support clarity, not to determine standards.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('step3')">Continue to Decision 3</button>
+  </section>
+
+  <section id="step2C" class="card hidden">
+    <h3>Decision 2 Outcome: AI Brainstorm, Human Rebuilds</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> This can work, but beware of anchoring on AI’s first draft. It’s better to start from your own non-negotiable criteria, then compare with AI’s ideas.</p>
+      <p><strong>Key idea:</strong> AI is best as a brainstorming partner, not the source of truth.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('step3')">Continue to Decision 3</button>
+  </section>
+
+  <!-- STEP 3 -->
+  <section id="step3" class="card decision hidden">
+    <h2>Decision 3: Giving Feedback on a Student Draft</h2>
+    <p>A student submits a first draft. You’re busy, and AI feedback tools look tempting.</p>
+    <p><strong>How will you involve AI?</strong></p>
+    <div class="choices">
+      <button class="choice-btn" onclick="showStep('step3A')">
+        <span class="tag tag-ai">AI-heavy</span>
+        Paste the entire draft into AI, generate feedback, and paste it directly back to the student.
+      </button>
+      <button class="choice-btn" onclick="showStep('step3B')">
+        <span class="tag tag-mixed">Human leads</span>
+        Diagnose 2–3 key issues yourself, then ask AI for example feedback language on those issues.
+      </button>
+      <button class="choice-btn" onclick="showStep('step3C')">
+        <span class="tag tag-mixed">AI supports</span>
+        Ask AI for a short summary of the draft to check your understanding, then write all feedback yourself.
+      </button>
+    </div>
+  </section>
+
+  <!-- STEP 3 OUTCOMES -->
+  <section id="step3A" class="card hidden">
+    <h3>Decision 3 Outcome: AI as Main Feedback Voice</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> Feedback is relational and consequential. Outsourcing it to AI risks privacy issues, generic comments, and misalignment with your rubric.</p>
+      <p><strong>Key idea:</strong> AI should never be the primary voice giving feedback to students.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('step4')">Continue to Decision 4</button>
+  </section>
+
+  <section id="step3B" class="card hidden">
+    <h3>Decision 3 Outcome: Human Diagnosis, AI Phrasing</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> You use human judgment to decide what matters, and AI to help with wording and consistency across many students.</p>
+      <p><strong>Key idea:</strong> This is a strong pattern: human decides, AI assists with expression.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('step4')">Continue to Decision 4</button>
+  </section>
+
+  <section id="step3C" class="card hidden">
+    <h3>Decision 3 Outcome: AI Extends Bandwidth</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> AI helps you process a complex draft, but you retain full ownership of evaluative comments.</p>
+      <p><strong>Key idea:</strong> This is an example of using AI to expand cognitive bandwidth without outsourcing judgment.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('step4')">Continue to Decision 4</button>
+  </section>
+
+  <!-- STEP 4 -->
+  <section id="step4" class="card decision hidden">
+    <h2>Decision 4: Revising the Assignment for Next Term</h2>
+    <p>You’ve finished the term and collected anonymized samples of student work plus your own reflections. You want to improve the assignment for next time.</p>
+    <p><strong>How will you use AI now?</strong></p>
+    <div class="choices">
+      <button class="choice-btn" onclick="showStep('step4A')">
+        <span class="tag tag-mixed">AI supports</span>
+        Ask AI to analyze anonymized samples and your rubric to highlight where expectations and performance diverged.
+      </button>
+      <button class="choice-btn" onclick="showStep('step4B')">
+        <span class="tag tag-ai">AI-heavy</span>
+        Ask AI to redesign the assignment into a completely new format and adopt the new version.
+      </button>
+      <button class="choice-btn" onclick="showStep('step4C')">
+        <span class="tag tag-mixed">Human leads</span>
+        Summarize what worked and what didn’t, then ask AI for 3 specific improvement ideas and sample prompts/templates.
+      </button>
+    </div>
+  </section>
+
+  <!-- STEP 4 OUTCOMES -->
+  <section id="step4A" class="card hidden">
+    <h3>Decision 4 Outcome: Pattern Detection with AI</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> AI helps you see patterns in student work you might miss. You still decide which issues matter and what to change.</p>
+      <p><strong>Key idea:</strong> This is a good use of AI for exploratory analysis.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('summary')">See Summary of Your Path</button>
+  </section>
+
+  <section id="step4B" class="card hidden">
+    <h3>Decision 4 Outcome: AI Redesigns the Assignment</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> Allowing AI to redesign the assignment from the ground up hands over too much pedagogical control.</p>
+      <p><strong>Key idea:</strong> Assignment format and structure should be grounded in your goals, students, and context. AI can suggest options, but you choose.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('summary')">See Summary of Your Path</button>
+  </section>
+
+  <section id="step4C" class="card hidden">
+    <h3>Decision 4 Outcome: Human Reflection, AI Options</h3>
+    <div class="feedback">
+      <p><strong>Reflection:</strong> You bring reflective judgment from your own class; AI helps translate that into concrete, testable improvements.</p>
+      <p><strong>Key idea:</strong> This balances human insight with AI’s ability to generate variations quickly.</p>
+    </div>
+    <button class="choice-btn" onclick="showStep('summary')">See Summary of Your Path</button>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="summary" class="card hidden">
+    <h2>Summary: What Did You Notice About AI vs. Human Judgment?</h2>
+    <div class="feedback">
+      <ul>
+        <li><strong>Good fits for AI:</strong> drafting options, clarifying language, reorganizing content, spotting patterns, and generating examples.</li>
+        <li><strong>Good fits for human judgment:</strong> defining learning goals, setting standards, grading, giving feedback, and making ethical or relational decisions.</li>
+        <li><strong>Core heuristic:</strong> Use AI for exploration and bandwidth; rely on human expertise for consequential and value-laden decisions.</li>
+      </ul>
+      <p><strong>Reflection prompt:</strong> Where in <em>your</em> work do you see a similar boundary between “AI helps” and “human must lead”?</p>
+    </div>
+    <div class="nav-footer">
+      <span>Want to try a different path? Use the buttons below to jump back.</span>
+      <div>
+        <button class="choice-btn" onclick="resetAll()">Restart Activity</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function hideAllSteps() {
+      var sections = document.querySelectorAll("section");
+      sections.forEach(function(sec) {
+        if (sec.id !== "step1") {
+          sec.classList.add("hidden");
+        }
+      });
+    }
+
+    function showStep(id) {
+      var section = document.getElementById(id);
+      if (!section) return;
+      // Show the requested section
+      section.classList.remove("hidden");
+      // Scroll into view for better usability
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function resetAll() {
+      var sections = document.querySelectorAll("section");
+      sections.forEach(function(sec) {
+        if (sec.id === "step1") {
+          sec.classList.remove("hidden");
+        } else {
+          sec.classList.add("hidden");
+        }
+      });
+      document.getElementById("step1").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  </script>
+</body>
+</html>

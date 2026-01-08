@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Expanding Cognitive Bandwidth Without Outsourcing Judgment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --illini-orange: #ff552e;
+      --illini-navy: #13294b;
+      --illini-light: #f5f5f7;
+      --illini-border: #d1d5db;
+      --illini-focus: #fbbf24;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    header {
+      border-bottom: 4px solid var(--illini-orange);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: var(--illini-navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--illini-orange);
+      font-weight: 800;
+      font-size: 1.4rem;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: var(--illini-navy);
+    }
+
+    header p {
+      margin: 0.25rem 0 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .subtitle {
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* Tabs */
+
+    .tablist-container {
+      margin-bottom: 1rem;
+    }
+
+    .tablist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--illini-border);
+      padding-bottom: 0.5rem;
+    }
+
+    .tab {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      background: #ffffff;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--illini-navy);
+      color: #ffffff;
+      border-color: var(--illini-navy);
+      font-weight: 600;
+    }
+
+    .tab:focus-visible {
+      outline: 3px solid var(--illini-focus);
+      outline-offset: 2px;
+    }
+
+    .tab-panels {
+      margin-top: 1rem;
+    }
+
+    .tabpanel {
+      display: none;
+      background: var(--illini-light);
+      border-radius: 12px;
+      padding: 1rem;
+      border: 1px solid var(--illini-border);
+    }
+
+    .tabpanel.active {
+      display: block;
+    }
+
+    .role-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: #ffffff;
+      border-radius: 999px;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--illini-border);
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .role-pill span.icon {
+      font-size: 1rem;
+    }
+
+    .case-title {
+      margin: 0.2rem 0 0.5rem;
+      font-size: 1.1rem;
+      color: var(--illini-navy);
+    }
+
+    .case-intro {
+      margin: 0 0 0.75rem;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .case-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 800px) {
+      .case-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .panel-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid var(--illini-border);
+      font-size: 0.9rem;
+    }
+
+    .panel-card h3 {
+      margin: 0 0 0.4rem;
+      font-size: 0.98rem;
+      color: var(--illini-navy);
+    }
+
+    .panel-card p {
+      margin: 0 0 0.4rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .panel-card ul {
+      margin: 0.1rem 0 0.4rem 1.1rem;
+      padding-left: 0;
+      font-size: 0.9rem;
+    }
+
+    .panel-card li {
+      margin-bottom: 0.15rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border-radius: 999px;
+      padding: 0.15rem 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .badge.orange {
+      background: #fff7ed;
+      color: #c2410c;
+    }
+
+    .badge.green {
+      background: #ecfdf3;
+      color: #15803d;
+    }
+
+    .prompt-toggle {
+      border: none;
+      background: transparent;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.87rem;
+      color: var(--illini-navy);
+      cursor: pointer;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
+    .prompt-toggle:focus-visible {
+      outline: 2px solid var(--illini-focus);
+      outline-offset: 2px;
+    }
+
+    .prompt-list {
+      margin-top: 0.4rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      border: 1px dashed var(--illini-border);
+      background: #f9fafb;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .prompt-list p {
+      margin: 0 0 0.3rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .prompt-list ul {
+      margin: 0 0 0 1rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 70px;
+      resize: vertical;
+      border-radius: 8px;
+      border: 1px solid var(--illini-border);
+      padding: 0.5rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    textarea:focus-visible {
+      outline: 2px solid var(--illini-focus);
+      outline-offset: 1px;
+    }
+
+    .checklist {
+      margin: 0.2rem 0 0.6rem;
+      padding-left: 0;
+      list-style: none;
+      font-size: 0.88rem;
+    }
+
+    .checklist li {
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+
+    .checklist input[type="checkbox"] {
+      margin-top: 0.1rem;
+    }
+
+    .reflection-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+      display: block;
+    }
+
+    .footer-note {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header>
+      <div class="brand-mark" aria-hidden="true">I</div>
+      <div>
+        <h1>Expanding Cognitive Bandwidth (Without Outsourcing Judgment)</h1>
+        <p>Interactive cases for students, faculty, staff, and administrators.</p>
+      </div>
+    </header>
+
+    <p class="subtitle">
+      In each scenario, AI helps surface options, trade-offs, and blindspots.
+      <strong>You</strong> still make the call. Work through the role closest to you,
+      then compare with another perspective.
+    </p>
+
+    <section aria-label="Role-based case studies">
+      <div class="tablist-container">
+        <div class="tablist" role="tablist" aria-label="Role tabs">
+          <button class="tab" role="tab" aria-selected="true" aria-controls="panel-student" id="tab-student">
+            Student
+          </button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="panel-faculty" id="tab-faculty">
+            Faculty
+          </button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="panel-staff" id="tab-staff">
+            Staff
+          </button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="panel-admin" id="tab-admin">
+            Administrator
+          </button>
+        </div>
+      </div>
+
+      <div class="tab-panels">
+        <!-- Student Panel -->
+        <section class="tabpanel active" role="tabpanel" id="panel-student" aria-labelledby="tab-student">
+          <div class="role-pill">
+            <span class="icon" aria-hidden="true">🎓</span>
+            <span>Student case</span>
+          </div>
+          <h2 class="case-title">Planning a Research Paper Without Letting AI Think for You</h2>
+          <p class="case-intro">
+            You're asked to write a 10-page research paper on a topic of your choice within your discipline.
+            You feel overwhelmed by all the possible directions and unsure where to start.
+          </p>
+
+          <div class="case-layout">
+            <article class="panel-card">
+              <span class="badge">Scenario</span>
+              <p>
+                You have a broad theme (e.g., "social media and mental health" or "renewable energy policy"),
+                a due date, and grading criteria that emphasize critical thinking and original argument.
+                You’re considering using a generative AI tool to help you narrow your focus and plan the paper.
+              </p>
+
+              <h3>Your task</h3>
+              <ul>
+                <li>Use AI to expand your options for paper topics and argument angles.</li>
+                <li>Use AI to uncover blindspots in your initial plan.</li>
+                <li>Keep the core decisions about thesis, sources, and argument in your own hands.</li>
+              </ul>
+
+              <button class="prompt-toggle" data-target="prompts-student" type="button">
+                <span aria-hidden="true">▶</span> Show example AI prompts
+              </button>
+              <div id="prompts-student" class="prompt-list">
+                <p>Use AI to expand your thinking (not to write the paper):</p>
+                <ul>
+                  <li>
+                    "Here’s my assignment description and grading rubric: [paste]. I’m considering these
+                    general topics: [list]. Give me 6–8 possible research questions that vary in focus and
+                    difficulty. Don’t choose one for me—just list trade-offs for each."
+                  </li>
+                  <li>
+                    "Here’s a draft thesis I’m considering: [paste]. What assumptions am I making
+                    that I should double-check with peer-reviewed sources?"
+                  </li>
+                  <li>
+                    "Given this tentative outline: [paste], what are 3–4 common weaknesses students
+                    have in papers like this that I should watch out for?"
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <aside class="panel-card">
+              <span class="badge orange">Use AI for</span>
+              <ul class="checklist">
+                <li>
+                  <input type="checkbox" id="s1" />
+                  <label for="s1">Generating multiple possible research questions and angles.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="s2" />
+                  <label for="s2">Seeing trade-offs (too broad, too narrow, too descriptive).</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="s3" />
+                  <label for="s3">Spotting assumptions you might be making without evidence.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="s4" />
+                  <label for="s4">Drafting possible outlines you can critique.</label>
+                </li>
+              </ul>
+
+              <span class="badge green">You decide</span>
+              <ul class="checklist">
+                <li>
+                  <input type="checkbox" id="s5" />
+                  <label for="s5">Which research question you commit to.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="s6" />
+                  <label for="s6">Which sources you trust and include.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="s7" />
+                  <label for="s7">The final thesis, structure, and argument.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="s8" />
+                  <label for="s8">What counts as "your own thinking" vs. over-relying on AI.</label>
+                </li>
+              </ul>
+
+              <label class="reflection-label" for="reflection-student">
+                Reflection: Where is the line between getting help and outsourcing your thinking?
+              </label>
+              <textarea id="reflection-student" placeholder="Write a few sentences about how you would keep the final argument and claims genuinely yours."></textarea>
+            </aside>
+          </div>
+        </section>
+
+        <!-- Faculty Panel -->
+        <section class="tabpanel" role="tabpanel" id="panel-faculty" aria-labelledby="tab-faculty">
+          <div class="role-pill">
+            <span class="icon" aria-hidden="true">👩‍🏫</span>
+            <span>Faculty case</span>
+          </div>
+          <h2 class="case-title">Designing an AI Policy for Your Course</h2>
+          <p class="case-intro">
+            You’re updating your syllabus for next semester and need a clear, fair policy on student use of AI tools.
+            You want to understand plausible options and unintended consequences before deciding.
+          </p>
+
+          <div class="case-layout">
+            <article class="panel-card">
+              <span class="badge">Scenario</span>
+              <p>
+                You teach a writing- and project-intensive course. You know students are already using AI tools.
+                You don’t want to ban them entirely, but you also don’t want to undermine learning outcomes or
+                assessment integrity.
+              </p>
+
+              <h3>Your task</h3>
+              <ul>
+                <li>Use AI to explore different AI-use policy models and their trade-offs.</li>
+                <li>Use AI to stress-test your draft policy from student and equity perspectives.</li>
+                <li>Reserve the final judgment about what fits your course and discipline.</li>
+              </ul>
+
+              <button class="prompt-toggle" data-target="prompts-faculty" type="button">
+                <span aria-hidden="true">▶</span> Show example AI prompts
+              </button>
+              <div id="prompts-faculty" class="prompt-list">
+                <p>Use AI to explore the design space, not to dictate policy:</p>
+                <ul>
+                  <li>
+                    "Here is my course description, learning outcomes, and typical assignments: [paste].
+                    Propose 3–4 different AI-use policy models (e.g., strict, permissive, conditional).
+                    For each, outline benefits, risks, and likely student behaviors. Don’t tell me which
+                    is best."
+                  </li>
+                  <li>
+                    "Here is a draft AI policy I’m considering: [paste]. Role-play as (1) a first-generation
+                    student, (2) a student with a disability who uses assistive technology, and (3) a student
+                    with strong prior experience in this field. How might each react to this policy?"
+                  </li>
+                  <li>
+                    "Given my outcomes [paste], what are 4–5 questions I should ask myself before finalizing
+                    any AI policy for this course?"
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <aside class="panel-card">
+              <span class="badge orange">Use AI for</span>
+              <ul class="checklist">
+                <li>
+                  <input type="checkbox" id="f1" />
+                  <label for="f1">Surfacing a range of policy options, not just one.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="f2" />
+                  <label for="f2">Seeing consequences for different groups of students.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="f3" />
+                  <label for="f3">Identifying conflicts between policy and learning outcomes.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="f4" />
+                  <label for="f4">Drafting language you can revise and personalize.</label>
+                </li>
+              </ul>
+
+              <span class="badge green">You decide</span>
+              <ul class="checklist">
+                <li>
+                  <input type="checkbox" id="f5" />
+                  <label for="f5">What counts as appropriate vs. inappropriate AI use.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="f6" />
+                  <label for="f6">How transparent you expect students to be about AI use.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="f7" />
+                  <label for="f7">How the policy aligns with disciplinary norms and ethics.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="f8" />
+                  <label for="f8">How you will explain and justify the policy in class.</label>
+                </li>
+              </ul>
+
+              <label class="reflection-label" for="reflection-faculty">
+                Reflection: Where do you draw the line between leveraging AI-written policy language
+                and speaking in your own voice?
+              </label>
+              <textarea id="reflection-faculty" placeholder="Draft a sentence or two that you would say to students about why your policy looks the way it does."></textarea>
+            </aside>
+          </div>
+        </section>
+
+        <!-- Staff Panel -->
+        <section class="tabpanel" role="tabpanel" id="panel-staff" aria-labelledby="tab-staff">
+          <div class="role-pill">
+            <span class="icon" aria-hidden="true">💼</span>
+            <span>Staff case</span>
+          </div>
+          <h2 class="case-title">Planning a Campus Event with AI as a Planning Partner</h2>
+          <p class="case-intro">
+            You’re organizing a workshop or info session for students and employees.
+            You need a schedule, outreach plan, and materials—but you also need the plan to fit local constraints and culture.
+          </p>
+
+          <div class="case-layout">
+            <article class="panel-card">
+              <span class="badge">Scenario</span>
+              <p>
+                You know your target audience, rough date, and goals (e.g., increase attendance,
+                support a new initiative). You’re considering AI to speed up brainstorming and
+                communication drafts, but you want the final decisions to reflect campus context
+                and equity considerations.
+              </p>
+
+              <h3>Your task</h3>
+              <ul>
+                <li>Use AI to generate multiple event formats, schedules, and outreach ideas.</li>
+                <li>Use AI to find weak spots in your plan (e.g., accessibility, conflicts, workload).</li>
+                <li>Keep final decisions grounded in your knowledge of campus culture and constraints.</li>
+              </ul>
+
+              <button class="prompt-toggle" data-target="prompts-staff" type="button">
+                <span aria-hidden="true">▶</span> Show example AI prompts
+              </button>
+              <div id="prompts-staff" class="prompt-list">
+                <p>Use AI as a planner, not an authority:</p>
+                <ul>
+                  <li>
+                    "Here is the event goal, audience, time window, and constraints (budget, space, etc.): [paste].
+                    Suggest 4–5 event formats with different schedules and engagement strategies.
+                    For each, list pros/cons and potential risks."
+                  </li>
+                  <li>
+                    "Here is a draft schedule and plan: [paste]. Point out at least 5 possible issues
+                    related to accessibility, competing demands on staff/students, or communication gaps."
+                  </li>
+                  <li>
+                    "Draft three versions of an email invitation: (1) concise, (2) more detailed, (3) very informal.
+                    I will adapt wording to our campus tone; just focus on structure."
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <aside class="panel-card">
+              <span class="badge orange">Use AI for</span>
+              <ul class="checklist">
+                <li>
+                  <input type="checkbox" id="st1" />
+                  <label for="st1">Generating multiple event concepts and formats.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="st2" />
+                  <label for="st2">Identifying logistical or accessibility issues early.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="st3" />
+                  <label for="st3">Drafting communication templates (emails, blurbs, posts).</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="st4" />
+                  <label for="st4">Surfacing evaluation questions for after the event.</label>
+                </li>
+              </ul>
+
+              <span class="badge green">You decide</span>
+              <ul class="checklist">
+                <li>
+                  <input type="checkbox" id="st5" />
+                  <label for="st5">Which format realistically fits your team’s capacity.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="st6" />
+                  <label for="st6">How to adapt language to campus norms and inclusivity goals.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="st7" />
+                  <label for="st7">Which trade-offs are acceptable (e.g., time vs. depth).</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="st8" />
+                  <label for="st8">How success will be measured and communicated.</label>
+                </li>
+              </ul>
+
+              <label class="reflection-label" for="reflection-staff">
+                Reflection: Where could over-reliance on AI planning hurt trust or inclusion?
+              </label>
+              <textarea id="reflection-staff" placeholder="Note one concrete place you would NOT trust AI’s suggestion without checking local context."></textarea>
+            </aside>
+          </div>
+        </section>
+
+        <!-- Administrator Panel -->
+        <section class="tabpanel" role="tabpanel" id="panel-admin" aria-labelledby="tab-admin">
+          <div class="role-pill">
+            <span class="icon" aria-hidden="true">🏛️</span>
+            <span>Administrator case</span>
+          </div>
+          <h2 class="case-title">Setting Unit-Level Guidelines for AI Use</h2>
+          <p class="case-intro">
+            You lead a unit or department facing rapid adoption of AI tools by faculty, staff, and students.
+            You want guiding principles and examples without turning AI into either a silver bullet or a banned tool.
+          </p>
+
+          <div class="case-layout">
+            <article class="panel-card">
+              <span class="badge">Scenario</span>
+              <p>
+                Different people in your unit are using different AI tools with different levels of caution.
+                Some want strong guardrails; others want maximal flexibility. You’re considering using AI
+                to help explore the policy space and anticipate organizational impacts.
+              </p>
+
+              <h3>Your task</h3>
+              <ul>
+                <li>Use AI to map out possible guideline models and their implications.</li>
+                <li>Use AI to surface risks related to privacy, equity, workload, and reputation.</li>
+                <li>Keep the actual governance choices grounded in institutional values and obligations.</li>
+              </ul>
+
+              <button class="prompt-toggle" data-target="prompts-admin" type="button">
+                <span aria-hidden="true">▶</span> Show example AI prompts
+              </button>
+              <div id="prompts-admin" class="prompt-list">
+                <p>Use AI for structured foresight, not governance decisions:</p>
+                <ul>
+                  <li>
+                    "Here is our unit’s mission, current AI-related practices, and institutional policies: [paste].
+                    Generate 3–4 models for unit-level AI guidelines (e.g., 'cautious adoption', 'sandbox experimentation',
+                    'strongly guided use'). For each, list concrete benefits, risks, and likely stakeholder reactions."
+                  </li>
+                  <li>
+                    "From the perspective of (1) students, (2) faculty, (3) staff, and (4) external partners,
+                    what worries might arise from each guideline model?"
+                  </li>
+                  <li>
+                    "Suggest 5–7 questions we should discuss as a leadership team before adopting any AI guideline,
+                    focusing on ethics, equity, transparency, and accountability."
+                  </li>
+                </ul>
+              </div>
+            </article>
+
+            <aside class="panel-card">
+              <span class="badge orange">Use AI for</span>
+              <ul class="checklist">
+                <li>
+                  <input type="checkbox" id="a1" />
+                  <label for="a1">Mapping out plausible governance models and scenarios.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="a2" />
+                  <label for="a2">Surfacing blindspots across different stakeholder groups.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="a3" />
+                  <label for="a3">Drafting discussion guides and FAQs for town halls.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="a4" />
+                  <label for="a4">Exploring potential impact on workload and workflows.</label>
+                </li>
+              </ul>
+
+              <span class="badge green">You decide</span>
+              <ul class="checklist">
+                <li>
+                  <input type="checkbox" id="a5" />
+                  <label for="a5">Which values and constraints take priority in your unit.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="a6" />
+                  <label for="a6">How transparent you’ll be about AI use internally and externally.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="a7" />
+                  <label for="a7">What support and training you commit to providing.</label>
+                </li>
+                <li>
+                  <input type="checkbox" id="a8" />
+                  <label for="a8">How you’ll revisit and revise guidelines over time.</label>
+                </li>
+              </ul>
+
+              <label class="reflection-label" for="reflection-admin">
+                Reflection: What decisions about AI governance can never be delegated to a tool?
+              </label>
+              <textarea id="reflection-admin" placeholder="List one or two decisions that must remain firmly in human hands in your context."></textarea>
+            </aside>
+          </div>
+        </section>
+      </div>
+
+      <p class="footer-note">
+        Tip: In each case, AI is most useful when it expands your option space and highlights trade-offs.
+        If you feel like AI is "deciding" for you, pause and reframe the prompt.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    // Simple tab behavior
+    (function () {
+      const tabs = document.querySelectorAll('.tab');
+      const panels = document.querySelectorAll('.tabpanel');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const targetId = tab.getAttribute('aria-controls');
+
+          tabs.forEach(t => {
+            t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+          });
+
+          panels.forEach(panel => {
+            panel.classList.toggle('active', panel.id === targetId);
+          });
+        });
+      });
+
+      // Prompt toggle behavior
+      const toggles = document.querySelectorAll('.prompt-toggle');
+      toggles.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetId = btn.getAttribute('data-target');
+          const panel = document.getElementById(targetId);
+          const isOpen = panel.style.display === 'block';
+
+          panel.style.display = isOpen ? 'none' : 'block';
+          btn.querySelector('span[aria-hidden="true"]').textContent = isOpen ? '▶' : '▼';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

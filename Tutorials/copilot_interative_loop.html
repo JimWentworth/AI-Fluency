@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copilot Iterative Loop (EERD) • Canvas Activity</title>
+  <style>
+    :root{
+      --uiuc-blue:#13294B;
+      --uiuc-orange:#FF552E;
+
+      --text:#111827;
+      --muted:#4B5563;
+      --border:#E5E7EB;
+
+      --grey-50:#F9FAFB;
+      --grey-100:#F3F4F6;
+      --grey-200:#E5E7EB;
+      --grey-600:#4B5563;
+
+      --shadow: 0 10px 30px rgba(17,24,39,.08);
+      --radius: 14px;
+
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    body{
+      font-family: var(--font);
+      margin: 0;
+      color: var(--text);
+      background: #fff;
+      line-height: 1.55;
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .header{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 18px 16px;
+      background: linear-gradient(180deg, rgba(19,41,75,.06), rgba(255,255,255,1));
+      box-shadow: var(--shadow);
+    }
+
+    .title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1{
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: .2px;
+      color: var(--uiuc-blue);
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: .85rem;
+      border: 1px solid rgba(19,41,75,.18);
+      background: rgba(19,41,75,.04);
+      color: var(--uiuc-blue);
+      user-select: none;
+    }
+
+    .badge-dot{
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--uiuc-orange);
+      display:inline-block;
+    }
+
+    .lede{
+      margin: 10px 0 0;
+      color: var(--muted);
+      max-width: 80ch;
+    }
+
+    h3{
+      margin: 26px 0 10px;
+      color: var(--uiuc-blue);
+      font-size: 1.2rem;
+    }
+
+    h4{
+      margin: 0 0 10px;
+      color: var(--uiuc-blue);
+      font-size: 1.05rem;
+    }
+
+    p{ margin: 10px 0; }
+    ul{ margin: 10px 0 0 20px; }
+    li{ margin: 6px 0; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    @media (min-width: 900px){
+      .grid{ grid-template-columns: 1.05fr .95fr; }
+    }
+
+    .card{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-inner{ padding: 16px; }
+
+    .callout{
+      margin-top: 14px;
+      border-radius: var(--radius);
+      padding: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+    .callout-info{
+      border-left: 6px solid rgba(19,41,75,.45);
+      background: linear-gradient(180deg, rgba(19,41,75,.05), #fff 60%);
+    }
+    .callout-success{
+      border-left: 6px solid rgba(255,85,46,.55);
+      background: linear-gradient(180deg, rgba(255,85,46,.06), #fff 60%);
+    }
+
+    .step{
+      border-left: 6px solid rgba(255,85,46,.18);
+      background: linear-gradient(180deg, rgba(255,85,46,.05), #fff 60%);
+    }
+
+    .step-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .step-tag{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(19,41,75,.15);
+      background: rgba(19,41,75,.04);
+      color: var(--uiuc-blue);
+      font-size: .85rem;
+      font-weight: 750;
+      letter-spacing: .2px;
+    }
+
+    .step-tag b{
+      color: var(--uiuc-orange);
+      font-weight: 900;
+    }
+
+    .prompt-box{
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--grey-200);
+      background: var(--grey-50);
+    }
+
+    .prompt-text{
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size: .93rem;
+      color: #111827;
+    }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      align-items: center;
+    }
+
+    .button{
+      appearance: none;
+      border: 1px solid rgba(19,41,75,.18);
+      background: var(--uiuc-blue);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: .95rem;
+      transition: transform .06s ease, filter .15s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+    }
+    .button:hover{ filter: brightness(1.05); }
+    .button:active{ transform: translateY(1px); }
+    .button:focus{ outline: 3px solid rgba(255,85,46,.35); outline-offset: 2px; }
+
+    .button-secondary{
+      background: #fff;
+      color: var(--uiuc-blue);
+    }
+
+    .button-quiet{
+      background: #fff;
+      color: var(--uiuc-blue);
+      border: 1px dashed rgba(19,41,75,.25);
+    }
+
+    .mini{
+      font-size: .9rem;
+      color: var(--muted);
+    }
+
+    .divider{
+      height: 1px;
+      background: var(--border);
+      margin: 14px 0;
+    }
+
+    .input{
+      width: 100%;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--grey-200);
+      font-size: 1rem;
+      font-family: var(--font);
+      background:#fff;
+    }
+    .input:focus{
+      outline: 3px solid rgba(255,85,46,.30);
+      outline-offset: 2px;
+    }
+
+    .reflection-textarea{
+      width: 100%;
+      min-height: 120px;
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--grey-200);
+      padding: 10px;
+      font-family: var(--font);
+      font-size: 1rem;
+      resize: vertical;
+      background: #fff;
+    }
+    .reflection-textarea:focus{
+      outline: 3px solid rgba(255,85,46,.30);
+      outline-offset: 2px;
+    }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(17,24,39,.92);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: .92rem;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 9999;
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .checklist{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .check{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--grey-200);
+      background:#fff;
+    }
+    .check input{ margin-top: 3px; accent-color: var(--uiuc-orange); }
+    .check label{ cursor:pointer; }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: .8rem;
+      border: 1px solid rgba(255,85,46,.35);
+      color: var(--uiuc-orange);
+      background: rgba(255,85,46,.06);
+      margin-left: 6px;
+      font-weight: 800;
+      letter-spacing: .1px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" id="top">
+    <div class="header">
+      <div class="title">
+        <h1>Copilot Iterative Loop (EERD)</h1>
+        <div class="badge" aria-label="Illinois-branded interactive activity">
+          <span class="badge-dot" aria-hidden="true"></span>
+          Deliverable • Reflection • Turn-in link
+        </div>
+      </div>
+      <p class="lede">
+        This activity guides you through an <strong>EERD loop</strong> (Explain → Evaluate → Revise → Document) using Microsoft Copilot.
+        You’ll produce a concrete output, reflect on what happened, and submit a <strong>shareable link to your Copilot chat</strong>.
+      </p>
+    </div>
+
+    <h3>What You’ll Submit</h3>
+    <div class="callout callout-success">
+      <strong>Deliverable:</strong> A shareable link to your Copilot chat <span class="pill">required</span><br />
+      <strong>Plus:</strong> 3–6 sentences in your learning journal (you can paste your reflection from below).
+    </div>
+
+    <div class="grid">
+      <div class="card callout-info">
+        <div class="card-inner">
+          <h4>Before You Start</h4>
+          <ul>
+            <li>Choose a real task you can safely discuss (no sensitive student data or confidential information).</li>
+            <li>Keep the goal concrete: one page, one email, one checklist, one set of activity ideas, etc.</li>
+            <li>You are the editor. Copilot is the drafter.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-inner">
+          <h4>Your Task (Pick One)</h4>
+          <p class="mini">Select a task type, then fill in the “Your context” box to personalize the prompts.</p>
+          <select class="input" id="taskType" aria-label="Choose a task type">
+            <option value="lesson">Create an activity or lesson plan segment</option>
+            <option value="rubric">Draft a rubric or evaluation checklist</option>
+            <option value="email">Draft a professional email/announcement</option>
+            <option value="policy">Draft a short policy/guideline paragraph</option>
+            <option value="other">Other (your choice)</option>
+          </select>
+          <div style="margin-top: 10px;">
+            <label for="context" class="mini"><strong>Your context (2–4 sentences):</strong></label>
+            <textarea class="reflection-textarea" id="context" placeholder="Example: I’m revising a Canvas module for first-year students on academic integrity. I need a 20-minute small-group activity that surfaces common misconceptions, includes a short scenario, and ends with a debrief prompt."></textarea>
+          </div>
+          <div class="actions">
+            <button class="button button-secondary" type="button" onclick="buildEERD()">Generate my EERD prompts</button>
+            <button class="button button-quiet" type="button" onclick="fillExample()">Use an example context</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>The EERD Loop</h3>
+
+    <!-- Step 1 -->
+    <div class="card step" style="margin-top: 12px;">
+      <div class="card-inner">
+        <div class="step-header">
+          <div class="step-tag"><b>E</b> Explain</div>
+          <div class="mini">Goal: give Copilot enough constraints to draft something usable.</div>
+        </div>
+        <p>Copy this into Copilot as your first message:</p>
+        <div class="prompt-box">
+          <div class="prompt-text" id="promptExplain">Fill in your context above, then click “Generate my EERD prompts.”</div>
+          <div class="actions">
+            <button class="button button-secondary" type="button" onclick="copyText('promptExplain')">Copy Explain prompt</button>
+            <button class="button button-quiet" type="button" onclick="showToast('Tip: add audience + format + length limits + “ask me 2 clarifying questions first.”')">Quick tip</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="card step" style="margin-top: 14px;">
+      <div class="card-inner">
+        <div class="step-header">
+          <div class="step-tag"><b>E</b> Evaluate</div>
+          <div class="mini">Goal: don’t accept the first draft—stress test it.</div>
+        </div>
+
+        <p>After Copilot responds, paste this follow-up to force a quality check:</p>
+        <div class="prompt-box">
+          <div class="prompt-text" id="promptEvaluate">If you haven’t generated prompts yet, do that first.</div>
+          <div class="actions">
+            <button class="button button-secondary" type="button" onclick="copyText('promptEvaluate')">Copy Evaluate prompt</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <p><strong>Optional evaluation checklist (for you):</strong></p>
+        <div class="checklist" role="group" aria-label="Evaluation checklist">
+          <div class="check">
+            <input type="checkbox" id="c1" />
+            <label for="c1"><strong>Specificity:</strong> Clear steps, not vague advice.</label>
+          </div>
+          <div class="check">
+            <input type="checkbox" id="c2" />
+            <label for="c2"><strong>Fit:</strong> Matches your audience, constraints, and tone.</label>
+          </div>
+          <div class="check">
+            <input type="checkbox" id="c3" />
+            <label for="c3"><strong>Feasibility:</strong> Doable with your time/resources.</label>
+          </div>
+          <div class="check">
+            <input type="checkbox" id="c4" />
+            <label for="c4"><strong>Risk check:</strong> No sensitive data, no policy violations, no overclaiming.</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="card step" style="margin-top: 14px;">
+      <div class="card-inner">
+        <div class="step-header">
+          <div class="step-tag"><b>R</b> Revise</div>
+          <div class="mini">Goal: iterate with targeted constraints and edits.</div>
+        </div>
+
+        <p>Pick 1–2 issues you found and use this revision prompt:</p>
+        <div class="prompt-box">
+          <div class="prompt-text" id="promptRevise">If you haven’t generated prompts yet, do that first.</div>
+          <div class="actions">
+            <button class="button button-secondary" type="button" onclick="copyText('promptRevise')">Copy Revise prompt</button>
+            <button class="button button-quiet" type="button" onclick="showToast('Tip: ask for 2 versions: conservative + ambitious, then compare.')">Revision tip</button>
+          </div>
+        </div>
+
+        <p class="mini" style="margin-top: 12px;">
+          <strong>Critical move:</strong> force the model to explain its changes. If it can’t justify an edit, you probably shouldn’t trust it.
+        </p>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="card step" style="margin-top: 14px;">
+      <div class="card-inner">
+        <div class="step-header">
+          <div class="step-tag"><b>D</b> Document</div>
+          <div class="mini">Goal: capture what worked, what didn’t, and what you changed.</div>
+        </div>
+
+        <p>When you’re happy with the result, ask Copilot to help you document your learning:</p>
+        <div class="prompt-box">
+          <div class="prompt-text" id="promptDocument">If you haven’t generated prompts yet, do that first.</div>
+          <div class="actions">
+            <button class="button button-secondary" type="button" onclick="copyText('promptDocument')">Copy Document prompt</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h4 style="margin: 0 0 8px;">Reflection (Paste into your learning journal)</h4>
+        <p class="mini">Write a few sentences below, then copy it into your journal.</p>
+        <textarea class="reflection-textarea" id="reflection" placeholder="Suggested structure:
+- What did you ask Copilot to do?
+- What was useful or surprising in the output?
+- What did you change (and why)?
+- What would you do differently next time?"></textarea>
+
+        <div class="actions">
+          <button class="button button-secondary" type="button" onclick="copyReflection()">Copy reflection</button>
+          <button class="button button-quiet" type="button" onclick="clearReflection()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <h3>Submission</h3>
+    <div class="callout callout-success">
+      <strong>Turn in:</strong> a shareable link to your Copilot chat.<br />
+      <span class="mini">In the Copilot interface, look for the option to share or copy the conversation link (availability varies by environment). If sharing is unavailable, submit a screenshot + your reflection instead.</span>
+    </div>
+
+    <div class="card" style="margin-top: 14px;">
+      <div class="card-inner">
+        <h4>Quick self-check before you submit</h4>
+        <ul>
+          <li>Does the final output meet your real constraints (time, audience, tone, policy)?</li>
+          <li>Did you make at least one meaningful revision based on evaluation?</li>
+          <li>Does your reflection mention <em>what you changed</em> (not just what Copilot produced)?</li>
+        </ul>
+
+        <div class="actions" style="margin-top: 12px;">
+          <button class="button" type="button" onclick="scrollToId('top')">Back to top ↑</button>
+          <button class="button button-secondary" type="button" onclick="scrollToId('reflection')">Jump to reflection →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // --- Toast ---
+    const toastEl = document.getElementById('toast');
+    let toastTimer = null;
+    function showToast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1700);
+    }
+
+    // --- Copy helpers ---
+    async function copyText(elementId){
+      const el = document.getElementById(elementId);
+      const text = el ? el.textContent.trim() : "";
+      if (!text){ showToast("Nothing to copy yet."); return; }
+
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast("Copied to clipboard.");
+      } catch(e){
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast("Copied to clipboard.");
+      }
+    }
+
+    function copyReflection(){
+      const ta = document.getElementById('reflection');
+      const text = (ta.value || "").trim();
+      if (!text){ showToast("Nothing to copy yet."); return; }
+      navigator.clipboard.writeText(text).then(
+        () => showToast("Reflection copied."),
+        () => showToast("Copy blocked by browser.")
+      );
+    }
+
+    function clearReflection(){
+      document.getElementById('reflection').value = "";
+      showToast("Cleared.");
+    }
+
+    function scrollToId(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // --- Activity logic ---
+    function getTaskLabel(value){
+      const map = {
+        lesson: "a short learning activity/lesson segment",
+        rubric: "a rubric or evaluation checklist",
+        email: "a professional email/announcement",
+        policy: "a short guideline/policy paragraph",
+        other: "a draft for my chosen task"
+      };
+      return map[value] || "a draft";
+    }
+
+    function buildEERD(){
+      const taskType = document.getElementById('taskType').value;
+      const context = (document.getElementById('context').value || "").trim();
+
+      if (!context){
+        showToast("Add a bit of context first (2–4 sentences).");
+        return;
+      }
+
+      const taskLabel = getTaskLabel(taskType);
+
+      const explain =
+`You are my Copilot writing partner. I need ${taskLabel}.
+
+Context:
+${context}
+
+Constraints:
+- Keep it practical and ready to use.
+- Use a clear structure with headings and bullets where appropriate.
+- Make reasonable assumptions, but label them explicitly.
+- Before drafting, ask me 2 clarifying questions that would most improve the result.
+Then draft the first version.`;
+
+      const evaluate =
+`Now evaluate your draft like a critical reviewer.
+
+1) List 5 potential weaknesses or risks (e.g., unclear steps, missing constraints, unrealistic timing, policy/ethics concerns, accessibility issues, tone mismatch).
+2) Identify what assumptions you made that might be wrong.
+3) Give me 3 concrete improvement options:
+   - Conservative (safe/minimal change)
+   - Balanced (typical)
+   - Ambitious (more creative/innovative)
+Keep it concise and specific.`;
+
+      const revise =
+`Revise the draft using the “Balanced” option, plus these edits from me:
+- [Edit 1: what must change?]
+- [Edit 2: what must change?]
+
+Also:
+- Show the revised version.
+- Then provide a short “Change log” (3–6 bullets) explaining what you changed and why.
+- End with 2 questions for me to confirm final fit.`;
+
+      const documentPrompt =
+`Help me document what I learned from this EERD loop.
+
+Please produce:
+A) A 3–6 sentence reflection I can paste into my learning journal, covering:
+   - What I asked you to do
+   - What was useful/surprising
+   - What I changed (and why)
+   - What I’ll do differently next time
+B) A 1-sentence “reuse template” prompt I can save for a similar task later.`;
+
+      document.getElementById('promptExplain').textContent = explain;
+      document.getElementById('promptEvaluate').textContent = evaluate;
+      document.getElementById('promptRevise').textContent = revise;
+      document.getElementById('promptDocument').textContent = documentPrompt;
+
+      showToast("EERD prompts generated.");
+      // Avoid auto-scrolling (Canvas embeds can jump); keep user in control.
+    }
+
+    function fillExample(){
+      document.getElementById('taskType').value = "lesson";
+      document.getElementById('context').value =
+"I’m building a Canvas module for first-year undergraduates on academic integrity. I need a 20-minute small-group activity (groups of 4–5) that uses a realistic scenario, prompts students to discuss grey areas, and ends with a short whole-class debrief question set. The activity must be inclusive, low-stakes, and easy to run with minimal materials.";
+      showToast("Example context loaded.");
+    }
+  </script>
+</body>
+</html>

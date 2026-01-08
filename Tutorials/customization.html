@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choosing the Right Level of Customization</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --blue: #13294B;
+      --orange: #E84A27;
+      --light: #f3f4f6;
+      --border: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--light);
+      color: var(--text-main);
+      padding: 20px;
+    }
+
+    .shell {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 20px 22px 24px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+    }
+
+    .pill {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--orange);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+
+    header h1 {
+      margin: 0 0 4px;
+      font-size: 1.6rem;
+      color: var(--blue);
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    /* Top row: three level cards */
+    .levels-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .level-card {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 14px 14px 12px;
+      position: relative;
+      background: #f9fafb;
+    }
+
+    .level-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .level-tag span.circle {
+      width: 11px;
+      height: 11px;
+      border-radius: 999px;
+      background: var(--orange);
+      display: inline-block;
+    }
+
+    .level-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin: 0 0 4px;
+    }
+
+    .level-subtitle {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin: 0 0 6px;
+    }
+
+    .level-list {
+      margin: 6px 0 0;
+      padding-left: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .level-list li {
+      margin-bottom: 3px;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      background: #e5e7eb;
+      color: #374151;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    /* Decision guide section */
+    .guide-wrapper {
+      margin-top: 6px;
+      border-radius: 12px;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      padding: 14px;
+    }
+
+    .guide-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .guide-heading h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--blue);
+    }
+
+    .guide-heading span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.6fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 800px) {
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .questions {
+      padding-right: 6px;
+      border-right: 1px dashed #d1d5db;
+    }
+
+    @media (max-width: 800px) {
+      .questions {
+        border-right: none;
+        border-bottom: 1px dashed #d1d5db;
+        padding-bottom: 10px;
+        margin-bottom: 8px;
+      }
+    }
+
+    .q-block {
+      margin-bottom: 10px;
+    }
+
+    .q-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+      margin-bottom: 2px;
+    }
+
+    .q-text {
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .q-hint {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .answer-card {
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.86rem;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      position: relative;
+    }
+
+    .answer-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .answer-text {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .answer-tag {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #1d4ed8;
+    }
+
+    .answer-card.prompt {
+      border-left: 3px solid #f97316;
+    }
+
+    .answer-card.persistent {
+      border-left: 3px solid #059669;
+    }
+
+    .answer-card.structural {
+      border-left: 3px solid #1d4ed8;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      color: #6b7280;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .legend-dot.prompt { background: #f97316; }
+    .legend-dot.persistent { background: #059669; }
+    .legend-dot.structural { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+
+<div class="shell">
+  <header>
+    <div class="pill">Customization Map</div>
+    <h1>Choosing the Right Level of Customization</h1>
+    <p>
+      Not every task needs a custom agent, and not every workflow should live in a one-off prompt.
+      Use this visual guide to decide when to stay simple and when to invest in deeper structure.
+    </p>
+  </header>
+
+  <!-- Three levels at a glance -->
+  <section class="levels-row" aria-label="Three levels of customization">
+    <article class="level-card">
+      <div class="level-tag">
+        <span class="circle"></span>
+        <span>Level 1</span>
+      </div>
+      <h2 class="level-title">Prompt-Level Customization</h2>
+      <p class="level-subtitle">Situational · Ephemeral · Safest starting point</p>
+      <ul class="level-list">
+        <li>Shape one conversation at a time.</li>
+        <li>Specify role, task, audience, format, and constraints.</li>
+        <li>Ideal for experiments, quick drafts, and one-off questions.</li>
+      </ul>
+      <span class="badge">Use when the task is unique or exploratory.</span>
+    </article>
+
+    <article class="level-card">
+      <div class="level-tag">
+        <span class="circle"></span>
+        <span>Level 2</span>
+      </div>
+      <h2 class="level-title">Persistent Personalization</h2>
+      <p class="level-subtitle">Custom Instructions · Memory · Defaults</p>
+      <ul class="level-list">
+        <li>Store stable preferences about tone, format, and reasoning style.</li>
+        <li>Shape how the AI responds by default across conversations.</li>
+        <li>Best for recurring patterns you want every answer to follow.</li>
+      </ul>
+      <span class="badge">Use when repetition is costly.</span>
+    </article>
+
+    <article class="level-card">
+      <div class="level-tag">
+        <span class="circle"></span>
+        <span>Level 3</span>
+      </div>
+      <h2 class="level-title">Structural Customization</h2>
+      <p class="level-subtitle">Agents · RAG · Workflows · Projects</p>
+      <ul class="level-list">
+        <li>Build scoped tools around specific documents or tasks.</li>
+        <li>Use retrieval and rules for consistent, grounded behavior.</li>
+        <li>Shared, reusable, and higher stakes than personal prompts.</li>
+      </ul>
+      <span class="badge">Use when others will rely on the system.</span>
+    </article>
+  </section>
+
+  <!-- Decision guide -->
+  <section class="guide-wrapper" aria-label="Customization decision guide">
+    <div class="guide-heading">
+      <h2>Decision Guide: Which Level Do I Need?</h2>
+      <span>Read down the questions and glance right at the recommended tier.</span>
+    </div>
+
+    <div class="guide-grid">
+      <!-- Left: questions -->
+      <div class="questions">
+        <div class="q-block">
+          <div class="q-label">Question 1</div>
+          <div class="q-text">Is this a one-off or highly varied task?</div>
+          <div class="q-hint">Example: rewriting a single email, clarifying a concept, exploring an idea.</div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">Question 2</div>
+          <div class="q-text">Will I repeat this pattern frequently, with similar goals and expectations?</div>
+          <div class="q-hint">Example: weekly reading summaries, standard feedback structure, preferred tone.</div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">Question 3</div>
+          <div class="q-text">Do other people need to rely on this and trust it to use specific sources or rules?</div>
+          <div class="q-hint">Example: policy Q&amp;A, program help-bots, shared tutoring tools.</div>
+        </div>
+
+        <div class="q-block">
+          <div class="q-label">Rule of thumb</div>
+          <div class="q-text">
+            Start as low as possible on the ladder (prompt-level) and move up only when repetition or shared use
+            makes the investment worthwhile.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: answers aligned to levels -->
+      <div class="answers">
+        <div class="answer-card prompt">
+          <div class="answer-tag">Level 1</div>
+          <div class="answer-label">If the task is unique or exploratory</div>
+          <div class="answer-text">
+            Stay at <strong>prompt-level customization</strong>. Design a clear, structured prompt for this situation
+            and keep your changes local to this conversation. No persistent settings needed.
+          </div>
+        </div>
+
+        <div class="answer-card persistent">
+          <div class="answer-tag">Level 2</div>
+          <div class="answer-label">If the pattern repeats for you personally</div>
+          <div class="answer-text">
+            Promote the pattern into <strong>persistent instructions</strong>. Encode stable preferences in Custom
+            Instructions or memory so you don’t have to restate them every time.
+          </div>
+        </div>
+
+        <div class="answer-card structural">
+          <div class="answer-tag">Level 3</div>
+          <div class="answer-label">If others will depend on it, or it needs documents</div>
+          <div class="answer-text">
+            Invest in <strong>structural customization</strong>: a project, RAG-backed agent, or custom GPT with clear
+            scope, curated sources, and documented limitations. Treat it like shared infrastructure.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="legend" aria-label="Legend for color cues">
+      <span><span class="legend-dot prompt"></span> Level 1 · Prompt-level</span>
+      <span><span class="legend-dot persistent"></span> Level 2 · Persistent</span>
+      <span><span class="legend-dot structural"></span> Level 3 · Structural</span>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>

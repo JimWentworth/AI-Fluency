@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Tool Decision Guide – Illinois</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --illini-blue: #13294b;
+      --illini-orange: #ff552e;
+      --light-bg: #f4f5f7;
+      --card-bg: #ffffff;
+      --border-subtle: #d0d4dc;
+      --text-main: #1f2933;
+      --text-muted: #6b7280;
+      --radius-lg: 16px;
+      --shadow-soft: 0 8px 20px rgba(15, 23, 42, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top left, #e5edf7, #f7f7fb);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .app {
+      max-width: 960px;
+      width: 100%;
+      background: var(--card-bg);
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(260px, 1.4fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 800px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    header {
+      grid-column: 1 / -1;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 8px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--illini-blue);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      background: rgba(19, 41, 75, 0.06);
+      color: var(--illini-blue);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge span.icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--illini-orange);
+      color: #fff;
+      font-size: 0.7rem;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Left side: wizard */
+    .wizard {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stepper {
+      display: flex;
+      gap: 8px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      background: #f9fafb;
+    }
+
+    .step-pill.active {
+      border-color: var(--illini-orange);
+      background: rgba(255, 85, 46, 0.08);
+      color: var(--illini-blue);
+    }
+
+    .step-pill span.num {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 1px solid currentColor;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+    }
+
+    .card {
+      background: var(--light-bg);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .question-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--illini-blue);
+    }
+
+    .question-caption {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.05s ease, box-shadow 0.1s ease, border-color 0.1s ease,
+        background 0.1s ease;
+    }
+
+    .option-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .option-label {
+      font-weight: 500;
+    }
+
+    .option-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .option-chip {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: rgba(19, 41, 75, 0.06);
+      color: var(--illini-blue);
+    }
+
+    .option-btn.selected {
+      border-color: var(--illini-orange);
+      background: rgba(255, 85, 46, 0.05);
+      box-shadow: 0 0 0 1px rgba(255, 85, 46, 0.2);
+    }
+
+    .option-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.12);
+    }
+
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 14px;
+      border: 1px solid var(--border-subtle);
+      background: #ffffff;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.1s ease, border-color 0.1s ease,
+        transform 0.05s ease, box-shadow 0.1s ease;
+    }
+
+    .btn-primary {
+      background: var(--illini-orange);
+      border-color: var(--illini-orange);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(15, 23, 42, 0.16);
+    }
+
+    .progress-text {
+      color: var(--text-muted);
+    }
+
+    .pill-muted {
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.04);
+      padding: 4px 8px;
+    }
+
+    /* Right side: result panel */
+    .result-panel {
+      background: #0f172a;
+      border-radius: 20px;
+      padding: 18px 16px;
+      color: #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-panel::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(
+          circle at top right,
+          rgba(255, 85, 46, 0.35),
+          transparent 55%
+        ),
+        radial-gradient(
+          circle at bottom left,
+          rgba(56, 189, 248, 0.2),
+          transparent 50%
+        );
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    .result-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .result-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a5b4fc;
+    }
+
+    .confidence-tag {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(199, 210, 254, 0.7);
+      color: #e5e7eb;
+      backdrop-filter: blur(4px);
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    .primary-rec-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #f97373;
+      margin-bottom: 2px;
+    }
+
+    .tool-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-chip {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      color: #e5e7eb;
+    }
+
+    .tool-desc {
+      font-size: 0.83rem;
+      color: #e5e7eb;
+      margin-bottom: 8px;
+    }
+
+    .secondary-list {
+      margin-top: 4px;
+      padding-left: 16px;
+      font-size: 0.78rem;
+      color: #cbd5f5;
+    }
+
+    .secondary-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #9ca3af;
+      margin-top: 8px;
+      margin-bottom: 2px;
+    }
+
+    .rec-tagline {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+
+    .summary-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .summary-pill {
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #e5e7eb;
+    }
+
+    .mini-label {
+      font-size: 0.72rem;
+      color: #9ca3af;
+      margin-top: 10px;
+    }
+
+    .chip-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.5);
+      color: #e5e7eb;
+    }
+
+    .chip-inline span {
+      font-size: 0.7rem;
+    }
+
+    .muted-small {
+      font-size: 0.7rem;
+      color: #6b7280;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app" aria-label="AI Tool Decision Guide">
+    <header>
+      <div class="title-row">
+        <div>
+          <h1>
+            AI Tool Decision Guide
+            <span class="badge">
+              <span class="icon">i</span>
+              Illinois staff helper
+            </span>
+          </h1>
+          <p class="subtitle">
+            Answer a few quick questions to get a recommended AI tool for your
+            task.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Wizard -->
+    <section class="wizard" aria-label="Decision wizard">
+      <div class="stepper">
+        <div class="step-pill" data-step-pill="1">
+          <span class="num">1</span>
+          Need &amp; sensitivity
+        </div>
+        <div class="step-pill" data-step-pill="2">
+          <span class="num">2</span>
+          Work environment
+        </div>
+        <div class="step-pill" data-step-pill="3">
+          <span class="num">3</span>
+          Task type
+        </div>
+      </div>
+
+      <!-- Question card -->
+      <div class="card" id="question-card">
+        <div id="question-content">
+          <!-- JS will populate these -->
+          <div class="question-title" id="question-title"></div>
+          <div class="question-caption" id="question-caption"></div>
+          <div class="options" id="options-container"></div>
+        </div>
+
+        <div class="nav-row">
+          <div class="progress-text">
+            <span class="pill-muted">
+              Step <span id="step-index">1</span> of 3
+            </span>
+          </div>
+          <div class="nav-buttons">
+            <button class="btn" id="back-btn" type="button">
+              ← Back
+            </button>
+            <button class="btn btn-primary" id="next-btn" type="button">
+              Next →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted-small">
+        Tip: this guide only compares tools where we have moderate-to-high
+        confidence about their behavior in an enterprise / campus context.
+      </p>
+    </section>
+
+    <!-- Result panel -->
+    <aside class="result-panel" aria-label="Recommended tool">
+      <div class="result-inner" id="result-inner">
+        <div class="result-header">
+          <div class="result-title">Recommended starting point</div>
+          <span class="confidence-tag">High-level guidance</span>
+        </div>
+        <div id="result-body">
+          <div class="primary-rec-label">Primary tool</div>
+          <div class="tool-name">
+            <span id="primary-tool-name">—</span>
+            <span class="tool-chip" id="primary-tool-chip">Pick an option to get started</span>
+          </div>
+          <p class="tool-desc" id="primary-tool-desc">
+            Start answering questions on the left to see a recommendation.
+          </p>
+
+          <div class="secondary-label">Also worth considering</div>
+          <ul class="secondary-list" id="secondary-list">
+            <li>ChatGPT Edu – for deep reasoning and creativity</li>
+            <li>Copilot – for work already happening in Microsoft 365</li>
+            <li>Gemini Pro – for multimodal and Google Workspace tasks</li>
+            <li>Illinois Chat – for campus-specific and sensitive content</li>
+          </ul>
+
+          <p class="rec-tagline" id="rec-tagline">
+            All tools require human judgment for sensitive decisions and
+            accuracy checks.
+          </p>
+
+          <div class="summary-pills" id="summary-pills">
+            <span class="summary-pill">Drafts &amp; summaries</span>
+            <span class="summary-pill">Multimodal support</span>
+            <span class="summary-pill">Enterprise privacy</span>
+          </div>
+
+          <p class="mini-label">
+            Quick rule-of-thumb
+          </p>
+          <p class="mini-label">
+            <span class="chip-inline">
+              <span>🔒 Sensitive or Illinois policy →</span>
+              <strong>Illinois Chat</strong>
+            </span>
+          </p>
+          <p class="mini-label">
+            <span class="chip-inline">
+              <span>📧 Outlook / Word / Excel →</span>
+              <strong>Copilot</strong>
+            </span>
+          </p>
+          <p class="mini-label">
+            <span class="chip-inline">
+              <span>🧠 Deep reasoning & creativity →</span>
+              <strong>ChatGPT Edu</strong>
+            </span>
+          </p>
+          <p class="mini-label">
+            <span class="chip-inline">
+              <span>📂 Google Docs / Drive →</span>
+              <strong>Gemini Pro</strong>
+            </span>
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // Simple state object
+    const state = {
+      step: 1,
+      answers: {
+        sensitive: null,      // "yes" | "no"
+        environment: null,    // "microsoft" | "google" | "neither"
+        taskType: null        // "policy" | "creative" | "summary" | "workflow"
+      }
+    };
+
+    // Questions definition
+    const questions = {
+      1: {
+        id: 1,
+        title: "Are you working with sensitive or Illinois-specific information?",
+        caption:
+          "Think about student data, internal planning docs, draft policies, or anything that should stay within Illinois systems.",
+        field: "sensitive",
+        options: [
+          {
+            value: "yes",
+            label: "Yes – sensitive or internal to Illinois",
+            hint: "Student records, internal planning, draft policies, research-in-progress",
+            chip: "Leans toward Illinois Chat"
+          },
+          {
+            value: "no",
+            label: "No – general or low-risk content",
+            hint: "Public-facing text, generic brainstorming, non-identifiable examples",
+            chip: "Any enterprise tool is viable"
+          }
+        ]
+      },
+      2: {
+        id: 2,
+        title: "Where are you primarily doing the work?",
+        caption:
+          "Choose the environment where your documents, emails, or files mainly live for this task.",
+        field: "environment",
+        options: [
+          {
+            value: "microsoft",
+            label: "Microsoft 365 (Outlook, Word, Excel, Teams)",
+            hint: "Emails, reports, spreadsheets, Teams meetings",
+            chip: "Leans toward Copilot"
+          },
+          {
+            value: "google",
+            label: "Google Workspace (Docs, Drive, Slides)",
+            hint: "Shared docs, slides, Drive files",
+            chip: "Leans toward Gemini Pro"
+          },
+          {
+            value: "neither",
+            label: "Neither / multiple tools / web forms",
+            hint: "Browsing, LMS work, mixed environments",
+            chip: "Leans toward ChatGPT Edu or Illinois Chat"
+          }
+        ]
+      },
+      3: {
+        id: 3,
+        title: "What best describes your task?",
+        caption:
+          "Pick the option that fits most closely. You can always refine later.",
+        field: "taskType",
+        options: [
+          {
+            value: "policy",
+            label: "Illinois policy or campus-specific questions",
+            hint: "“What’s our policy on…?”, internal guidance, procedures",
+            chip: "Strong case for Illinois Chat"
+          },
+          {
+            value: "creative",
+            label: "Creative exploration or idea generation",
+            hint: "Brainstorming, scenario design, messaging variants",
+            chip: "Leans toward ChatGPT Edu"
+          },
+          {
+            value: "summary",
+            label: "Summarizing, explaining, or clarifying content",
+            hint: "Meeting notes, long emails, reports, documents",
+            chip: "Most tools can help"
+          },
+          {
+            value: "workflow",
+            label: "Automating a work task or handling files",
+            hint: "Drafting responses, document cleanup, spreadsheet help",
+            chip: "Leans toward Copilot or Gemini"
+          }
+        ]
+      }
+    };
+
+    const questionTitle = document.getElementById("question-title");
+    const questionCaption = document.getElementById("question-caption");
+    const optionsContainer = document.getElementById("options-container");
+    const backBtn = document.getElementById("back-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const stepIndex = document.getElementById("step-index");
+    const stepPills = document.querySelectorAll("[data-step-pill]");
+
+    const primaryToolName = document.getElementById("primary-tool-name");
+    const primaryToolChip = document.getElementById("primary-tool-chip");
+    const primaryToolDesc = document.getElementById("primary-tool-desc");
+    const secondaryList = document.getElementById("secondary-list");
+    const recTagline = document.getElementById("rec-tagline");
+    const summaryPills = document.getElementById("summary-pills");
+
+    function renderStep() {
+      const step = state.step;
+      const q = questions[step];
+
+      // Update step pills
+      stepPills.forEach((pill) => {
+        const pillStep = Number(pill.getAttribute("data-step-pill"));
+        pill.classList.toggle("active", pillStep === step);
+      });
+
+      // Update question text
+      questionTitle.textContent = q.title;
+      questionCaption.textContent = q.caption;
+      stepIndex.textContent = step;
+
+      // Render options
+      optionsContainer.innerHTML = "";
+      q.options.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-btn";
+        if (state.answers[q.field] === opt.value) {
+          btn.classList.add("selected");
+        }
+
+        const main = document.createElement("div");
+        main.className = "option-main";
+
+        const label = document.createElement("div");
+        label.className = "option-label";
+        label.textContent = opt.label;
+
+        const hint = document.createElement("div");
+        hint.className = "option-hint";
+        hint.textContent = opt.hint;
+
+        main.appendChild(label);
+        main.appendChild(hint);
+
+        const chip = document.createElement("div");
+        chip.className = "option-chip";
+        chip.textContent = opt.chip;
+
+        btn.appendChild(main);
+        btn.appendChild(chip);
+
+        btn.addEventListener("click", () => {
+          state.answers[q.field] = opt.value;
+          renderStep();
+          updateResult(); // live update
+        });
+
+        optionsContainer.appendChild(btn);
+      });
+
+      // Nav button states
+      backBtn.disabled = step === 1;
+      if (step < 3) {
+        nextBtn.textContent = "Next →";
+      } else {
+        nextBtn.textContent = "See recommendation";
+      }
+
+      const field = q.field;
+      const answered = state.answers[field] !== null;
+      nextBtn.disabled = !answered;
+
+      // Highlight selected option
+      const buttons = optionsContainer.querySelectorAll(".option-btn");
+      buttons.forEach((btn, idx) => {
+        const opt = q.options[idx];
+        btn.classList.toggle(
+          "selected",
+          state.answers[q.field] === opt.value
+        );
+      });
+    }
+
+    function computeRecommendation() {
+      const { sensitive, environment, taskType } = state.answers;
+
+      // Defaults
+      let primary = {
+        name: "ChatGPT Edu",
+        chip: "General-purpose starting point",
+        desc:
+          "A good default for drafting, summarizing, and exploratory work when content is not highly sensitive.",
+      };
+
+      let secondary = [
+        "Copilot – for tasks tightly integrated with Outlook, Word, Excel, or Teams.",
+        "Gemini Pro – for multimodal work and Drive / Docs content.",
+        "Illinois Chat – for campus-specific or sensitive information."
+      ];
+
+      let tagline =
+        "Use this as a starting point. Always review outputs and apply your judgment.";
+      let pills = ["Drafts & summaries", "Multimodal support", "Enterprise privacy"];
+
+      // If explicitly sensitive or policy-oriented, Illinois Chat dominates
+      if (sensitive === "yes" || taskType === "policy") {
+        primary = {
+          name: "Illinois Chat",
+          chip: "Campus-specific & higher privacy",
+          desc:
+            "Best starting point when you’re working with Illinois policy, internal planning, student-related data, or other sensitive content."
+        };
+        tagline =
+          "Use Illinois Chat when privacy, policy alignment, or Illinois-specific answers matter most. Pull in other tools for generic, non-sensitive tasks.";
+
+        pills = ["Campus-specific guidance", "Higher privacy expectations", "Internal workflows"];
+
+        secondary = [];
+
+        if (environment === "microsoft") {
+          secondary.push(
+            "Copilot – for formatting and editing non-sensitive copies of your documents in Word, Excel, or Outlook."
+          );
+        }
+        if (environment === "google") {
+          secondary.push(
+            "Gemini Pro – for generic, non-sensitive brainstorming or document help in Docs."
+          );
+        }
+        secondary.push(
+          "ChatGPT Edu – for creative rephrasing, examples, or scenarios that don’t involve real student or confidential data."
+        );
+
+        return { primary, secondary, tagline, pills };
+      }
+
+      // Non-sensitive
+      if (environment === "microsoft") {
+        if (taskType === "workflow" || taskType === "summary") {
+          primary = {
+            name: "Microsoft Copilot",
+            chip: "Best fit for Microsoft 365",
+            desc:
+              "Ideal when your work lives in Outlook, Word, Excel, or Teams and you want summaries, drafts, or automation within those tools."
+          };
+          tagline =
+            "Start with Copilot when your files and messages are already in Microsoft 365. Use ChatGPT Edu for deeper exploration or creative variants.";
+          pills = ["Outlook & Word support", "Excel assistance", "Meeting & email summaries"];
+
+          secondary = [
+            "ChatGPT Edu – for deeper reasoning, ‘what-if’ exploration, or more creative variants of your drafts.",
+            "Illinois Chat – if you shift into Illinois policy or sensitive internal content.",
+            "Gemini Pro – mainly if part of your work also lives in Google Workspace."
+          ];
+
+          return { primary, secondary, tagline, pills };
+        }
+      }
+
+      if (environment === "google") {
+        primary = {
+          name: "Gemini Pro",
+          chip: "Best fit for Google Workspace",
+          desc:
+            "Most convenient when your documents, slides, and notes live in Google Drive or Docs and you need explanation, summarization, or multimodal help."
+        };
+        tagline =
+          "Use Gemini Pro when your files are in Drive and you want summaries, explanations, or multimodal support. Turn to ChatGPT Edu for richer creative work.";
+        pills = ["Docs & Slides support", "Drive integration", "Multimodal reasoning"];
+
+        secondary = [
+          "ChatGPT Edu – for advanced reasoning, creative options, or more varied output styles.",
+          "Illinois Chat – when you need Illinois-specific answers or higher privacy.",
+          "Copilot – if parts of the workflow also live in Microsoft 365."
+        ];
+
+        return { primary, secondary, tagline, pills };
+      }
+
+      // Neither / mixed environment
+      if (environment === "neither") {
+        if (taskType === "creative") {
+          primary = {
+            name: "ChatGPT Edu",
+            chip: "Deep reasoning & creativity",
+            desc:
+              "A strong choice for brainstorming, scenario design, multi-step reasoning, and creative drafting when you’re not tied to a specific office suite."
+          };
+          tagline =
+            "Use ChatGPT Edu as your main thinking partner when you’re exploring ideas, designing scenarios, or iterating on language.";
+          pills = ["Brainstorming", "Scenarios & examples", "Iterative refinement"];
+
+          secondary = [
+            "Illinois Chat – if the work turns toward Illinois policy or internal questions.",
+            "Copilot – when you move the results into Word, Excel, or Outlook.",
+            "Gemini Pro – when you move content into Docs or want multimodal explanation."
+          ];
+
+          return { primary, secondary, tagline, pills };
+        }
+
+        if (taskType === "summary") {
+          primary = {
+            name: "ChatGPT Edu",
+            chip: "Flexible summarizer & explainer",
+            desc:
+              "Useful for summarizing text you copy in, rewriting it for different audiences, and explaining complex material in plainer language."
+          };
+          tagline =
+            "Start with ChatGPT Edu for explanation and summarization when you’re not locked into a specific platform.";
+          pills = ["Summaries", "Audience adaptation", "Plain-language explanations"];
+
+          secondary = [
+            "Illinois Chat – for Illinois-focused summaries of campus documents.",
+            "Copilot – once you bring content into Word or Outlook for editing.",
+            "Gemini Pro – if you move the content into Docs or need multimodal explanation."
+          ];
+
+          return { primary, secondary, tagline, pills };
+        }
+
+        if (taskType === "workflow") {
+          primary = {
+            name: "ChatGPT Edu",
+            chip: "General workflow helper",
+            desc:
+              "Good for drafting templates, checklists, and responses that you can then paste into other systems or tools."
+          };
+          tagline =
+            "Start with ChatGPT Edu to design the content or workflow, then move into the environment where you’ll actually execute it.";
+          pills = ["Templates & checklists", "Draft responses", "Process design"];
+
+          secondary = [
+            "Copilot – if most of your operational work is still in Microsoft 365.",
+            "Gemini Pro – if your team leans heavily on Google Workspace.",
+            "Illinois Chat – for workflows tied directly to Illinois procedures or policy."
+          ];
+
+          return { primary, secondary, tagline, pills };
+        }
+      }
+
+      // Fallback: non-sensitive, environment or task not clearly specified
+      return { primary, secondary, tagline, pills };
+    }
+
+    function updateResult() {
+      const { primary, secondary, tagline, pills } = computeRecommendation();
+
+      primaryToolName.textContent = primary.name;
+      primaryToolChip.textContent = primary.chip;
+      primaryToolDesc.textContent = primary.desc;
+
+      secondaryList.innerHTML = "";
+      secondary.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        secondaryList.appendChild(li);
+      });
+
+      recTagline.textContent = tagline;
+
+      summaryPills.innerHTML = "";
+      pills.forEach((p) => {
+        const span = document.createElement("span");
+        span.className = "summary-pill";
+        span.textContent = p;
+        summaryPills.appendChild(span);
+      });
+    }
+
+    // Navigation
+    backBtn.addEventListener("click", () => {
+      if (state.step > 1) {
+        state.step -= 1;
+        renderStep();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      const currentQ = questions[state.step];
+      const answered = state.answers[currentQ.field] !== null;
+
+      if (!answered) return;
+
+      if (state.step < 3) {
+        state.step += 1;
+        renderStep();
+      } else {
+        // Already on final step; just update result (it already updates live)
+        updateResult();
+      }
+    });
+
+    // Initial render
+    renderStep();
+    updateResult();
+  </script>
+</body>
+</html>

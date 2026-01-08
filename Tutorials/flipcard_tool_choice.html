@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Which AI Tool Should I Use? - UIUC AI Fluency</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Optional: Google Font close to Illinois brand -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+  />
+
+  <style>
+    :root {
+      --illini-blue: #13294B;
+      --illini-orange: #E84A27;
+      --illini-light: #F7F7F7;
+      --illini-border: #D1D5DB;
+      --page-bg: #F3F4F6;
+      --card-radius: 1rem;
+      --card-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--page-bg);
+      color: #111827;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--illini-blue);
+      color: #ffffff;
+      padding: 1.5rem 1.25rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    header .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #E5E7EB;
+      max-width: 680px;
+    }
+
+    main {
+      flex: 1;
+      padding: 1.75rem 1.25rem 2rem;
+    }
+
+    .uiuc-tool-flipcards {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 1.25rem;
+      padding: 1.75rem 1.5rem 1.75rem;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+      border: 1px solid #E5E7EB;
+    }
+
+    .uiuc-tool-flipcards h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.25rem;
+      color: var(--illini-blue);
+      font-weight: 700;
+    }
+
+    .uiuc-tool-flipcards p.subtitle {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: #4B5563;
+      font-size: 0.98rem;
+    }
+
+    .tool-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .flip-card {
+      background: transparent;
+      perspective: 1200px;
+      outline: none;
+      border-radius: var(--card-radius);
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      min-height: 210px;
+      transition: transform 0.6s ease;
+      transform-style: preserve-3d;
+    }
+
+    .flip-card:hover .flip-card-inner,
+    .flip-card:focus-within .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--illini-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      background: #ffffff;
+    }
+
+    .flip-card-front {
+      background: linear-gradient(145deg, #ffffff 0%, #f9fafb 40%, #eef2ff 100%);
+    }
+
+    .flip-card-back {
+      transform: rotateY(180deg);
+      background: #ffffff;
+    }
+
+    .card-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+      background: var(--illini-orange);
+      color: #ffffff;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    .flip-card-front h3 {
+      margin: 0.25rem 0 0.4rem;
+      font-size: 1rem;
+      color: var(--illini-blue);
+    }
+
+    .flip-card-front p,
+    .flip-card-back p,
+    .flip-card-back ul {
+      font-size: 0.9rem;
+      color: #374151;
+      margin: 0;
+    }
+
+    .flip-card-back h4 {
+      font-size: 0.88rem;
+      margin: 0 0 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--illini-blue);
+    }
+
+    .flip-card-back ul {
+      padding-left: 1.2rem;
+      margin-top: 0;
+    }
+
+    .flip-card-back li + li {
+      margin-top: 0.25rem;
+    }
+
+    .card-footnote {
+      margin-top: 0.7rem;
+      font-size: 0.78rem;
+      color: #6B7280;
+    }
+
+    .flip-hint {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #6B7280;
+      text-align: center;
+    }
+
+    .flip-card[tabindex] {
+      cursor: pointer;
+    }
+
+    footer {
+      padding: 0.5rem 1.25rem 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #6B7280;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 1.25rem 1rem;
+      }
+
+      main {
+        padding: 1.25rem 1rem 1.5rem;
+      }
+
+      .uiuc-tool-flipcards {
+        padding: 1.4rem 1.1rem 1.5rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .flip-card-inner {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header>
+      <div class="header-inner">
+        <h1>Which AI Tool Should I Use?</h1>
+        <p>
+          A quick decision guide for students, staff, and faculty exploring general, research,
+          productivity, and media-focused AI tools in an Illinois-aligned interface.
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <section class="uiuc-tool-flipcards" aria-label="AI Tool Selection Flipcards">
+        <h2>Flipcards: Match Your Task to the Right Tool</h2>
+        <p class="subtitle">
+          Hover or tap each card to flip. The front describes your task; the back suggests AI tools
+          that fit that goal. This is not an endorsement list, but a starting point for informed choice.
+        </p>
+
+        <div class="tool-card-grid">
+          <!-- CARD 1: General Writing / Reasoning -->
+          <div class="flip-card" tabindex="0" aria-label="General writing and reasoning tools">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">General</span>
+                <h3>I need help writing, brainstorming, or analyzing.</h3>
+                <p>
+                  Draft text, explore ideas, or get help reasoning through problems and options.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Try These</h4>
+                <ul>
+                  <li><strong>ChatGPT</strong> — all-purpose writing and reasoning.</li>
+                  <li><strong>Claude</strong> — strong for long or complex documents.</li>
+                  <li><strong>Gemini</strong> — seamless inside Google Docs and other apps.</li>
+                  <li><strong>Napkin AI</strong> — organizes messy ideas into visual structure.</li>
+                  <li><strong>Notion AI</strong> — ideal if your work lives in Notion.</li>
+                </ul>
+                <div class="card-footnote">
+                  Choose one as your main workspace; switch tools only when the task truly requires it.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: Research -->
+          <div class="flip-card" tabindex="0" aria-label="Research and citation tools">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">Research</span>
+                <h3>I need evidence, citations, or document-based answers.</h3>
+                <p>
+                  Ground your work in sources, summaries, and analysis of real documents or the web.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Try These</h4>
+                <ul>
+                  <li><strong>Perplexity</strong> — answers with citations and links.</li>
+                  <li><strong>NotebookLM</strong> — summarizes and synthesizes your uploaded files.</li>
+                  <li><strong>Gemini</strong> — good for multimodal and web-grounded queries.</li>
+                </ul>
+                <div class="card-footnote">
+                  Never rely on a single summary; open a few sources yourself and verify.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: Productivity / Microsoft -->
+          <div class="flip-card" tabindex="0" aria-label="Productivity tools in Microsoft 365">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">Productivity</span>
+                <h3>I use Word, PowerPoint, Excel, or Outlook.</h3>
+                <p>
+                  You want AI directly inside Microsoft 365 to draft, summarize, and transform content.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Try These</h4>
+                <ul>
+                  <li><strong>Microsoft Copilot</strong> — integrated into M365 apps.</li>
+                  <li><strong>ChatGPT</strong> — useful for drafting before paste-back.</li>
+                </ul>
+                <div class="card-footnote">
+                  Works best when your documents are stored in OneDrive or SharePoint.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 4: Secure / Institutional -->
+          <div class="flip-card" tabindex="0" aria-label="Secure and campus-approved tools">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">Secure</span>
+                <h3>I’m working with sensitive or internal university data.</h3>
+                <p>
+                  Use institutionally approved tools for anything involving student or private information.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Try These</h4>
+                <ul>
+                  <li><strong>Illinois Chat</strong> — campus-secure and FERPA-aligned.</li>
+                  <li><strong>Copilot for M365</strong> — strong enterprise protections when configured by IT.</li>
+                </ul>
+                <div class="card-footnote">
+                  When in doubt, treat non-public information as requiring a campus-approved system.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 5: Images -->
+          <div class="flip-card" tabindex="0" aria-label="Image generation tools">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">Images</span>
+                <h3>I need an illustration, diagram, or concept sketch.</h3>
+                <p>
+                  Generate visuals for slides, handouts, prototypes, or conceptual exploration.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Try These</h4>
+                <ul>
+                  <li><strong>Adobe Firefly</strong> — safer licensing and strong academic visuals.</li>
+                  <li><strong>Leonardo</strong> — custom styles, concept art, and rich illustration.</li>
+                  <li><strong>Midjourney</strong> — highly aesthetic imagery (when available).</li>
+                  <li><strong>Napkin AI</strong> — conceptual diagrams and structured maps.</li>
+                </ul>
+                <div class="card-footnote">
+                  Verify all scientific, technical, or historical details before teaching with AI images.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 6: Avatar Video -->
+          <div class="flip-card" tabindex="0" aria-label="Avatar video tools">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">Avatar Video</span>
+                <h3>I want a talking-head or presenter-style video.</h3>
+                <p>
+                  Create short explainer videos with a virtual presenter or avatar.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Try These</h4>
+                <ul>
+                  <li><strong>HeyGen</strong> — straightforward avatar videos from a script.</li>
+                  <li><strong>Synthesia</strong> — polished training and corporate-style videos.</li>
+                  <li><strong>D-ID</strong> — quick talking-photo clips.</li>
+                </ul>
+                <div class="card-footnote">
+                  Do not generate the likeness of real people without explicit, informed consent.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 7: Creative Video -->
+          <div class="flip-card" tabindex="0" aria-label="Creative video tools">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">Creative Video</span>
+                <h3>I want short, creative, or experimental clips.</h3>
+                <p>
+                  Use generative video for visual moods, storyboards, or abstract motion.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Try These</h4>
+                <ul>
+                  <li><strong>Runway Gen-2</strong> — versatile generative video creation.</li>
+                  <li><strong>Pika Labs</strong> — playful, experimental short-form clips.</li>
+                </ul>
+                <div class="card-footnote">
+                  Treat these as idea prototypes, not final production-quality content.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 8: Voice / Audio -->
+          <div class="flip-card" tabindex="0" aria-label="Voice and narration tools">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">Voice</span>
+                <h3>I need narration, voiceover, or synthetic speech.</h3>
+                <p>
+                  Create audio for slides, video, podcasts, or accessibility support.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Try These</h4>
+                <ul>
+                  <li><strong>ElevenLabs</strong> — high-quality, natural-sounding voices.</li>
+                  <li><strong>Descript</strong> — narration plus simple editing and Overdub voice options.</li>
+                </ul>
+                <div class="card-footnote">
+                  Only clone voices with explicit permission and appropriate disclosure.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 9: Notes / Knowledge Work -->
+          <div class="flip-card" tabindex="0" aria-label="Knowledge and note organization tools">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">Notes</span>
+                <h3>I need to organize notes, ideas, or tasks.</h3>
+                <p>
+                  Use AI to help structure, connect, and refine your knowledge and plans.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Try These</h4>
+                <ul>
+                  <li><strong>Notion AI</strong> — integrates notes, docs, and tasks in one place.</li>
+                  <li><strong>Napkin AI</strong> — maps ideas into connected concepts and flows.</li>
+                  <li><strong>Claude / ChatGPT</strong> — rewriting, summarizing, and reorganizing notes.</li>
+                </ul>
+                <div class="card-footnote">
+                  Let AI help with structure; keep human judgment on meaning and priority.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 10: Unsure -->
+          <div class="flip-card" tabindex="0" aria-label="Default starting tools">
+            <div class="flip-card-inner">
+              <div class="flip-card-face flip-card-front">
+                <span class="card-tag">Unsure</span>
+                <h3>I’m not sure what tool I need yet.</h3>
+                <p>
+                  Start with flexible, general-purpose options and adjust as your task becomes clearer.
+                </p>
+              </div>
+              <div class="flip-card-face flip-card-back">
+                <h4>Start Here</h4>
+                <ul>
+                  <li><strong>ChatGPT</strong> — best general starting point for most tasks.</li>
+                  <li><strong>Perplexity</strong> — best if you care most about research and citations.</li>
+                  <li><strong>Adobe Firefly</strong> — simple, safe visuals if you need images.</li>
+                  <li><strong>HeyGen</strong> — easy entry for short avatar-style videos.</li>
+                </ul>
+                <div class="card-footnote">
+                  Learn one tool’s strengths and limits, then branch out selectively.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="flip-hint">
+          Tip: On desktop, hover to flip cards. On touch devices, tap. With a keyboard, tab to a card and press Enter or Space to read both sides.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      UIUC AI Fluency · Tool selection guide for educational and professional use.
+    </footer>
+  </div>
+</body>
+</html>

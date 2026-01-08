@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Personalizing Your AI Workspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Optional: Google Fonts approximating Illinois style -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Illinois-inspired palette */
+      --il-blue: #13294b;
+      --il-orange: #e84a27;
+      --il-light-bg: #f7fafc;
+      --il-surface: #ffffff;
+      --il-border: #d1d5db;
+      --il-muted: #4b5563;
+      --il-focus: #f59e0b;
+
+      --radius-lg: 0.75rem;
+      --shadow-soft: 0 8px 20px rgba(15, 23, 42, 0.08);
+
+      --font-body: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-heading: "Roboto Slab", "Georgia", serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      background: radial-gradient(circle at top left, #e5edf7 0, #f9fafb 40%, #f9fafb 100%);
+      color: #0f172a;
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--il-orange);
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--il-blue);
+      color: #ffffff;
+      padding: 0.5rem 1rem;
+      z-index: 50;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    .page-wrapper {
+      min-height: 100vh;
+      padding: 1.5rem 1rem 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    main {
+      width: 100%;
+      max-width: 960px;
+      background: var(--il-surface);
+      border-radius: 1.25rem;
+      box-shadow: var(--shadow-soft);
+      padding: 1.75rem 1.5rem 2.25rem;
+    }
+
+    @media (min-width: 768px) {
+      .page-wrapper {
+        padding: 2.5rem 1.5rem 4rem;
+      }
+      main {
+        padding: 2.25rem 2.25rem 2.75rem;
+      }
+    }
+
+    header {
+      border-bottom: 1px solid var(--il-border);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--il-orange);
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 1.7rem;
+      line-height: 1.2;
+      color: var(--il-blue);
+      margin: 0 0 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .subtitle {
+      margin: 0.25rem 0 0.75rem;
+      color: var(--il-muted);
+      font-size: 0.98rem;
+    }
+
+    .note-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 999px;
+      padding: 0.15rem 0.8rem;
+      font-size: 0.75rem;
+      background: #eff6ff;
+      color: #1e40af;
+      margin-top: 0.3rem;
+    }
+
+    .note-pill span[aria-hidden="true"] {
+      font-size: 1rem;
+    }
+
+    .intro {
+      margin-bottom: 1.25rem;
+      font-size: 0.98rem;
+      color: #111827;
+    }
+
+    .intro strong {
+      font-weight: 600;
+    }
+
+    .section-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--il-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Accordion styles */
+    .accordion {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--il-border);
+      background: #f9fafb;
+      padding: 0.35rem;
+    }
+
+    .accordion-item + .accordion-item {
+      margin-top: 0.4rem;
+    }
+
+    .accordion-trigger {
+      width: 100%;
+      text-align: left;
+      background: #ffffff;
+      border-radius: 0.65rem;
+      border: 1px solid transparent;
+      padding: 0.75rem 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      cursor: pointer;
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--il-blue);
+      transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+    }
+
+    .accordion-trigger:hover {
+      background: #f3f4ff;
+      border-color: #c7d2fe;
+    }
+
+    .accordion-trigger:focus-visible {
+      outline: 2px solid var(--il-focus);
+      outline-offset: 2px;
+    }
+
+    .accordion-trigger[aria-expanded="true"] {
+      background: #eef2ff;
+      border-color: #c7d2fe;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+    }
+
+    .accordion-title {
+      display: flex;
+      flex-direction: column;
+      gap: 0.05rem;
+    }
+
+    .accordion-title-main {
+      font-size: 0.98rem;
+    }
+
+    .accordion-title-sub {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--il-muted);
+    }
+
+    .accordion-icon {
+      flex-shrink: 0;
+      width: 1.85rem;
+      height: 1.85rem;
+      border-radius: 999px;
+      border: 1px solid #c7d2fe;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: #e0ebff;
+    }
+
+    .accordion-icon::before {
+      content: "+";
+      transform-origin: center;
+      transition: transform 0.15s ease;
+    }
+
+    .accordion-trigger[aria-expanded="true"] .accordion-icon::before {
+      content: "–";
+      transform: translateY(-1px);
+    }
+
+    .accordion-panel {
+      padding: 0.25rem 0.9rem 0.75rem;
+      font-size: 0.94rem;
+      color: #111827;
+    }
+
+    .accordion-panel-inner {
+      border-left: 3px solid #c7d2fe;
+      padding-left: 0.75rem;
+      margin-top: 0.35rem;
+    }
+
+    .accordion-panel p {
+      margin: 0.25rem 0 0.5rem;
+    }
+
+    .accordion-panel ul {
+      margin: 0.25rem 0 0.5rem 1.2rem;
+      padding-left: 0;
+    }
+
+    .accordion-panel li {
+      margin-bottom: 0.2rem;
+    }
+
+    .tagline {
+      font-size: 0.85rem;
+      color: var(--il-muted);
+      font-style: italic;
+      margin-top: 0.25rem;
+    }
+
+    .footnote {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--il-border);
+      font-size: 0.85rem;
+      color: var(--il-muted);
+    }
+
+    .footnote-title {
+      font-weight: 700;
+      color: var(--il-blue);
+      font-size: 0.9rem;
+    }
+
+    .footnote sup {
+      font-weight: 700;
+      color: var(--il-orange);
+    }
+
+    .footer-meta {
+      margin-top: 0.75rem;
+      font-size: 0.78rem;
+      color: #6b7280;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: space-between;
+    }
+
+    .pill-small {
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      padding: 0.1rem 0.55rem;
+      background: #f9fafb;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        scroll-behavior: auto !important;
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <div class="page-wrapper">
+    <main id="main">
+      <header>
+        <div class="eyebrow">GenAI Fluency · Personalization</div>
+        <h1>Personalizing Your AI Workspace</h1>
+        <p class="subtitle">
+          Using ChatGPT as an example, with principles that carry across tools like Gemini, Claude, and Copilot.
+        </p>
+        <div class="note-pill">
+          <span aria-hidden="true">ⓘ</span>
+          <span>Features change fast — the categories stay useful.</span>
+        </div>
+      </header>
+
+      <section aria-labelledby="intro-heading" class="intro">
+        <h2 id="intro-heading" class="section-label">Why this matters</h2>
+        <p>
+          Modern AI tools let you tune how they behave, what they remember, and how they fit into your
+          teaching, learning, and research. This page highlights eight capability areas using
+          <strong>ChatGPT</strong> as the concrete example, while encouraging you to look for the same patterns
+          in any platform you use.
+        </p>
+        <p class="tagline">
+          Use personalization to reduce friction and extend your thinking — not to outsource judgment.
+        </p>
+      </section>
+
+      <section aria-label="Personalization options accordion">
+        <div class="section-label">Explore the 8 areas</div>
+        <div class="accordion" role="list">
+          <!-- 1. Custom Instructions -->
+          <article class="accordion-item" role="listitem">
+            <h2>
+              <button
+                type="button"
+                class="accordion-trigger"
+                aria-expanded="false"
+                aria-controls="panel-1"
+                id="accordion-1"
+              >
+                <span class="accordion-title">
+                  <span class="accordion-title-main">1. Custom Instructions</span>
+                  <span class="accordion-title-sub">Tell the AI who you are and how to respond.</span>
+                </span>
+                <span class="accordion-icon" aria-hidden="true"></span>
+              </button>
+            </h2>
+            <div
+              id="panel-1"
+              class="accordion-panel"
+              role="region"
+              aria-labelledby="accordion-1"
+              hidden
+            >
+              <div class="accordion-panel-inner">
+                <p><strong>What this is (ChatGPT):</strong> A persistent profile where you describe:</p>
+                <ul>
+                  <li>Your role, discipline(s), and context (e.g., “faculty in history,” “graduate student in CS”).</li>
+                  <li>How you want feedback (skeptical, encouraging, concise, step-by-step).</li>
+                  <li>Formatting preferences (bullets vs. prose, reading level, citation style).</li>
+                </ul>
+                <p><strong>What to look for in other tools:</strong> Any settings labeled “preferences,” “profile,”
+                  “style,” or “system instructions.”</p>
+                <p><strong>Why this matters:</strong> Reduces repetitive setup and aligns the AI with your working style,
+                  especially useful for recurring tasks like assignment design or email drafts.</p>
+                <p><strong>Check yourself:</strong> If your instructions are too narrow (“always write like X”), you may
+                  limit creative or divergent responses.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Memory -->
+          <article class="accordion-item" role="listitem">
+            <h2>
+              <button
+                type="button"
+                class="accordion-trigger"
+                aria-expanded="false"
+                aria-controls="panel-2"
+                id="accordion-2"
+              >
+                <span class="accordion-title">
+                  <span class="accordion-title-main">2. Memory</span>
+                  <span class="accordion-title-sub">Let the AI remember patterns across chats.</span>
+                </span>
+                <span class="accordion-icon" aria-hidden="true"></span>
+              </button>
+            </h2>
+            <div
+              id="panel-2"
+              class="accordion-panel"
+              role="region"
+              aria-labelledby="accordion-2"
+              hidden
+            >
+              <div class="accordion-panel-inner">
+                <p><strong>What this is (ChatGPT):</strong> An optional feature that lets the model remember recurring
+                  facts about your work and preferences across conversations.</p>
+                <p><strong>Use it for:</strong></p>
+                <ul>
+                  <li>Ongoing course or project builds (e.g., “this is for my GEN AI certificate program”).</li>
+                  <li>Stable preferences (e.g., “always push back on my first idea”).</li>
+                  <li>Common constraints (e.g., “assume FERPA-compliant scenarios”).</li>
+                </ul>
+                <p><strong>What to look for in other tools:</strong> Options like “memory,” “remember this,” or “workspace history.”</p>
+                <p><strong>Privacy check:</strong> Treat memory like a semi-public whiteboard. Don’t store real student data,
+                  confidential HR details, or anything that needs strict access control.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Projects / Workspaces -->
+          <article class="accordion-item" role="listitem">
+            <h2>
+              <button
+                type="button"
+                class="accordion-trigger"
+                aria-expanded="false"
+                aria-controls="panel-3"
+                id="accordion-3"
+              >
+                <span class="accordion-title">
+                  <span class="accordion-title-main">3. Projects & Workspaces</span>
+                  <span class="accordion-title-sub">Group documents, chats, and context together.</span>
+                </span>
+                <span class="accordion-icon" aria-hidden="true"></span>
+              </button>
+            </h2>
+            <div
+              id="panel-3"
+              class="accordion-panel"
+              role="region"
+              aria-labelledby="accordion-3"
+              hidden
+            >
+              <div class="accordion-panel-inner">
+                <p><strong>What this is (ChatGPT):</strong> <em>Projects</em> let you bundle files, instructions, and
+                  chats into a single context for a course, grant proposal, or research topic.</p>
+                <p><strong>Use it for:</strong></p>
+                <ul>
+                  <li>Course design spaces (syllabi, assignments, rubrics in one place).</li>
+                  <li>Research or grant proposals with multiple drafts and source documents.</li>
+                  <li>Administrative workflows (policies, templates, communications).</li>
+                </ul>
+                <p><strong>What to look for in other tools:</strong> “Projects,” “notebooks,” “workspaces,” or “collections.”</p>
+                <p><strong>Watch out for:</strong> Context drift. Re-check which workspace you’re in before asking a high-stakes question.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. Custom GPTs / Agents -->
+          <article class="accordion-item" role="listitem">
+            <h2>
+              <button
+                type="button"
+                class="accordion-trigger"
+                aria-expanded="false"
+                aria-controls="panel-4"
+                id="accordion-4"
+              >
+                <span class="accordion-title">
+                  <span class="accordion-title-main">4. Custom GPTs & Agents</span>
+                  <span class="accordion-title-sub">Build reusable AI “mini-apps” for specific tasks.</span>
+                </span>
+                <span class="accordion-icon" aria-hidden="true"></span>
+              </button>
+            </h2>
+            <div
+              id="panel-4"
+              class="accordion-panel"
+              role="region"
+              aria-labelledby="accordion-4"
+              hidden
+            >
+              <div class="accordion-panel-inner">
+                <p><strong>What this is (ChatGPT):</strong> <em>Custom GPTs</em> that bake in instructions, example interactions,
+                  and sometimes tools, effectively creating a tailored assistant.</p>
+                <p><strong>Use it for:</strong></p>
+                <ul>
+                  <li>A course-specific “Assignment Design Assistant.”</li>
+                  <li>A “UDL Reviewer” that checks course materials for accessibility prompts.</li>
+                  <li>Department workflows (e.g., “Syllabus Formatter” aligned with local policies).</li>
+                </ul>
+                <p><strong>What to look for in other tools:</strong> Names like “agents,” “apps,” “AI workflows,” “copilots,” or “studios.”</p>
+                <p><strong>Critical check:</strong> Decide when this should support a human (reviewing drafts) versus acting autonomously
+                  (auto-sending emails is usually a bad idea).</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. Shared Chats & Groups -->
+          <article class="accordion-item" role="listitem">
+            <h2>
+              <button
+                type="button"
+                class="accordion-trigger"
+                aria-expanded="false"
+                aria-controls="panel-5"
+                id="accordion-5"
+              >
+                <span class="accordion-title">
+                  <span class="accordion-title-main">5. Shared Chats, Groups & Collaboration</span>
+                  <span class="accordion-title-sub">Move from solo use to shared AI workspaces.</span>
+                </span>
+                <span class="accordion-icon" aria-hidden="true"></span>
+              </button>
+            </h2>
+            <div
+              id="panel-5"
+              class="accordion-panel"
+              role="region"
+              aria-labelledby="accordion-5"
+              hidden
+            >
+              <div class="accordion-panel-inner">
+                <p><strong>What this is:</strong> Ways to share chats, projects, or custom assistants with colleagues or students.</p>
+                <p><strong>Use it for:</strong></p>
+                <ul>
+                  <li>Faculty development: share a “prompt lab” or assignment builder GPT.</li>
+                  <li>Program teams: co-develop policies, FAQs, or communications with a shared AI context.</li>
+                  <li>Students: carefully designed, transparent helpers for brainstorming or self-check activities.</li>
+                </ul>
+                <p><strong>Risks to manage:</strong> Groupthink and hidden assumptions. Encourage at least one person to “play skeptic”
+                  with both the group and the AI.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. Research, Teach Me & Other Tools -->
+          <article class="accordion-item" role="listitem">
+            <h2>
+              <button
+                type="button"
+                class="accordion-trigger"
+                aria-expanded="false"
+                aria-controls="panel-6"
+                id="accordion-6"
+              >
+                <span class="accordion-title">
+                  <span class="accordion-title-main">6. Research, Teach Me & Sidecar Tools</span>
+                  <span class="accordion-title-sub">Mode-switching for research, learning, and analysis.</span>
+                </span>
+                <span class="accordion-icon" aria-hidden="true"></span>
+              </button>
+            </h2>
+            <div
+              id="panel-6"
+              class="accordion-panel"
+              role="region"
+              aria-labelledby="accordion-6"
+              hidden
+            >
+              <div class="accordion-panel-inner">
+                <p><strong>What this is (ChatGPT examples):</strong></p>
+                <ul>
+                  <li><em>Research</em> – pulls in and cites external sources for information-seeking tasks.</li>
+                  <li><em>Teach Me</em> – guides you through material step-by-step, with questions and checkpoints.</li>
+                  <li><em>File and data tools</em> – analyze spreadsheets, PDFs, or datasets.</li>
+                </ul>
+                <p><strong>Parallel features in other tools:</strong> Gemini’s grounded search and NotebookLM, Claude’s document analysis,
+                  Copilot’s 365-context tools, etc.</p>
+                <p><strong>Why this matters:</strong> These modes shift the AI from “just chatting” to structured research or learning flows.
+                  They are powerful, but you still need to:</p>
+                <ul>
+                  <li>Check how sources are selected and cited.</li>
+                  <li>Cross-verify high-stakes claims in original documents.</li>
+                  <li>Be explicit about when you’re exploring vs. confirming.</li>
+                </ul>
+              </div>
+            </div>
+          </article>
+
+          <!-- 7. Cross-Platform Mental Model -->
+          <article class="accordion-item" role="listitem">
+            <h2>
+              <button
+                type="button"
+                class="accordion-trigger"
+                aria-expanded="false"
+                aria-controls="panel-7"
+                id="accordion-7"
+              >
+                <span class="accordion-title">
+                  <span class="accordion-title-main">7. Cross-Platform Mental Model</span>
+                  <span class="accordion-title-sub">Translate these ideas across tools.</span>
+                </span>
+                <span class="accordion-icon" aria-hidden="true"></span>
+              </button>
+            </h2>
+            <div
+              id="panel-7"
+              class="accordion-panel"
+              role="region"
+              aria-labelledby="accordion-7"
+              hidden
+            >
+              <div class="accordion-panel-inner">
+                <p><strong>Key idea:</strong> Don’t memorize brand names. Look for these capability buckets in any tool:</p>
+                <ul>
+                  <li><strong>Personalization:</strong> Custom instructions, profiles, system messages.</li>
+                  <li><strong>Persistence:</strong> Memory, history, long-lived workspaces.</li>
+                  <li><strong>Project spaces:</strong> Workspaces, notebooks, collections, artifacts.</li>
+                  <li><strong>Custom agents:</strong> GPTs, agents, copilots, workflows, apps.</li>
+                  <li><strong>Sidecar modes:</strong> Research, teaching, data analysis, multimodal tools.</li>
+                </ul>
+                <p><strong>Practical move:</strong> When a new tool appears, ask: “Where do I set its personality?
+                  Where does it remember things? How do I group work? Does it have a research/learning mode?”</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- 8. Temporary Chats & Divergent Thinking -->
+          <article class="accordion-item" role="listitem">
+            <h2>
+              <button
+                type="button"
+                class="accordion-trigger"
+                aria-expanded="false"
+                aria-controls="panel-8"
+                id="accordion-8"
+              >
+                <span class="accordion-title">
+                  <span class="accordion-title-main">8. Temporary Chats & Divergent Thinking<sup>1</sup></span>
+                  <span class="accordion-title-sub">Sometimes you don’t want personalization.</span>
+                </span>
+                <span class="accordion-icon" aria-hidden="true"></span>
+              </button>
+            </h2>
+            <div
+              id="panel-8"
+              class="accordion-panel"
+              role="region"
+              aria-labelledby="accordion-8"
+              hidden
+            >
+              <div class="accordion-panel-inner">
+                <p><strong>What this is:</strong> “No-memory” or temporary chats where the AI does not store what you say for future use.</p>
+                <p><strong>Use them for:</strong></p>
+                <ul>
+                  <li>Brainstorming many different options or angles on a problem.</li>
+                  <li>Seeing how the model responds without your usual instructions and history.</li>
+                  <li>Testing radically different framings or tones for the same task.</li>
+                </ul>
+                <p><strong>Why this matters:</strong> Personalization makes the model more consistent, but it also narrows the space of ideas.
+                  Temporary chats intentionally <em>remove</em> those constraints so the AI can challenge your habits and surface alternatives
+                  you might not consider when it is tuned to your “normal” way of working.</p>
+                <p><strong>Good habit:</strong> For any important decision or design, consider running at least one temporary chat
+                  to generate divergent options before committing.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="footnote" aria-label="Divergent thinking footnote">
+        <p class="footnote-title">
+          <sup>1</sup> Divergent Thinking & Temporary Chats
+        </p>
+        <p>
+          Temporary or “no-memory” chats are essential when you need divergent thinking — that is, idea generation
+          unconstrained by your past preferences, writing style, or project history. Personalization improves consistency,
+          but it also narrows the model’s creative search space. Starting a temporary chat clears those constraints,
+          allowing the AI to explore alternative framings, challenge your assumptions, and surface options you’re less
+          likely to think of when the system is tuned to “your way” of working.
+        </p>
+        <p>
+          Use these sessions for brainstorming, reframing problems, or testing radically different directions before
+          returning to a personalized workspace.
+        </p>
+      </section>
+
+      <div class="footer-meta" aria-label="Page metadata">
+        <div class="pill-small">
+          Designed for: life-long learners (students, staff, and faculty)
+        </div>
+        <div class="pill-small">
+          Tip: Revisit this guide each semester as tools evolve.
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Accessible accordion behavior
+    (function () {
+      const triggers = document.querySelectorAll(".accordion-trigger");
+
+      triggers.forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          const expanded = trigger.getAttribute("aria-expanded") === "true";
+          const panelId = trigger.getAttribute("aria-controls");
+          const panel = document.getElementById(panelId);
+
+          trigger.setAttribute("aria-expanded", String(!expanded));
+          panel.hidden = expanded;
+        });
+
+        // Allow Enter/Space activation via button semantics (already supported),
+        // so no extra keydown handler needed here.
+      });
+    })();
+  </script>
+</body>
+</html>

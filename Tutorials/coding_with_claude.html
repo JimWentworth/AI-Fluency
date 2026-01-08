@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coding with Claude - UIUC AI Fluency</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+  />
+  <style>
+    :root {
+      --illini-blue: #13294B;
+      --illini-orange: #E84A27;
+      --page-bg: #F3F4F6;
+      --card-radius: 1rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Roboto", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: var(--page-bg);
+      color: #111827;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--illini-blue);
+      color: #ffffff;
+      padding: 1.5rem 1.25rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    header .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    header p {
+      margin: 0.35rem 0 0;
+      font-size: 0.95rem;
+      max-width: 640px;
+      color: #E5E7EB;
+    }
+
+    main {
+      flex: 1;
+      padding: 1.75rem 1.25rem 2rem;
+    }
+
+    .content {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 1.25rem;
+      padding: 1.75rem 1.5rem 1.75rem;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+      border: 1px solid #E5E7EB;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: var(--illini-blue);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      margin-top: 1.4rem;
+      color: #1F2933;
+    }
+
+    p {
+      font-size: 0.96rem;
+      line-height: 1.55;
+      margin: 0.35rem 0 0.75rem;
+      color: #374151;
+    }
+
+    ul {
+      margin: 0.2rem 0 0.9rem;
+      padding-left: 1.2rem;
+      font-size: 0.95rem;
+      color: #374151;
+    }
+
+    li + li {
+      margin-top: 0.25rem;
+    }
+
+    .callout {
+      border-radius: var(--card-radius);
+      padding: 0.85rem 1rem;
+      background: #F9FAFB;
+      border-left: 4px solid var(--illini-orange);
+      margin: 1.2rem 0;
+      font-size: 0.9rem;
+      color: #374151;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      background: #EEF2FF;
+      color: var(--illini-blue);
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+
+    code {
+      font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+        Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.9rem;
+      background: #F3F4F6;
+      padding: 0.05rem 0.3rem;
+      border-radius: 0.25rem;
+    }
+
+    pre {
+      background: #F3F4F6;
+      padding: 0.7rem 0.8rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+    }
+
+    footer {
+      padding: 0.75rem 1.25rem 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #6B7280;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding: 1.25rem 1rem;
+      }
+
+      main {
+        padding: 1.25rem 1rem 1.5rem;
+      }
+
+      .content {
+        padding: 1.4rem 1.1rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header>
+      <div class="header-inner">
+        <h1>Coding with Claude</h1>
+        <p>
+          Use Claude as a partner in reading, writing, and reasoning about code—without
+          outsourcing your understanding or judgment.
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <article class="content">
+        <span class="tag">Domain · Code</span>
+        <h2>What Does It Mean to “Code with AI”?</h2>
+        <p>
+          Coding with AI is less about having a machine “write programs for you” and more
+          about using a language model as a collaborator. You can ask it to suggest code,
+          explain unfamiliar patterns, refactor for clarity, or generate tests—but you
+          still decide what to run, what to trust, and what to ship.
+        </p>
+        <p>
+          In learning environments, this makes it possible to get instant feedback and
+          alternative explanations, but it also introduces a risk of “autocomplete
+          learning,” where the model does so much that your own understanding lags
+          behind. The goal is to use AI to extend your reach, not to skip the learning.
+        </p>
+
+        <h3>Why Use Claude for Code?</h3>
+        <p>
+          Claude is well-suited for reading and reasoning about longer or more complex
+          code. It can:
+        </p>
+        <ul>
+          <li>Explain what a piece of code does in plain language.</li>
+          <li>Suggest improvements for clarity, style, or structure.</li>
+          <li>Help generate tests or small example programs.</li>
+          <li>Compare two approaches and discuss tradeoffs.</li>
+        </ul>
+
+        <div class="callout">
+          <strong>Good use:</strong> paste in a function you don’t fully understand and
+          ask Claude to walk through it line by line, then restate that explanation in
+          your own words.
+        </div>
+
+        <h3>Quick Start Workflow</h3>
+        <p>When working with Claude on code, try this pattern:</p>
+        <ul>
+          <li>Start with a small, clearly scoped task or snippet.</li>
+          <li>Provide context: language, framework, and what you’re trying to do.</li>
+          <li>Ask for reasoning: “Explain your approach step-by-step.”</li>
+          <li>Run and test the code yourself; don’t assume it’s correct.</li>
+          <li>Reflect: what did you learn, and what will you do differently next time?</li>
+        </ul>
+
+        <h3>Example Prompt</h3>
+        <pre><code>I'm learning Python and working with lists.
+Here is a function I wrote:
+
+def filter_positive(nums):
+    result = []
+    for x in nums:
+        if x &gt; 0:
+            result.append(x)
+    return result
+
+1. Explain what this function does, line by line.
+2. Suggest a more concise version using list comprehensions.
+3. Provide 2-3 test cases I can run to check it.</code></pre>
+
+        <h3>When to Be Cautious</h3>
+        <ul>
+          <li>Security: don’t paste proprietary or sensitive code into tools not approved for that purpose.</li>
+          <li>Academic integrity: follow your course’s guidelines on AI assistance.</li>
+          <li>Blind trust: AI-generated code can compile and still be wrong or brittle.</li>
+          <li>Over-reliance: if you can’t explain the code, you don’t really “have” it yet.</li>
+        </ul>
+
+        <h3>Practice Activity</h3>
+        <p>
+          Choose a short function or method (10–30 lines) from your own work or a
+          course example. Then:
+        </p>
+        <ul>
+          <li>Ask Claude to explain it in plain language.</li>
+          <li>Ask for one refactored version that improves readability.</li>
+          <li>Ask for a small set of tests or edge cases.</li>
+          <li>Decide which version you prefer and why.</li>
+        </ul>
+
+        <div class="callout">
+          <strong>Integrity reminder:</strong> if AI significantly shaped your code,
+          document that assistance and be clear about what you wrote versus what was
+          suggested.
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      UIUC AI Fluency · Coding domain page · Claude focus
+    </footer>
+  </div>
+</body>
+</html>
