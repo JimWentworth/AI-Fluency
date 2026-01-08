@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Iterative Prompting as Structured Exploration</title>
+<style>
+    body {
+        margin: 0;
+        font-family: "Inter", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: #f7f7f9;
+        color: #1e1e1e;
+        line-height: 1.6;
+    }
+    header {
+        background-color: #13294B;
+        padding: 2rem 1.5rem;
+        color: white;
+        text-align: center;
+    }
+    h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    h2 {
+        color: #13294B;
+        margin-top: 2rem;
+        font-size: 1.5rem;
+        border-left: 6px solid #E84A27;
+        padding-left: 0.5rem;
+    }
+    .container {
+        max-width: 900px;
+        margin: auto;
+        padding: 1.5rem;
+    }
+    .callout {
+        background: #ffffff;
+        border-left: 6px solid #E84A27;
+        padding: 1rem 1.2rem;
+        margin: 1.5rem 0;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .icon {
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+    details {
+        margin-top: 1rem;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #d6d6d8;
+        padding: 0.8rem 1rem;
+    }
+    summary {
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1.05rem;
+        color: #13294B;
+    }
+    pre {
+        background: #f0f0f2;
+        padding: 1rem;
+        border-radius: 6px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        border-left: 4px solid #13294B;
+        font-size: 0.9rem;
+    }
+    .nav {
+        margin-top: 2.5rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    .nav-main {
+        display: flex;
+        justify-content: space-between;
+        flex: 1 1 100%;
+    }
+    .nav-all {
+        font-size: 0.9rem;
+        flex: 1 1 100%;
+    }
+    a {
+        color: #E84A27;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .mini-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #555;
+        margin-bottom: 0.25rem;
+    }
+    .pill {
+        display: inline-block;
+        padding: 0.1rem 0.45rem;
+        border-radius: 999px;
+        background: #e9edf5;
+        font-size: 0.75rem;
+        margin-right: 0.35rem;
+    }
+</style>
+</head>
+<body>
+<header>
+    <h1>Iterative Prompting as Structured Exploration</h1>
+</header>
+<div class="container">
+    <h2>Iteration as a Deliberate Practice</h2>
+    <p>
+        Iterative prompting is not about “fixing a bad answer” so much as <strong>sculpting</strong> a line of inquiry.
+        You begin with a rough prompt, examine what the model gives you, and then adjust your instructions, constraints,
+        or questions based on what is missing or promising.
+    </p>
+
+    <div class="callout">
+        <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="#E84A27" aria-hidden="true">
+            <path d="M12 2a7 7 0 0 0-7 7H3l3 3 3-3H7a5 5 0 1 1 5 5 1 1 0 0 0 0 2 7 7 0 0 0 0-14z"/>
+        </svg>
+        <strong>Core pattern:</strong> Explore → Critique → Refine → Apply.
+    </div>
+
+    <h2>Designing an Iterative Loop</h2>
+
+    <details>
+        <summary>1. Start with a rough draft prompt</summary>
+        <p>
+            The goal of the first prompt is not perfection, but to get something concrete you can react to.
+        </p>
+        <pre>
+Here is my context:
+[brief description].
+
+Give me an initial set of ideas or approaches.
+Do NOT aim for completeness, just get us started.
+        </pre>
+    </details>
+
+    <details>
+        <summary>2. Diagnose what is missing or off-target</summary>
+        <p>
+            Instead of accepting or rejecting the output, ask: What is useful here? What is missing, simplistic, or 
+            misaligned with my goals?
+        </p>
+        <pre>
+From your last response:
+- What seems generic or boilerplate?
+- What assumptions are you making about my context?
+Suggest revisions that make the response more specific to my situation.
+        </pre>
+    </details>
+
+    <details>
+        <summary>3. Refine with targeted follow-up prompts</summary>
+        <p>
+            Each iteration should be intentional, narrowing or deepening in a particular direction rather than 
+            starting from scratch.
+        </p>
+        <pre>
+Narrow the focus to:
+[specify dimension].
+
+Keep only the most relevant ideas, then deepen each using:
+- concrete examples,
+- potential pitfalls, and
+- questions I should ask before implementing.
+        </pre>
+    </details>
+
+    <details>
+        <summary>4. Apply, then loop back</summary>
+        <p>
+            After trying a small real-world application (e.g., drafting a paragraph, designing a slide, outlining a 
+            lesson), you can return to the model with observations.
+        </p>
+        <pre>
+Here’s what happened when I tried one of the ideas:
+[brief summary].
+
+Help me analyze:
+- what worked,
+- what didn’t, and
+- how I might iterate again.
+        </pre>
+    </details>
+
+    <h2>Prompt Patterns for Structured Exploration</h2>
+
+    <details>
+        <summary>Pattern: Diverge → Converge</summary>
+        <pre>
+DIVERGE:
+Generate many different options, framings, or angles on this topic.
+
+CONVERGE:
+From that list, select the 3 that best fit:
+[my constraints].
+
+Explain why these 3 fit better than the others.
+        </pre>
+    </details>
+
+    <details>
+        <summary>Pattern: Zoom Out → Zoom In</summary>
+        <pre>
+ZOOM OUT:
+Explain how this issue fits into a larger system:
+[system or context].
+
+ZOOM IN:
+Now focus on the piece that is most under my control.
+Provide actionable steps I could take in the next 30 days.
+        </pre>
+    </details>
+
+    <details>
+        <summary>Pattern: Generate → Stress-Test</summary>
+        <pre>
+GENERATE:
+Propose a solution or plan for:
+[describe problem].
+
+STRESS-TEST:
+Identify where this solution is likely to fail, and with which stakeholders.
+Suggest modifications that make the plan more robust.
+        </pre>
+    </details>
+
+    <h2>Micro-Activity: Iterative Prompting on a Real Task</h2>
+    <p>
+        Choose a real task you are currently facing (designing a session, drafting an email, framing a research 
+        question). Use four iterations:
+    </p>
+    <pre>
+1) Initial prompt and output.
+2) Critique the output and ask for a more specific revision.
+3) Ask for alternatives or counter-approaches.
+4) Ask for a synthesis tailored to your constraints and voice.
+    </pre>
+    <p>
+        Capture each step so you can later show students or colleagues how your thinking evolved <em>with</em> 
+        the model instead of being replaced by it.
+    </p>
+<div class="nav">
+  <div class="nav-main">
+    <div><a href="page2.html">← Previous</a></div>
+    <div><a href="page4.html">Next →</a></div>
+  </div>
+  <div class="nav-all">
+    <span class="mini-label">Jump to:</span><br/>
+    <a href="page1.html">1. Moving from Input/Output to Inquiry</a> &nbsp;|&nbsp;
+    <a href="page2.html">2. When AI Supports vs. Expertise Leads</a> &nbsp;|&nbsp;
+    <a href="page3.html">3. Iterative Prompting as Exploration</a> &nbsp;|&nbsp;
+    <a href="page4.html">4. Expanding Cognitive Bandwidth</a>
+  </div>
+</div>
+</div>
+</body>
+</html>

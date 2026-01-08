@@ -1,0 +1,30 @@
+/* Accessibility: Skip Link */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--illini-orange);
+    color: white;
+    padding: 8px;
+    z-index: 100;
+    transition: top 0.3s;
+}
+.skip-link:focus { top: 0; }
+
+/* Interactive Copy Buttons */
+.btn-copy {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--illini-blue);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+/* Ensure the main content is targetable by the skip link */
+main { outline: none; }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Design Lab | UIUC AI Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --illini-blue: #13294B;
+            --illini-orange: #FF5F05;
+            --industrial-blue: #1D58A7;
+            --storm-gray: #707372;
+            --cloud-white: #F4F4F4;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Source Sans Pro', sans-serif;
+        }
+
+        body { font-family: var(--font-body); margin: 0; display: flex; background-color: var(--cloud-white); }
+
+        /* Sidebar (Matching Index) */
+        .sidebar { width: 280px; height: 100vh; background-color: var(--illini-blue); color: white; position: sticky; top: 0; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 30px 20px; background-color: #0d1e38; border-bottom: 4px solid var(--illini-orange); }
+        .sidebar-header h2 { font-family: var(--font-heading); font-size: 1.4rem; margin: 0; text-transform: uppercase; }
+        .nav-links { list-style: none; padding: 20px; margin: 0; }
+        .nav-links li { margin-bottom: 20px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 600; display: block; }
+        .nav-links a:hover, .nav-links a.active { color: var(--illini-orange); }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 60px; max-width: 1000px; }
+        h1 { font-family: var(--font-heading); color: var(--illini-blue); border-bottom: 2px solid var(--illini-orange); padding-bottom: 10px; }
+        
+        .intro-box { background: white; padding: 25px; border-radius: 4px; border-left: 5px solid var(--industrial-blue); margin-bottom: 40px; }
+
+        /* Assignment Strategy Cards */
+        .strategy-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
+        .strategy-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .strategy-card h3 { color: var(--illini-blue); font-family: var(--font-heading); margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 15px; font-size: 0.75rem; font-weight: bold; margin-bottom: 15px; }
+        .tag-resistant { background: #fee2e2; color: #991b1b; }
+        .tag-integrated { background: #dcfce7; color: #166534; }
+
+        /* Decision Tree Visual Block */
+        .decision-block { background: var(--illini-blue); color: white; padding: 40px; border-radius: 8px; margin: 40px 0; }
+        .decision-block h2 { color: var(--illini-orange); font-family: var(--font-heading); margin-top: 0; }
+        
+        .footer-logo { margin-top: 50px; opacity: 0.6; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header"><h2>Teaching Center</h2></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="policy.html">Syllabus Policy</a></li>
+            <li><a href="#" class="active">Assignment Design</a></li>
+            <li><a href="#">AI Integrity</a></li>
+            <li><a href="#">Prompt Library</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <h1>Assignment Design Lab</h1>
+        
+        <div class="intro-box">
+            <p><strong>Goal:</strong> Shift from <em>"What do students produce?"</em> to <em>"How do students learn?"</em></p>
+            <p>UIUC CITL recommends "Authentic Assessment" strategies that prioritize human-in-the-loop critical thinking over rote content generation.</p>
+        </div>
+
+        <section class="strategy-grid">
+            
+            <div class="strategy-card">
+                <span class="tag tag-resistant">AI-RESISTANT</span>
+                <h3>Scaffolded Process Portfolios</h3>
+                <p>Break large projects into non-generative milestones. Grade the evolution of thought rather than the final draft.</p>
+                <ul>
+                    <li><strong>Step 1:</strong> Handwritten concept map of research questions.</li>
+                    <li><strong>Step 2:</strong> Annotated bibliography with "Personal Connection" rationale for each source.</li>
+                    <li><strong>Step 3:</strong> In-class peer review workshop using tracked changes.</li>
+                </ul>
+            </div>
+
+            <div class="strategy-card">
+                <span class="tag tag-integrated">AI-INTEGRATED</span>
+                <h3>The AI-Critique Model</h3>
+                <p>Students generate an initial response using an AI tool, then spend the remainder of the assignment "acting as the expert" to refine it.</p>
+                <ul>
+                    <li>Identify 3 factual "hallucinations" or logical gaps in the AI output.</li>
+                    <li>Rewrite the section using specific course readings (not in AI training data).</li>
+                    <li>Submit a "Response to Reviewer" memo detailing all corrections made.</li>
+                </ul>
+            </div>
+
+            <div class="strategy-card">
+                <span class="tag tag-resistant">AI-RESISTANT</span>
+                <h3>Hyper-Local Case Studies</h3>
+                <p>Require students to apply course theories to campus-specific or current-week events at the University of Illinois.</p>
+                <p><em>Example: "Apply urban planning principles to the proposed 2026 redesign of Green Street."</em></p>
+            </div>
+
+        </section>
+
+        <section class="decision-block">
+            <h2>Design Decision Tree</h2>
+            <p>Ask these three questions before finalizing your assignment:</p>
+            <ol>
+                <li><strong>Is the "struggle" the point?</strong> If yes, use proctored, in-person writing.</li>
+                <li><strong>Is this a professional skill?</strong> If yes, teach them how to use AI as a tool, not a replacement.</li>
+                <li><strong>Can it be localized?</strong> Require references to specific class discussions or local data.</li>
+            </ol>
+        </section>
+
+        <footer class="footer-logo">
+            Center for Innovation in Teaching & Learning (CITL) | University of Illinois Urbana-Champaign
+        </footer>
+    </main>
+
+</body>
+</html>

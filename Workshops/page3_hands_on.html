@@ -1,0 +1,82 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Hands-On Exploration</title>
+      <style>
+        body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; margin: 0; padding: 0; background: #f7f7f7; color: #222; }
+        header { background: #13294B; color: white; padding: 1.5rem 2rem; }
+        header h1 { margin: 0; font-size: 1.7rem; }
+        main { max-width: 900px; margin: 1.5rem auto 3rem; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+        h2 { color: #13294B; margin-top: 1.8rem; }
+        ol { line-height: 1.6; }
+        .activity { margin-bottom: 1.5rem; }
+        .activity h3 { margin-bottom: 0.4rem; }
+        .prompt-box { border: 1px dashed #aaa; background: #fafafa; padding: 0.75rem 1rem; margin: 0.5rem 0; font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.9rem; white-space: pre-wrap; }
+        .nav-footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd; display: flex; justify-content: space-between; font-size: 0.9rem; }
+        a { color: #0b63ce; }
+      </style>
+    </head>
+    <body>
+      <header>
+        <h1>Hands-On Exploration: Prompt Patterns &amp; Persistent Settings</h1>
+      </header>
+      <main>
+        <h2>Activity 1: Build a Prompt Pattern</h2>
+        <p>
+          Choose a recurring task in your work (e.g., drafting assignment prompts, summarizing articles,
+          designing quiz questions). Adapt the template below to create a reusable pattern.
+        </p>
+        <div class="prompt-box">
+You are an assistant helping me with: [type of work].
+Audience: [who is this for].
+Context: [course, level, discipline].
+
+Task:
+[what you want done].
+
+Constraints:
+- Use this tone: [tone]
+- Use this structure: [headings, bullets, etc.]
+- Follow these criteria: [rubric elements, policies, or guidelines]
+
+Before you begin, ask me 2–3 clarifying questions to avoid guessing.
+        </div>
+
+        <div class="activity">
+          <h3>Try it:</h3>
+          <ol>
+            <li>Paste your adapted pattern into ChatGPT.</li>
+            <li>Run it with two different content examples.</li>
+            <li>Note where the structure holds and where it drifts.</li>
+          </ol>
+        </div>
+
+        <h2>Activity 2: Test Persistent Personalization</h2>
+        <p>
+          Using custom instructions or memory (if enabled), define how you would like ChatGPT to support
+          your teaching or research work.
+        </p>
+        <div class="prompt-box">
+In future conversations, prioritize helping me with:
+[teaching tasks, research tasks, communication tasks].
+
+When I ask for help:
+- Default to this tone: [e.g., concise, exploratory, student-friendly].
+- Ask clarifying questions if my request is vague.
+- Flag any potential academic integrity or privacy concerns you notice.
+        </div>
+
+        <p>
+          After saving your settings, run a fresh conversation and see how the model behaves differently.
+          Identify one benefit and one potential risk or limitation.
+        </p>
+
+        <div class="nav-footer">
+          <div><a href="page2_concepts.html">← Back: Conceptual Grounding</a></div>
+          <div><a href="page4_ethics.html">Next: Ethics, Privacy &amp; Risk →</a></div>
+        </div>
+      </main>
+    </body>
+    </html>

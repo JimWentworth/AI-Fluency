@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: Iterative Collaboration with GenAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #E84A27 0%, #13294B 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .progress-bar {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar h3 {
+            color: #13294B;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .progress-track {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #E84A27 0%, #13294B 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .module-overview {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .module-overview h2 {
+            color: #13294B;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .learning-outcomes {
+            background: #E8F4F8;
+            border-left: 4px solid #13294B;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .learning-outcomes h3 {
+            color: #13294B;
+            margin-bottom: 1rem;
+        }
+
+        .learning-outcomes ul {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+
+        .learning-outcomes li {
+            margin: 0.5rem 0;
+            padding-left: 0.5rem;
+        }
+
+        .accordion {
+            background: white;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background: linear-gradient(135deg, #13294B 0%, #1a3a5f 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, #1a3a5f 0%, #13294B 100%);
+        }
+
+        .accordion-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .accordion-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .accordion.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-content-inner {
+            padding: 2rem;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 10000px;
+        }
+
+        .subsection {
+            margin-bottom: 2rem;
+        }
+
+        .subsection h3 {
+            color: #E84A27;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .subsection h4 {
+            color: #13294B;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .concept-card {
+            background: #f8f9fa;
+            border-left: 4px solid #E84A27;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .activity-box {
+            background: #FFF8E1;
+            border: 2px solid #E84A27;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .activity-box h3 {
+            color: #13294B;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .activity-box h3::before {
+            content: "✏️";
+            font-size: 1.5rem;
+        }
+
+        .reflection-prompt {
+            background: #E3F2FD;
+            border-left: 4px solid #13294B;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .reflection-prompt h4 {
+            color: #13294B;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .reflection-prompt h4::before {
+            content: "💭";
+            font-size: 1.3rem;
+        }
+
+        .example-box {
+            background: #F1F8E9;
+            border-left: 4px solid #4CAF50;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .example-box h4 {
+            color: #2E7D32;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .example-box h4::before {
+            content: "📋";
+            font-size: 1.3rem;
+        }
+
+        .prompt-sequence {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+
+        .prompt-label {
+            font-weight: bold;
+            color: #E84A27;
+            margin-bottom: 0.5rem;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .warning-box {
+            background: #FFF3E0;
+            border-left: 4px solid #FF9800;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .warning-box h4 {
+            color: #E65100;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .warning-box h4::before {
+            content: "⚠️";
+            font-size: 1.3rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+        }
+
+        .comparison-table th {
+            background: #13294B;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .key-principle {
+            background: linear-gradient(135deg, #13294B 0%, #E84A27 100%);
+            color: white;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+        }
+
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            color: #E84A27;
+            font-size: 1.3rem;
+        }
+
+        .scenario-card {
+            background: white;
+            border: 2px solid #13294B;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: #E84A27;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: #13294B;
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #13294B;
+        }
+
+        .btn-secondary:hover {
+            background: #E84A27;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .accordion-content-inner {
+                padding: 1.5rem;
+            }
+
+            .accordion-header {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Module 2: Iterative Collaboration with GenAI</h1>
+        <p>From Passive Consumption to Active Co-Creation</p>
+    </div>
+
+    <div class="container">
+        <div class="progress-bar">
+            <h3>Module Progress</h3>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="module-overview">
+            <h2>Module Overview</h2>
+            <p>This module shifts your approach from passively receiving AI outputs to actively engaging AI as a collaborator in inquiry and idea development. Rather than treating AI as a magic answer machine, you'll learn to engage in a structured dialogue that expands your thinking while keeping you firmly in the driver's seat.</p>
+            
+            <div class="learning-outcomes">
+                <h3>Learning Outcomes</h3>
+                <p>By the end of this module, you will be able to:</p>
+                <ul>
+                    <li>Demonstrate iterative prompting strategies that refine AI outputs</li>
+                    <li>Decide when to engage AI versus when to rely on personal expertise</li>
+                    <li>Treat AI interactions as exploratory processes, not shortcuts</li>
+                    <li>Apply AI to expand idea generation while maintaining agency</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 1: Paradigm Shift -->
+        <div class="accordion">
+            <div class="accordion-header">
+                <h2>1. The Paradigm Shift: From Input/Output to Inquiry Process</h2>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-content-inner">
+                    <div class="key-principle">
+                        The most powerful use of GenAI isn't getting "the answer"—it's engaging in a structured exploration that expands your cognitive bandwidth without outsourcing your judgment.
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Two Fundamentally Different Approaches</h3>
+                        
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Input/Output Mindset</th>
+                                    <th>Inquiry Process Mindset</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AI provides finished products</td>
+                                    <td>AI provides thinking partners</td>
+                                </tr>
+                                <tr>
+                                    <td>Success = getting it done quickly</td>
+                                    <td>Success = expanding understanding</td>
+                                </tr>
+                                <tr>
+                                    <td>One prompt, one response</td>
+                                    <td>Conversation with multiple turns</td>
+                                </tr>
+                                <tr>
+                                    <td>Accepts first output</td>
+                                    <td>Probes, refines, redirects</td>
+                                </tr>
+                                <tr>
+                                    <td>Human judgment diminished</td>
+                                    <td>Human judgment amplified</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="concept-card">
+                            <h4>Why This Matters</h4>
+                            <p>When you approach AI as an inquiry process, you maintain intellectual ownership of your work while accessing computational power to explore more possibilities than you could alone. You're not replacing your thinking—you're expanding it.</p>
+                        </div>
+                    </div>
+
+                    <div class="reflection-prompt">
+                        <h4>Reflection Questions</h4>
+                        <ul style="margin-left: 1.5rem;">
+                            <li>When have you used AI as an input/output tool? What was the result?</li>
+                            <li>Can you think of a time when iterating with AI would have produced a better outcome?</li>
+                            <li>What barriers prevent you from engaging in multi-turn conversations with AI?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Iterative Prompting -->
+        <div class="accordion">
+            <div class="accordion-header">
+                <h2>2. Iterative Prompting: The Core Technique</h2>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-content-inner">
+                    <p>Iterative prompting means treating your interaction with AI as a multi-turn conversation where each exchange builds on the last, progressively refining outputs toward your actual needs.</p>
+
+                    <div class="subsection">
+                        <h3>The Four-Part Pattern</h3>
+                        
+                        <div class="concept-card">
+                            <h4>1. Start Broad, Then Narrow</h4>
+                            <p>Begin with exploratory questions that help you map the territory before committing to a specific direction.</p>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>Example: Designing a Course Activity</h4>
+                            <div class="prompt-sequence">
+                                <div class="prompt-label">Initial Prompt:</div>
+                                "I'm teaching a course on environmental policy and want students to understand the complexity of stakeholder interests in climate decisions. What are some pedagogical approaches that help students navigate multiple competing perspectives?"
+                            </div>
+                            <div class="prompt-sequence">
+                                <div class="prompt-label">Follow-up Prompt (After Reviewing Options):</div>
+                                "The role-play simulation approach is interesting. How might I structure that for a 50-minute class with 25 students where the topic is local renewable energy adoption?"
+                            </div>
+                            <div class="prompt-sequence">
+                                <div class="prompt-label">Refinement Prompt:</div>
+                                "I like the stakeholder role assignment, but I'm concerned students might not have enough background knowledge. Could you suggest how to scaffold their preparation without overwhelming them before class?"
+                            </div>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>2. Ask for Alternatives</h4>
+                            <p>Don't settle for the first suggestion. Requesting multiple approaches helps you make informed choices rather than accepting defaults.</p>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>Example: Assessment Design</h4>
+                            <div class="prompt-sequence">
+                                <div class="prompt-label">After Receiving Initial Suggestion:</div>
+                                "This essay approach could work, but I'm wondering about alternatives. Can you suggest three different assessment formats that would evaluate the same learning outcomes but engage different student strengths?"
+                            </div>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>3. Challenge and Probe</h4>
+                            <p>Push back on AI suggestions. This isn't about being difficult—it's about stress-testing ideas before implementing them.</p>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>Example: Challenging an Activity Design</h4>
+                            <div class="prompt-sequence">
+                                <div class="prompt-label">Critical Follow-up:</div>
+                                "I'm concerned this activity might privilege students who are comfortable with verbal debate. What evidence exists about whether this approach creates equity issues? How might I adapt it to be more inclusive?"
+                            </div>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>4. Request Specificity</h4>
+                            <p>Move from general frameworks to concrete, actionable details that you can actually implement.</p>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>Example: From Abstract to Concrete</h4>
+                            <div class="prompt-sequence">
+                                <div class="prompt-label">Specificity Request:</div>
+                                "Can you provide the exact instructions I would give students for this activity, including the timing breakdown for each phase and what they should produce by the end?"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-box">
+                        <h3>Practice: The Five-Prompt Challenge</h3>
+                        <p>Choose a teaching challenge you're currently facing. Engage with an AI tool using exactly five prompts, following this structure:</p>
+                        
+                        <ol style="margin-left: 2rem; margin-top: 1rem;">
+                            <li><strong>Prompt 1:</strong> Describe your challenge broadly and ask for possible approaches</li>
+                            <li><strong>Prompt 2:</strong> Select one approach and ask for alternatives or variations</li>
+                            <li><strong>Prompt 3:</strong> Challenge an assumption or identify a potential problem</li>
+                            <li><strong>Prompt 4:</strong> Request specific, actionable details</li>
+                            <li><strong>Prompt 5:</strong> Ask how to adapt it for your specific context</li>
+                        </ol>
+
+                        <div class="reflection-prompt">
+                            <h4>Reflection Questions</h4>
+                            <ul style="margin-left: 1.5rem;">
+                                <li>How did the output from Prompt 5 differ from Prompt 1?</li>
+                                <li>At what point did you feel you were getting genuinely useful information?</li>
+                                <li>What surprised you about the iterative process?</li>
+                                <li>What would have happened if you'd stopped after the first prompt?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: When AI Supports vs. Expertise Leads -->
+        <div class="accordion">
+            <div class="accordion-header">
+                <h2>3. Knowing When AI Supports vs. When Expertise Must Lead</h2>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-content-inner">
+                    <div class="key-principle">
+                        The goal isn't to use AI for everything—it's to use AI strategically for tasks that benefit from broad pattern recognition while reserving your expertise for judgment, nuance, and context.
+                    </div>
+
+                    <div class="subsection">
+                        <h3>AI as Support: Where It Excels</h3>
+                        
+                        <div class="concept-card">
+                            <h4>Generating Possibilities</h4>
+                            <p>AI can quickly surface multiple options you might not have considered, expanding your solution space.</p>
+                            <p style="margin-top: 0.5rem;"><strong>Example:</strong> "What are ten different ways I could help students practice statistical reasoning outside of problem sets?"</p>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>Identifying Patterns Across Domains</h4>
+                            <p>AI can connect ideas from different fields, offering cross-disciplinary perspectives.</p>
+                            <p style="margin-top: 0.5rem;"><strong>Example:</strong> "How do other fields beyond education approach the challenge of helping learners transfer knowledge to new contexts?"</p>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>Drafting and Structuring</h4>
+                            <p>AI can create initial frameworks that you then refine with your disciplinary expertise.</p>
+                            <p style="margin-top: 0.5rem;"><strong>Example:</strong> "Draft an outline for a lesson introducing the concept of systemic risk, including key questions students should be able to answer."</p>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>Playing Devil's Advocate</h4>
+                            <p>AI can surface counterarguments or alternative perspectives.</p>
+                            <p style="margin-top: 0.5rem;"><strong>Example:</strong> "What are the strongest critiques of this pedagogical approach from different theoretical perspectives?"</p>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Human Expertise Must Lead: Where You're Essential</h3>
+
+                        <div class="warning-box">
+                            <h4>Critical Judgment Zones</h4>
+                            <p>These areas require human expertise and shouldn't be delegated to AI:</p>
+                            <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                                <li><strong>Disciplinary Accuracy:</strong> AI can hallucinate facts, especially in specialized domains</li>
+                                <li><strong>Contextual Appropriateness:</strong> Only you know your specific students, institutional culture, and constraints</li>
+                                <li><strong>Ethical Implications:</strong> AI can't evaluate the ethical dimensions of pedagogical choices</li>
+                                <li><strong>Cultural Sensitivity:</strong> AI may miss cultural nuances or perpetuate biases</li>
+                                <li><strong>Learning Science:</strong> AI doesn't replace understanding of how learning actually works</li>
+                            </ul>
+                        </div>
+
+                        <div class="example-box">
+                            <h4>Example: When Expertise Must Lead</h4>
+                            <p><strong>Scenario:</strong> Designing a discussion activity about a sensitive historical topic.</p>
+                            <p style="margin-top: 1rem;"><strong>What AI Can Do:</strong> Suggest discussion formats, provide historical background, propose question sequences.</p>
+                            <p style="margin-top: 1rem;"><strong>What Only You Can Do:</strong></p>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Evaluate whether the framing is appropriate for your students' backgrounds</li>
+                                <li>Anticipate which aspects might be traumatic for particular students</li>
+                                <li>Determine how this fits with your course's larger narrative</li>
+                                <li>Assess whether the sources suggested are appropriate and credible</li>
+                                <li>Make real-time adjustments based on classroom dynamics</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Decision Framework</h3>
+
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Use AI When...</th>
+                                    <th>Lead with Expertise When...</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>You need to explore many options quickly</td>
+                                    <td>Deep disciplinary knowledge is required</td>
+                                </tr>
+                                <tr>
+                                    <td>You're looking for creative alternatives</td>
+                                    <td>Student-specific context matters critically</td>
+                                </tr>
+                                <tr>
+                                    <td>You need a structural framework to refine</td>
+                                    <td>Ethical judgment is central to the decision</td>
+                                </tr>
+                                <tr>
+                                    <td>You want cross-disciplinary perspectives</td>
+                                    <td>Accuracy is paramount and you can verify</td>
+                                </tr>
+                                <tr>
+                                    <td>You're stuck and need to break through</td>
+                                    <td>Cultural sensitivity is essential</td>
+                                </tr>
+                                <tr>
+                                    <td>You need help articulating tacit knowledge</td>
+                                    <td>Assessment of student learning is at stake</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="activity-box">
+                        <h3>Activity: Map Your Collaboration Boundaries</h3>
+                        
+                        <p>For three recent teaching tasks you've completed, analyze where AI collaboration would have been valuable versus where your expertise was non-negotiable.</p>
+
+                        <div class="scenario-card">
+                            <h4>Task Analysis Template</h4>
+                            <p><strong>Task Description:</strong> [What were you working on?]</p>
+                            <p style="margin-top: 1rem;"><strong>Where AI Could Have Helped:</strong></p>
+                            <ul style="margin-left: 1.5rem;">
+                                <li>What aspects involved generating options or possibilities?</li>
+                                <li>Where did you need structural frameworks?</li>
+                                <li>What took time but didn't require deep expertise?</li>
+                            </ul>
+                            <p style="margin-top: 1rem;"><strong>Where Your Expertise Was Essential:</strong></p>
+                            <ul style="margin-left: 1.5rem;">
+                                <li>What required disciplinary knowledge?</li>
+                                <li>Where was student context critical?</li>
+                                <li>What involved ethical or cultural judgment?</li>
+                            </ul>
+                        </div>
+
+                        <div class="reflection-prompt">
+                            <h4>Pattern Recognition</h4>
+                            <p>After analyzing three tasks:</p>
+                            <ul style="margin-left: 1.5rem;">
+                                <li>What patterns emerge about where AI can support your work?</li>
+                                <li>What patterns emerge about where you must maintain direct control?</li>
+                                <li>How might this change how you approach future teaching tasks?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Exploratory Processes -->
+        <div class="accordion">
+            <div class="accordion-header">
+                <h2>4. Exploratory Processes, Not Shortcuts</h2>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-content-inner">
+                    <p>One of the biggest risks in using GenAI is treating it as a shortcut—a way to skip thinking rather than enhance it. The distinction is crucial.</p>
+
+                    <div class="subsection">
+                        <h3>The Shortcut Trap</h3>
+
+                        <div class="warning-box">
+                            <h4>Warning Signs You're Using AI as a Shortcut</h4>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>You accept the first output without critical evaluation</li>
+                                <li>You're relieved you don't have to think deeply about the problem</li>
+                                <li>You couldn't explain the reasoning behind the AI's suggestions</li>
+                                <li>You're using AI to avoid learning something you actually need to understand</li>
+                                <li>You feel like you're "getting away with something"</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>The Exploration Mindset</h3>
+
+                        <div class="concept-card">
+                            <h4>Characteristics of Genuine Exploration</h4>
+                            <ul style="margin-left: 1.5rem;">
+                                <li><strong>Curiosity-Driven:</strong> You're genuinely interested in understanding the problem space more deeply</li>
+                                <li><strong>Questioning Stance:</strong> You regularly challenge AI outputs and ask "why?"</li>
+                                <li><strong>Knowledge Building:</strong> Each interaction increases your understanding, not just your outputs</li>
+                                <li><strong>Integration:</strong> You're connecting AI insights with your existing expertise</li>
+                                <li><strong>Improved Judgment:</strong> Your ability to evaluate options gets sharper, not duller</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Comparison: Shortcut vs. Exploration</h3>
+
+                        <div class="example-box">
+                            <h4>Scenario: Designing a New Course Assignment</h4>
+                            
+                            <p style="margin-top: 1rem;"><strong>Shortcut Approach:</strong></p>
+                            <div class="prompt-sequence">
+                                "Create an assignment for my environmental science course on ecosystem services. Make it appropriate for juniors."
+                            </div>
+                            <p style="margin-top: 0.5rem;"><em>→ Copies output directly into syllabus without modification</em></p>
+
+                            <p style="margin-top: 1.5rem;"><strong>Exploratory Approach:</strong></p>
+                            <div class="prompt-sequence">
+                                "I want students to understand ecosystem services beyond just memorizing definitions. What are different ways this concept is taught across disciplines?"
+                            </div>
+                            <div class="prompt-sequence">
+                                "The project-based approach is interesting. What are examples of how this has been implemented? What challenges did instructors encounter?"
+                            </div>
+                            <div class="prompt-sequence">
+                                "I'm concerned about equity issues with field-based projects. How have others addressed this? What are alternative ways to achieve the same learning outcomes?"
+                            </div>
+                            <p style="margin-top: 0.5rem;"><em>→ Synthesizes insights to create a thoughtfully designed assignment adapted to their specific context</em></p>
+                        </div>
+                    </div>
+
+                    <div class="activity-box">
+                        <h3>Activity: Audit Your AI Interactions</h3>
+                        
+                        <p>Review your last 3-5 interactions with AI tools. For each interaction, honestly assess:</p>
+
+                        <div class="checklist" style="margin-top: 1rem;">
+                            <li>Did I use multiple prompts to refine the output, or did I accept the first response?</li>
+                            <li>Did I learn something new about the problem, or just get a quick answer?</li>
+                            <li>Could I explain to a colleague why the AI's suggestions make sense?</li>
+                            <li>Did I adapt the output based on my expertise, or use it verbatim?</li>
+                            <li>Am I more capable of handling similar problems in the future?</li>
+                            <li>Did I maintain critical judgment, or defer to the AI's authority?</li>
+                        </div>
+
+                        <div class="reflection-prompt">
+                            <h4>Action Planning</h4>
+                            <p>Based on your self-assessment:</p>
+                            <ul style="margin-left: 1.5rem;">
+                                <li>What would you do differently in your next AI interaction?</li>
+                                <li>What specific practices would shift you from shortcuts to exploration?</li>
+                                <li>What internal signals tell you when you're falling into shortcut mode?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Maintaining Agency -->
+        <div class="accordion">
+            <div class="accordion-header">
+                <h2>5. Expanding Ideas While Maintaining Agency</h2>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-content-inner">
+                    <p>The promise of AI collaboration is cognitive bandwidth expansion—the ability to explore more possibilities, consider more angles, and think through more scenarios than you could alone. But this only works if you maintain intellectual agency.</p>
+
+                    <div class="subsection">
+                        <h3>What Does "Maintaining Agency" Mean?</h3>
+
+                        <div class="concept-card">
+                            <h4>Agency in AI Collaboration</h4>
+                            <p>You maintain agency when you:</p>
+                            <ul style="margin-left: 1.5rem;">
+                                <li>Set the direction and goals of the exploration</li>
+                                <li>Evaluate AI suggestions against your expertise and values</li>
+                                <li>Make final decisions based on your judgment</li>
+                                <li>Understand the reasoning behind suggestions well enough to defend or critique them</li>
+                                <li>Feel ownership over the final product</li>
+                            </ul>
+                        </div>
+
+                        <div class="warning-box">
+                            <h4>Signs You're Losing Agency</h4>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Feeling like the AI is "in charge" of the direction</li>
+                                <li>Accepting suggestions you don't fully understand</li>
+                                <li>Inability to explain why you made certain choices</li>
+                                <li>Feeling dependent on AI for decisions you used to make confidently</li>
+                                <li>Anxiety about whether the output is "good enough" without being able to judge it yourself</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Strategies for Maintaining Agency</h3>
+
+                        <div class="concept-card">
+                            <h4>1. Start with Your Own Thinking</h4>
+                            <p>Before engaging AI, articulate what you already know and what you're trying to achieve. This anchors the conversation in your expertise.</p>
+                            <div class="example-box" style="margin-top: 1rem;">
+                                <h4>Practice This</h4>
+                                <p>Before your next AI interaction, write 2-3 sentences:</p>
+                                <ul style="margin-left: 1.5rem;">
+                                    <li>What do I already know about this problem?</li>
+                                    <li>What am I trying to accomplish?</li>
+                                    <li>What would success look like?</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>2. Actively Evaluate Every Suggestion</h4>
+                            <p>Don't passively receive AI outputs. Actively judge each suggestion against criteria that matter to you.</p>
+                            <div class="example-box" style="margin-top: 1rem;">
+                                <h4>Evaluation Questions</h4>
+                                <ul style="margin-left: 1.5rem;">
+                                    <li>Does this align with my pedagogical values?</li>
+                                    <li>Is this feasible given my constraints?</li>
+                                    <li>What assumptions is this suggestion making?</li>
+                                    <li>What could go wrong with this approach?</li>
+                                    <li>How would my students experience this?</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>3. Synthesize, Don't Transcribe</h4>
+                            <p>Your goal is to integrate AI insights with your own thinking, not copy outputs verbatim.</p>
+                            <div class="example-box" style="margin-top: 1rem;">
+                                <h4>Synthesis Practice</h4>
+                                <p>After an AI interaction, write a brief reflection:</p>
+                                <ul style="margin-left: 1.5rem;">
+                                    <li>What new perspectives did I gain?</li>
+                                    <li>What confirmed my existing thinking?</li>
+                                    <li>What do I want to adapt and why?</li>
+                                    <li>What am I choosing to reject and why?</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="concept-card">
+                            <h4>4. Use AI to Expand, Not Replace, Your Thinking</h4>
+                            <p>The goal is to consider more possibilities than you could alone, not to outsource decision-making.</p>
+                            <div class="example-box" style="margin-top: 1rem;">
+                                <h4>Expansion Prompts</h4>
+                                <ul style="margin-left: 1.5rem;">
+                                    <li>"What am I not considering?"</li>
+                                    <li>"What would someone with a different perspective say?"</li>
+                                    <li>"What are alternative approaches I might not have thought of?"</li>
+                                    <li>"What could go wrong with my current plan?"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Capstone -->
+        <div class="accordion">
+            <div class="accordion-header">
+                <h2>6. Capstone: Design Your Collaboration Protocol</h2>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-content-inner">
+                    <div class="activity-box">
+                        <h3>Create Your Personal AI Collaboration Guide</h3>
+                        
+                        <p>Based on everything you've learned in this module, create a personalized protocol for how you'll engage with AI as a collaborator.</p>
+
+                        <h4 style="margin-top: 1.5rem; color: #13294B;">Step 1: Define Your Principles</h4>
+                        <p>What are your non-negotiables for AI collaboration? Consider:</p>
+                        <ul style="margin-left: 1.5rem;">
+                            <li>Where will you always lead with your expertise?</li>
+                            <li>What kinds of outputs require your personal verification?</li>
+                            <li>How will you ensure you're exploring, not taking shortcuts?</li>
+                        </ul>
+
+                        <h4 style="margin-top: 1.5rem; color: #13294B;">Step 2: Create Your Prompting Checklist</h4>
+                        <p>Develop a 5-step process you'll follow for substantive AI interactions:</p>
+                        <div class="checklist" style="margin-top: 1rem;">
+                            <li>What will your typical first prompt accomplish?</li>
+                            <li>How will you decide what to explore in follow-up prompts?</li>
+                            <li>At what point will you challenge or probe AI suggestions?</li>
+                            <li>How will you request the specificity you need?</li>
+                            <li>What final evaluation questions will you ask yourself?</li>
+                        </div>
+
+                        <h4 style="margin-top: 1.5rem; color: #13294B;">Step 3: Set Your Red Flags</h4>
+                        <p>What warning signs will tell you that you're losing agency or using AI as a shortcut?</p>
+
+                        <h4 style="margin-top: 1.5rem; color: #13294B;">Step 4: Plan Your Learning Loops</h4>
+                        <p>How will you continually improve your collaboration practice?</p>
+                        <ul style="margin-left: 1.5rem;">
+                            <li>How often will you reflect on your AI interactions?</li>
+                            <li>What will you track or document?</li>
+                            <li>How will you share learning with colleagues?</li>
+                        </ul>
+
+                        <div class="reflection-prompt">
+                            <h4>Implementation Commitment</h4>
+                            <p>Write a specific commitment about how you'll apply this module's concepts:</p>
+                            <ul style="margin-left: 1.5rem;">
+                                <li>What task will you tackle next?</li>
+                                <li>How will you structure your AI interaction?</li>
+                                <li>What will you do differently than before?</li>
+                                <li>How will you evaluate whether your approach was successful?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 7: Key Takeaways -->
+        <div class="accordion">
+            <div class="accordion-header">
+                <h2>7. Key Takeaways</h2>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-content-inner">
+                    <div class="key-principle">
+                        Effective AI collaboration isn't about getting quick answers—it's about structured exploration that expands your thinking while keeping you firmly in control of decisions, direction, and judgment.
+                    </div>
+
+                    <div class="concept-card">
+                        <h4>Remember:</h4>
+                        <ul style="margin-left: 1.5rem;">
+                            <li><strong>Iterate:</strong> One prompt is rarely enough. Use multiple turns to refine, challenge, and specify.</li>
+                            <li><strong>Distinguish:</strong> Know when AI supports your work versus when your expertise must lead.</li>
+                            <li><strong>Explore:</strong> Treat AI as a thinking partner for expanding possibilities, not a shortcut to avoid thinking.</li>
+                            <li><strong>Maintain Agency:</strong> You set the direction, evaluate suggestions, and make final decisions.</li>
+                            <li><strong>Learn:</strong> Each interaction should increase your capability, not create dependency.</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Moving Forward</h3>
+                        <p>This module has introduced you to the fundamental mindset shift required for effective AI collaboration. As you continue to Module 3, you'll build on these principles to develop more predictable, controlled approaches to working with AI for specific teaching tasks.</p>
+                        
+                        <p style="margin-top: 1rem;">The key is practice. Each time you engage with AI, consciously apply these principles. Over time, iterative collaboration will become second nature, and you'll find yourself naturally maintaining agency while expanding your cognitive reach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                ↑ Back to Top
+            </button>
+            <button class="btn" onclick="expandAll()">
+                Expand All Sections
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Accordion functionality
+        const accordions = document.querySelectorAll('.accordion');
+        const totalSections = accordions.length;
+        let openedSections = new Set();
+
+        accordions.forEach((accordion, index) => {
+            const header = accordion.querySelector('.accordion-header');
+            
+            header.addEventListener('click', () => {
+                const wasActive = accordion.classList.contains('active');
+                
+                // Toggle current accordion
+                accordion.classList.toggle('active');
+                
+                // Track opened sections
+                if (!wasActive) {
+                    openedSections.add(index);
+                } else {
+                    openedSections.delete(index);
+                }
+                
+                // Update progress
+                updateProgress();
+            });
+        });
+
+        function updateProgress() {
+            const progress = (openedSections.size / totalSections) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function expandAll() {
+            const allExpanded = Array.from(accordions).every(acc => acc.classList.contains('active'));
+            
+            accordions.forEach((accordion, index) => {
+                if (allExpanded) {
+                    accordion.classList.remove('active');
+                    openedSections.delete(index);
+                } else {
+                    accordion.classList.add('active');
+                    openedSections.add(index);
+                }
+            });
+            
+            updateProgress();
+            
+            // Update button text
+            const btn = document.querySelector('.nav-buttons .btn:last-child');
+            btn.textContent = allExpanded ? 'Expand All Sections' : 'Collapse All Sections';
+        }
+
+        // Initialize progress
+        updateProgress();
+    </script>
+</body>
+</html>

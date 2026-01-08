@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy & Syllabi | UIUC AI Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --illini-blue: #13294B;
+            --illini-orange: #FF5F05;
+            --storm-gray: #707372;
+            --cloud-white: #F4F4F4;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Source Sans Pro', sans-serif;
+        }
+
+        body { font-family: var(--font-body); margin: 0; display: flex; background-color: var(--cloud-white); }
+
+        /* Sidebar (Matching Index) */
+        .sidebar { width: 280px; height: 100vh; background-color: var(--illini-blue); color: white; position: sticky; top: 0; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 30px 20px; background-color: #0d1e38; border-bottom: 4px solid var(--illini-orange); }
+        .sidebar-header h2 { font-family: var(--font-heading); font-size: 1.4rem; margin: 0; text-transform: uppercase; }
+        .nav-links { list-style: none; padding: 20px; margin: 0; }
+        .nav-links li { margin-bottom: 20px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 600; display: block; }
+        .nav-links a:hover, .nav-links a.active { color: var(--illini-orange); }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 60px; max-width: 1000px; }
+        h1 { font-family: var(--font-heading); color: var(--illini-blue); border-bottom: 2px solid var(--illini-orange); padding-bottom: 10px; }
+        
+        /* Policy Sections */
+        .policy-option { background: white; padding: 30px; margin-bottom: 30px; border-radius: 4px; border: 1px solid #ddd; position: relative; }
+        .tier-label { position: absolute; top: -15px; left: 20px; padding: 5px 15px; font-weight: bold; border-radius: 20px; color: white; font-size: 0.8rem; text-transform: uppercase; }
+        .red { background-color: #c84113; }
+        .yellow { background-color: #FCB316; color: #13294B; }
+        .green { background-color: #1D58A7; }
+
+        .copy-box { background: #f9f9f9; padding: 20px; border: 1px dashed var(--storm-gray); font-family: 'Courier New', monospace; font-size: 0.9rem; margin: 15px 0; position: relative; }
+        .btn-copy { position: absolute; top: 10px; right: 10px; padding: 5px 10px; background: var(--illini-blue); color: white; border: none; cursor: pointer; font-size: 0.7rem; border-radius: 2px; }
+
+        /* Disclosure Section */
+        .disclosure-card { background-color: #e1e7f1; border: 2px solid var(--illini-blue); padding: 30px; border-radius: 8px; }
+        .disclosure-card h3 { margin-top: 0; color: var(--illini-blue); }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header"><h2>Teaching Center</h2></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" class="active">Syllabus Policy</a></li>
+            <li><a href="#">Assignment Design</a></li>
+            <li><a href="#">AI Integrity</a></li>
+            <li><a href="#">Prompt Library</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <h1>Syllabus Policy Templates</h1>
+        <p>The Provost's Office advises faculty to explicitly state AI expectations. Choose the tier that best fits your learning objectives.</p>
+
+        <div class="policy-option">
+            <span class="tier-label red">Tier 1: Prohibited</span>
+            <h3>Academic Integrity Focus</h3>
+            <p>Best for courses where foundational skills (writing, math, coding) must be developed without assistance.</p>
+            <div class="copy-box">
+                <button class="btn-copy">Copy</button>
+                "All work submitted in this course must be your own. The use of generative AI tools is strictly prohibited for all assignments. Any use of AI will be treated as a violation of the UIUC Student Code."
+            </div>
+        </div>
+
+        <div class="policy-option">
+            <span class="tier-label yellow">Tier 2: Managed Use</span>
+            <h3>Collaborative & Transparent</h3>
+            <p>Best for research-heavy courses where AI can assist with brainstorming or grammar check but not drafting.</p>
+            <div class="copy-box">
+                <button class="btn-copy">Copy</button>
+                "AI tools may be used for brainstorming or refining research questions. However, final submissions must be your original writing. Students must include a disclosure statement detailing any AI assistance."
+            </div>
+        </div>
+
+        <div class="disclosure-card">
+            <h3>Illinois Disclosure Framework</h3>
+            <p>Per UIUC Best Practices, when AI is permitted, students should provide the following at the end of their assignment:</p>
+            <ul>
+                <li><strong>Tool Name:</strong> (e.g., Gemini 1.5, ChatGPT-4)</li>
+                <li><strong>Method of Use:</strong> (e.g., "Refining my outline")</li>
+                <li><strong>Verification:</strong> "I have manually verified all citations and facts for accuracy."</li>
+            </ul>
+        </div>
+
+        <footer style="margin-top: 50px; font-size: 0.8rem; color: var(--storm-gray);">
+            Source: UIUC CITL & Office of the Provost | Last Updated: Jan 2026
+        </footer>
+    </main>
+
+</body>
+</html>

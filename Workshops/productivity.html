@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Productivity | UIUC AI Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --illini-blue: #13294B;
+            --illini-orange: #FF5F05;
+            --storm-gray: #707372;
+            --cloud-white: #F4F4F4;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Source Sans Pro', sans-serif;
+        }
+
+        body { font-family: var(--font-body); margin: 0; display: flex; background-color: var(--cloud-white); }
+
+        /* Sidebar */
+        .sidebar { width: 280px; height: 100vh; background-color: var(--illini-blue); color: white; position: sticky; top: 0; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 30px 20px; background-color: #0d1e38; border-bottom: 4px solid var(--illini-orange); }
+        .sidebar-header h2 { font-family: var(--font-heading); font-size: 1.4rem; margin: 0; text-transform: uppercase; }
+        .nav-links { list-style: none; padding: 20px; margin: 0; }
+        .nav-links li { margin-bottom: 20px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 600; display: block; }
+        .nav-links a:hover, .nav-links a.active { color: var(--illini-orange); }
+
+        /* Main Content */
+        .main-content { flex: 1; padding: 60px; max-width: 1000px; }
+        h1 { font-family: var(--font-heading); color: var(--illini-blue); border-bottom: 2px solid var(--illini-orange); padding-bottom: 10px; }
+        
+        .tool-tip { background-color: #e1e7f1; padding: 20px; border-radius: 4px; border-left: 5px solid var(--illini-blue); margin-bottom: 30px; }
+
+        /* Prompt Cards */
+        .prompt-card { background: white; padding: 25px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ddd; }
+        .prompt-card h3 { margin-top: 0; color: var(--illini-blue); border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .prompt-text { background: #2d2d2d; color: #a9ffaf; padding: 15px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-size: 0.9rem; position: relative; display: block; overflow-x: auto; }
+        .copy-tag { position: absolute; top: 5px; right: 10px; color: #888; font-size: 0.7rem; font-family: var(--font-body); }
+
+        .framework-box { background: linear-gradient(135deg, var(--illini-blue), #2a4a7a); color: white; padding: 30px; border-radius: 8px; margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="sidebar-header"><h2>Teaching Center</h2></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="policy.html">Syllabus Policy</a></li>
+            <li><a href="pedagogy.html">Assignment Design</a></li>
+            <li><a href="ethics.html">AI Integrity</a></li>
+            <li><a href="#" class="active">Prompt Library</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <h1>Faculty Productivity Suite</h1>
+
+        <div class="framework-box">
+            <h3>The C.P.T. Prompting Framework</h3>
+            <p>For high-quality results, always include three components in your instructions:</p>
+            <ul>
+                <li><strong>Context:</strong> Course level, student background, and learning goals.</li>
+                <li><strong>Persona:</strong> Who should the AI act as? (e.g., Expert Historian, Socratic Tutor).</li>
+                <li><strong>Task:</strong> The specific format and content you need.</li>
+            </ul>
+        </div>
+        
+
+        <div class="tool-tip">
+            <strong>Pro-Tip:</strong> Use the <strong><a href="https://genai.illinois.edu/">Boldly IT GenAI Portal</a></strong> to access enterprise-grade models that protect your data and intellectual property.
+        </div>
+
+        <section class="prompts">
+            <div class="prompt-card">
+                <h3>1. Rubric Generator</h3>
+                <p>Generate a draft rubric based on your assignment description.</p>
+                <div class="prompt-text">
+                    <span class="copy-tag">COPY & PASTE</span>
+                    "Act as an expert instructional designer at the University of Illinois. Create a 4-point analytic rubric for a [Assignment Type] about [Topic]. Include criteria for critical thinking, source integration, and clarity. Format as a table."
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h3>2. Reading Level Level-Set</h3>
+                <p>Ensure your assignment instructions are accessible to all students.</p>
+                <div class="prompt-text">
+                    <span class="copy-tag">COPY & PASTE</span>
+                    "Analyze the following assignment instructions. Identify jargon that might confuse a first-year undergraduate. Suggest three ways to simplify the language while maintaining academic rigor."
+                </div>
+            </div>
+
+            <div class="prompt-card">
+                <h3>3. Low-Stakes Quiz Creator</h3>
+                <p>Turn lecture notes into study aids instantly.</p>
+                <div class="prompt-text">
+                    <span class="copy-tag">COPY & PASTE</span>
+                    "Using the attached lecture notes, generate 5 multiple-choice questions and 2 short-answer reflection questions. For each question, provide a brief explanation of why the correct answer is right."
+                </div>
+            </div>
+        </section>
+
+        <footer style="margin-top: 50px; font-size: 0.8rem; color: var(--storm-gray);">
+            &copy; 2026 University of Illinois Urbana-Champaign | Boldly IT & CITL Partners
+        </footer>
+    </main>
+
+</body>
+</html>

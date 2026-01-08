@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Teaching Hub | University of Illinois</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --illini-blue: #13294B; --illini-orange: #FF5F05; --storm-gray: #707372; --cloud-white: #F4F4F4; --font-heading: 'Montserrat', sans-serif; --font-body: 'Source Sans Pro', sans-serif; }
+        body { font-family: var(--font-body); margin: 0; display: flex; background-color: var(--cloud-white); }
+        .sidebar { width: 280px; height: 100vh; background-color: var(--illini-blue); color: white; position: sticky; top: 0; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 30px 20px; background-color: #0d1e38; border-bottom: 4px solid var(--illini-orange); }
+        .sidebar-header h2 { font-family: var(--font-heading); font-size: 1.4rem; margin: 0; text-transform: uppercase; }
+        .nav-links { list-style: none; padding: 20px; margin: 0; }
+        .nav-links li { margin-bottom: 20px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 600; display: block; }
+        .nav-links a:hover, .nav-links a.active { color: var(--illini-orange); }
+        .main-content { flex: 1; padding: 60px; max-width: 1000px; }
+        .brand-strap { font-family: var(--font-heading); color: var(--illini-blue); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        h1 { font-family: var(--font-heading); color: var(--illini-blue); font-size: 3rem; margin-top: 0; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
+        .card { background: white; padding: 30px; border-left: 5px solid var(--illini-blue); border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .btn-orange { display: inline-block; background-color: var(--illini-orange); color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 2px; margin-top: 15px; }
+        footer { margin-top: 80px; padding: 40px 0; border-top: 2px solid #ddd; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+<nav class="sidebar" aria-label="Main Site Navigation">
+    <div class="university-header">
+        <a href="https://illinois.edu" class="block-i-link">
+            <div class="block-i-box">
+                <span class="block-i-text">I</span>
+            </div>
+        </a>
+        <div class="university-name-stack">
+            <span class="strap">University of Illinois</span>
+            <span class="campus">Urbana-Champaign</span>
+        </div>
+    </div>
+
+    <div class="unit-site-name">
+        <a href="index.html">AI Instructional Hub</a>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="index.html" class="active">Hub Home</a></li>
+        <li><a href="policy.html">Syllabus & Policy</a></li>
+        <li><a href="pedagogy.html">Assignment Lab</a></li>
+        <li><a href="ethics.html">Ethics & Integrity</a></li>
+        <li><a href="productivity.html">Prompt Library</a></li>
+    </ul>
+
+    <div class="sidebar-footer">
+        <a href="https://genai.illinois.edu" target="_blank">Boldly IT Support</a>
+    </div>
+</nav>
+    <main class="main-content">
+        <span class="brand-strap">University of Illinois Urbana-Champaign</span>
+        <h1>Generative AI <br><span style="color: var(--illini-orange);">Instructional Hub</span></h1>
+        <p style="font-size: 1.2rem; line-height: 1.6; color: var(--storm-gray);">Empowering faculty to navigate the AI era with pedagogical excellence and academic integrity.</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Policy First Aid</h3>
+                <p>Get the latest Illinois system-wide guidance on syllabus language.</p>
+                <a href="policy.html" class="btn-orange">View Tiers</a>
+            </div>
+            <div class="card">
+                <h3>Prompt Library</h3>
+                <p>Ready-to-use C.P.T. prompts for Illinois faculty productivity.</p>
+                <a href="productivity.html" class="btn-orange">Browse Prompts</a>
+            </div>
+        </div>
+        <footer>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div>
+                    <h4 style="color: var(--illini-blue); margin-top: 0;">System Resources</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li><a href="https://citl.illinois.edu/generative-artificial-intelligence-gen-ai/teaching-implications" style="color: var(--illini-blue);">CITL: Teaching with GenAI</a></li>
+                        <li><a href="https://genai.illinois.edu/" style="color: var(--illini-blue);">Enterprise GenAI (Boldly IT)</a></li>
+                        <li><a href="https://www.vpaa.uillinois.edu/digital_risk_management/generative_ai/instructors" style="color: var(--illini-blue);">UI System Instructor Guidance</a></li>
+                    </ul>
+                </div>
+                <div style="text-align: right;">
+                    <p>&copy; 2026 University of Illinois Board of Trustees</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>
