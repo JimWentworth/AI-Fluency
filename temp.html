@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Temperature & Creativity (Standalone Canvas Activity)</title>
+  <style>
+    :root{
+      /* UIUC-ish palette */
+      --uiuc-blue:#13294B;
+      --uiuc-orange:#FF552E;
+
+      --text:#111827;
+      --muted:#4B5563;
+      --border:#E5E7EB;
+
+      --grey-50:#F9FAFB;
+      --grey-100:#F3F4F6;
+      --grey-200:#E5E7EB;
+      --grey-600:#4B5563;
+
+      --shadow: 0 10px 30px rgba(17,24,39,.08);
+      --radius: 14px;
+
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    body{
+      font-family: var(--font);
+      margin: 0;
+      color: var(--text);
+      background: #fff;
+      line-height: 1.55;
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .header{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 18px 16px;
+      background: linear-gradient(180deg, rgba(19,41,75,.06), rgba(255,255,255,1));
+      box-shadow: var(--shadow);
+    }
+
+    .title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    h1{
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: .2px;
+      color: var(--uiuc-blue);
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: .85rem;
+      border: 1px solid rgba(19,41,75,.18);
+      background: rgba(19,41,75,.04);
+      color: var(--uiuc-blue);
+      user-select: none;
+    }
+
+    .badge-dot{
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--uiuc-orange);
+      display:inline-block;
+    }
+
+    .lede{
+      margin: 10px 0 0;
+      color: var(--muted);
+      max-width: 75ch;
+    }
+
+    h3{
+      margin: 26px 0 10px;
+      color: var(--uiuc-blue);
+      font-size: 1.2rem;
+    }
+
+    h4{
+      margin: 0 0 10px;
+      color: var(--uiuc-blue);
+      font-size: 1.05rem;
+    }
+
+    ul{
+      margin: 10px 0 0 20px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    @media (min-width: 860px){
+      .grid{
+        grid-template-columns: 1.05fr .95fr;
+        align-items: start;
+      }
+    }
+
+    .card{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-inner{
+      padding: 16px;
+    }
+
+    .note{
+      font-size: .95rem;
+      color: var(--muted);
+      margin: 10px 0 0;
+      font-style: italic;
+    }
+
+    /* Temperature demo */
+    .temperature-demo{
+      border-top: 5px solid rgba(255,85,46,.18);
+      background: linear-gradient(180deg, rgba(255,85,46,.06), #fff 50%);
+    }
+
+    .slider-container{
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--grey-200);
+      background: var(--grey-50);
+    }
+
+    .temp-value-display{
+      font-weight: 700;
+      color: var(--uiuc-blue);
+      margin-bottom: 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .temp-pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(19,41,75,.15);
+      background: #fff;
+      color: var(--uiuc-blue);
+      font-size: .85rem;
+      font-weight: 650;
+    }
+
+    .temp-slider{
+      width: 100%;
+      margin: 2px 0 8px;
+      accent-color: var(--uiuc-orange);
+    }
+
+    .temp-labels{
+      display:flex;
+      justify-content:space-between;
+      font-size: .85rem;
+      color: var(--grey-600);
+      gap: 10px;
+    }
+
+    .prompt-line{
+      margin-top: 14px;
+      font-size: 1.02rem;
+    }
+
+    .prompt-tag{
+      color: var(--uiuc-orange);
+      background: var(--grey-100);
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      display:inline-block;
+      font-weight: 800;
+      letter-spacing: .2px;
+      margin-right: 6px;
+    }
+
+    .temp-output{
+      margin-top: 10px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid var(--grey-200);
+      min-height: 90px;
+      box-shadow: inset 0 1px 0 rgba(17,24,39,.02);
+    }
+
+    .foot{
+      font-size: 0.85rem;
+      color: var(--grey-600);
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* Interactive boxes */
+    .interactive-box{
+      border-left: 6px solid rgba(19,41,75,.18);
+      background: linear-gradient(180deg, rgba(19,41,75,.05), #fff 55%);
+    }
+
+    .prompt-box{
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--grey-200);
+      background: var(--grey-50);
+    }
+
+    .prompt-text{
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size: .93rem;
+      color: #111827;
+    }
+
+    .prompt-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .button{
+      appearance: none;
+      border: 1px solid rgba(19,41,75,.18);
+      background: var(--uiuc-blue);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: .95rem;
+      transition: transform .06s ease, filter .15s ease;
+    }
+    .button:hover{ filter: brightness(1.05); }
+    .button:active{ transform: translateY(1px); }
+    .button:focus{ outline: 3px solid rgba(255,85,46,.35); outline-offset: 2px; }
+
+    .button-secondary{
+      background: #fff;
+      color: var(--uiuc-blue);
+    }
+
+    .button-quiet{
+      background: #fff;
+      color: var(--uiuc-blue);
+      border: 1px dashed rgba(19,41,75,.25);
+    }
+
+    /* Reflection */
+    .reflection-box{
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--grey-50);
+      padding: 14px;
+    }
+
+    .reflection-textarea{
+      width: 100%;
+      min-height: 120px;
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--grey-200);
+      padding: 10px;
+      font-family: var(--font);
+      font-size: 1rem;
+      resize: vertical;
+      background: #fff;
+    }
+    .reflection-textarea:focus{
+      outline: 3px solid rgba(255,85,46,.30);
+      outline-offset: 2px;
+    }
+
+    /* Callouts */
+    .callout{
+      margin-top: 16px;
+      border-radius: var(--radius);
+      padding: 14px 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .callout-success{
+      border-left: 6px solid rgba(255,85,46,.55);
+      background: linear-gradient(180deg, rgba(255,85,46,.06), #fff 60%);
+    }
+
+    .subtle{
+      color: var(--muted);
+      font-size: .95rem;
+      margin: 10px 0 0;
+    }
+
+    .divider{
+      height: 1px;
+      background: var(--border);
+      margin: 18px 0;
+    }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(17,24,39,.92);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: .92rem;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 9999;
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-2px);
+    }
+
+    .sr-only{
+      position:absolute;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" id="top">
+    <div class="header">Quick Concept: Temperature &amp; Creativity
+      <div class="title">
+      </div>
+    </div>
+    <p>Many AI tools have a "temperature" or "creativity" setting (often 0–1 or 0–2):</p>
+    <ul>
+      <li><strong>Low temperature (0–0.3):</strong> Predictable, consistent, factual—like a careful researcher</li>
+      <li><strong>Medium temperature (0.7–0.8):</strong> Balanced—good for most writing tasks</li>
+      <li><strong>High temperature (1.0+):</strong> Unpredictable, creative, varied—like a brainstorming session</li>
+    </ul>
+    <p class="note"><em>Note: Not all interfaces expose this setting, but understanding it helps you frame prompts!</em></p>
+
+    <div class="grid">
+      <!-- Temperature demo -->
+      <div class="card temperature-demo" aria-labelledby="demoTitle">
+        <div class="card-inner">
+          <h4 id="demoTitle">Interactive Demo: See Temperature in Action</h4>
+          <p class="subtle">Adjust the slider to see how temperature can change output for the same prompt (simulated examples).</p>
+
+          <div class="slider-container">
+            <div class="temp-value-display">
+              <div>
+                Temperature: <span id="tempValue">0.5</span>
+                <span class="sr-only" id="tempAnnounce" aria-live="polite"></span>
+              </div>
+              <div class="temp-pill" id="tempMode">Balanced</div>
+            </div>
+
+            <!-- Slider uses 0–20 to avoid awkward decimals; mapped to 0.0–2.0 -->
+            <input
+              type="range"
+              min="0" max="20" value="5"
+              class="temp-slider"
+              id="tempSlider"
+              aria-label="Temperature setting from 0 to 2. Adjust to see how it affects AI creativity."
+              aria-valuemin="0" aria-valuemax="2" aria-valuenow="0.5"
+            />
+
+            <div class="temp-labels" aria-hidden="true">
+              <span>0.0 (Predictable)</span>
+              <span>1.0 (Balanced)</span>
+              <span>2.0 (Creative)</span>
+            </div>
+          </div>
+
+          <p class="prompt-line">
+            <span class="prompt-tag">PROMPT:</span>
+            <strong>"Describe a sunset"</strong>
+          </p>
+
+          <div class="temp-output" id="tempOutput" role="region" aria-label="Simulated AI output">
+            The sun sets in the west, creating orange and red colors in the sky as daylight fades to darkness.
+          </div>
+
+          <p class="foot"> This is a simulated activity  (think rule-based), so these responses are predefined, not generated.</p>
+ 
+        </div>
+      </div>
+
+      <!-- Quick guidance -->
+      <div class="card">
+        <div class="card-inner">
+          <h4>How to Use This in Real Work</h4>
+          <ul>
+            <li><strong>If accuracy matters:</strong> lower temperature + tighter constraints + ask for sources/assumptions.</li>
+            <li><strong>If you need options:</strong> raise temperature + ask for variation + request multiple approaches.</li>
+            <li><strong>If outputs are “samey”:</strong> increase temperature and explicitly ask for diverse formats.</li>
+            <li><strong>If outputs are “wild”:</strong> decrease temperature and add structure (bullets, rubric, criteria).</li>
+          </ul>
+          <div class="divider"></div>
+          <p class="subtle"> You can explore adjusting temperature settings through prompting. Try these simple additions to your next prompt.&nbsp;</p>
+          <ul>
+            <li>be adventurous, use a temperature setting of 1.9&nbsp;</li>
+            <li>be cautious and keep the temperature below 0.2 </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    
+
+
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // --- Temperature demo (simulated outputs) ---
+    const tempSlider = document.getElementById('tempSlider');
+    const tempValueEl = document.getElementById('tempValue');
+    const tempOutputEl = document.getElementById('tempOutput');
+    const tempModeEl = document.getElementById('tempMode');
+    const tempAnnounce = document.getElementById('tempAnnounce');
+
+    const outputs = {
+      low: [
+        "The sun sets in the west, creating orange and red colors in the sky as daylight fades to darkness.",
+        "A sunset is the daily transition from daylight to night, often showing warm hues near the horizon.",
+        "As the day ends, the sun drops below the horizon and the sky shifts from bright light to darker tones."
+      ],
+      medium: [
+        "The sun dips below the horizon and the sky blooms with layered oranges and pinks, fading into twilight blue.",
+        "A sunset softens the day into evening, painting the clouds with warm color before the first stars appear.",
+        "Light thins, shadows stretch, and the sky turns into a gradient of gold, coral, and deepening indigo."
+      ],
+      high: [
+        "The horizon catches fire—molten tangerine spilling into violet dusk—like the sky is exhaling its last bright secret.",
+        "A sunset is a slow, glowing curtain call: clouds wearing watercolor gowns as the day bows and slips away.",
+        "The sun sinks like a coin into velvet, and the air feels briefly enchanted, as if the world is holding its breath."
+      ]
+    };
+
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+    function labelForTemp(t){
+      if (t <= 0.3) return "Predictable";
+      if (t < 1.0) return "Balanced";
+      return "Creative";
+    }
+
+    function bandForTemp(t){
+      if (t <= 0.3) return "low";
+      if (t < 1.0) return "medium";
+      return "high";
+    }
+
+    function pickExample(arr, seed){
+      // Deterministic-ish pick so it doesn't feel random-jumpy during dragging
+      const idx = Math.floor((seed * 997) % arr.length);
+      return arr[idx];
+    }
+
+    function updateTemperatureFromSlider(){
+      const raw = Number(tempSlider.value);     // 0..20
+      const t = clamp(raw / 10, 0, 2);          // 0.0..2.0
+
+      tempValueEl.textContent = t.toFixed(1);
+      tempSlider.setAttribute('aria-valuenow', t.toFixed(1));
+
+      const mode = labelForTemp(t);
+      tempModeEl.textContent = mode;
+
+      const band = bandForTemp(t);
+      tempOutputEl.textContent = pickExample(outputs[band], raw);
+
+      // Screen reader announcement (polite)
+      tempAnnounce.textContent = `Temperature ${t.toFixed(1)}. Mode: ${mode}.`;
+    }
+
+    tempSlider.addEventListener('input', updateTemperatureFromSlider);
+    updateTemperatureFromSlider();
+
+    // --- Copy helpers ---
+    const toastEl = document.getElementById('toast');
+    let toastTimer = null;
+
+    function showToast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.remove('show'), 1600);
+    }
+
+    async function copyText(elementId){
+      const el = document.getElementById(elementId);
+      const text = el ? el.textContent.trim() : "";
+      if (!text) return;
+
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast("Copied to clipboard.");
+      } catch(e){
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast("Copied to clipboard.");
+      }
+    }
+
+    function copyReflection(){
+      const ta = document.getElementById('reflection');
+      const text = (ta.value || "").trim();
+      if (!text){
+        showToast("Nothing to copy yet.");
+        return;
+      }
+      navigator.clipboard.writeText(text).then(
+        () => showToast("Reflection copied."),
+        () => showToast("Copy blocked by browser.")
+      );
+    }
+
+    function clearReflection(){
+      document.getElementById('reflection').value = "";
+      showToast("Cleared.");
+    }
+
+    function scrollToId(id){
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // Optional: tiny “settings suggestion” helper
+    function suggestSettings(mode){
+      const suggestions = {
+        brainstorm: "Suggested: temperature ~1.1–1.6, ask for variety + constraints (time, group size, formats).",
+        refine: "Suggested: temperature ~0.4–0.8, keep structure, ask for a revised version + checklist.",
+        devils: "Suggested: temperature ~0.7–1.0, request diverse perspectives + ask it to label assumptions."
+      };
+      showToast(suggestions[mode] || "Suggested: adjust temperature to match your goal.");
+    }
+  </script>
+</body>
+</html>
