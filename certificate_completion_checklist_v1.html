@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Certificate Completion Checklist</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    h2, h3 {
+      margin-top: 1.5rem;
+    }
+
+    fieldset {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    legend {
+      font-weight: 600;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .checklist-item input {
+      margin-right: 0.75rem;
+      margin-top: 0.2rem;
+    }
+
+    .status {
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    button {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Certificate Completion Checklist</h2>
+  <p>
+    This checklist is for your personal tracking. Your progress is stored locally
+    in this browser and does not submit anything to Canvas.
+  </p>
+
+  <fieldset>
+    <legend>Core Modules</legend>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="module1">
+      Module 1 completed
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="module2">
+      Module 2 completed
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="module3">
+      Module 3 completed
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="module4">
+      Module 4 completed
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Learning Journal</legend>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="journal_created">
+      Learning journal created and accessible
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="journal_modules">
+      Journal includes reflections connected to each core module
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="journal_electives">
+      Journal includes reflections for both electives
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="journal_identified">
+      Elective reflections identify event name and date
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Electives</legend>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="elective1_complete">
+      Elective 1 completed
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="elective1_documented">
+      Elective 1 documented in Canvas
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="elective1_reflection">
+      Elective 1 reflection completed in journal
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="elective2_complete">
+      Elective 2 completed
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="elective2_documented">
+      Elective 2 documented in Canvas
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="elective2_reflection">
+      Elective 2 reflection completed in journal
+    </label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Final Verification</legend>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="canvas_submitted">
+      All required Canvas assignments submitted
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="links_accessible">
+      All links accessible and clearly labeled
+    </label>
+
+    <label class="checklist-item">
+      <input type="checkbox" data-key="nothing_missing">
+      No required components missing
+    </label>
+  </fieldset>
+
+  <p class="status" id="status"></p>
+
+  <button type="button" id="reset">
+    Reset checklist
+  </button>
+
+  <script>
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const status = document.getElementById('status');
+    const resetButton = document.getElementById('reset');
+    const storageKey = 'certificateChecklist';
+
+    const savedState = JSON.parse(localStorage.getItem(storageKey) || '{}');
+
+    checkboxes.forEach(box => {
+      const key = box.dataset.key;
+      if (savedState[key]) {
+        box.checked = true;
+      }
+
+      box.addEventListener('change', () => {
+        savedState[key] = box.checked;
+        localStorage.setItem(storageKey, JSON.stringify(savedState));
+        updateStatus();
+      });
+    });
+
+    resetButton.addEventListener('click', () => {
+      localStorage.removeItem(storageKey);
+      checkboxes.forEach(box => box.checked = false);
+      updateStatus();
+    });
+
+    function updateStatus() {
+      const total = checkboxes.length;
+      const checked = [...checkboxes].filter(b => b.checked).length;
+      status.textContent = `Progress: ${checked} of ${total} items completed`;
+    }
+
+    updateStatus();
+  </script>
+
+</body>
+</html>
