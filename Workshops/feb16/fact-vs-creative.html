@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factual vs. Creative Use - LLM Workshop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>LLM Workshop</h2>
+        <p class="subtitle">University of Illinois</p>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="prompting-basics.html">Prompting Basics</a>
+            <a href="temperature.html">Temperature</a>
+            <a href="fact-vs-creative.html">Fact vs. Creative</a>
+            <a href="llm-web-rag.html">LLM vs. Web vs. RAG</a>
+            <a href="campus-tools.html">Campus Tools</a>
+            <a href="voice-mode.html">Voice Mode</a>
+            <a href="project-rag.html">Project RAG</a>
+            <a href="agent-mode.html">Agent Mode</a>
+            <a href="feedback.html">Feedback</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Factual vs. Creative Use</h1>
+            <p class="page-subtitle">Understanding when to use LLMs for facts versus creativity</p>
+        </header>
+        
+        <div class="content">
+
+            <p>Large Language Models excel at both factual tasks and creative work, but they function differently in each domain.</p>
+            
+            <h2>Side-by-Side Comparison</h2>
+            
+            <div class="comparison">
+                <div class="side">
+                    <h3>Factual Use Cases</h3>
+                    <p><strong>Goal:</strong> Retrieve or apply existing knowledge accurately</p>
+                    <ul>
+                        <li>Answering knowledge questions</li>
+                        <li>Code generation</li>
+                        <li>Data extraction</li>
+                        <li>Mathematical calculations</li>
+                        <li>Language translation</li>
+                        <li>Summarization</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Key:</strong> There's a "right answer"</p>
+                </div>
+                
+                <div class="side creative-side">
+                    <h3>Creative Use Cases</h3>
+                    <p><strong>Goal:</strong> Generate novel, original content</p>
+                    <ul>
+                        <li>Story writing</li>
+                        <li>Poetry composition</li>
+                        <li>Brainstorming ideas</li>
+                        <li>Marketing copy</li>
+                        <li>Character dialogue</li>
+                        <li>Creative problem-solving</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Key:</strong> Multiple valid outputs</p>
+                </div>
+            </div>
+            
+            <h2>The Hallucination Problem</h2>
+            
+            <div class="warning">
+                <h3>Critical Limitation</h3>
+                <p><strong>What it is:</strong> LLMs can confidently generate false information that sounds plausible.</p>
+                <p style="margin-top: 10px;"><strong>Why it happens:</strong> LLMs predict likely text patterns, not truth.</p>
+            </div>
+            
+            <div class="example bad-example">
+                <h3>Hallucination Example</h3>
+                <p><strong>Prompt:</strong> "What did Marie Curie discover in 1923?"</p>
+                <p style="margin-top: 10px;"><strong>LLM might say:</strong> "In 1923, Marie Curie discovered polonium-218..."</p>
+                <p style="margin-top: 10px; color: #C1121F;"><strong>Problem:</strong> Completely fabricated!</p>
+            </div>
+            
+            <h2>When to Use LLMs for Facts</h2>
+            
+            <table>
+                <tr><th>Scenario</th><th>Reliability</th><th>Recommendation</th></tr>
+                <tr><td>Well-established knowledge</td><td>High</td><td>Generally safe</td></tr>
+                <tr><td>Recent events</td><td>Very Low</td><td>Use web search</td></tr>
+                <tr><td>Obscure facts</td><td>Low</td><td>Verify independently</td></tr>
+                <tr><td>Medical/legal advice</td><td>Critical Risk</td><td>Never rely solely on LLM</td></tr>
+            </table>
+            
+            <div class="warning">
+                <strong>Golden Rule:</strong> If accuracy matters, don't trust—verify!
+            </div>
+        
+        </div>
+    </div>
+</body>
+</html>

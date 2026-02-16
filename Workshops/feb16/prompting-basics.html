@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompting Basics - LLM Workshop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>LLM Workshop</h2>
+        <p class="subtitle">University of Illinois</p>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="prompting-basics.html">Prompting Basics</a>
+            <a href="temperature.html">Temperature</a>
+            <a href="fact-vs-creative.html">Fact vs. Creative</a>
+            <a href="llm-web-rag.html">LLM vs. Web vs. RAG</a>
+            <a href="campus-tools.html">Campus Tools</a>
+            <a href="voice-mode.html">Voice Mode</a>
+            <a href="project-rag.html">Project RAG</a>
+            <a href="agent-mode.html">Agent Mode</a>
+            <a href="feedback.html">Feedback</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Prompting Basics</h1>
+            <p class="page-subtitle">Fundamental principles of effective prompt engineering</p>
+        </header>
+        
+        <div class="content">
+
+            <p>Prompt engineering is the practice of crafting effective inputs to guide AI models toward desired outputs. Clear, specific prompts lead to better results.</p>
+            
+            <h2>Core Principles</h2>
+            
+            <div class="principle">
+                <h3>1. Be Clear and Specific</h3>
+                <p>Avoid ambiguity. The more specific your instructions, the better the results.</p>
+            </div>
+            
+            <div class="example bad">
+                <div class="label">Vague:</div>
+                <p>"Tell me about Python"</p>
+                <p style="margin-top: 10px;"><em>Problem: Could refer to the programming language, the snake, or Monty Python.</em></p>
+            </div>
+            
+            <div class="example good">
+                <div class="label">Clear:</div>
+                <p>"Explain the key differences between Python lists and tuples in programming, with code examples"</p>
+            </div>
+            
+            <div class="principle">
+                <h3>2. Provide Context</h3>
+                <p>Give the AI relevant background information to frame responses appropriately.</p>
+            </div>
+            
+            <div class="example good">
+                <div class="label">With Context:</div>
+                <p>"I'm a beginner learning web development. Can you explain what APIs are using a simple analogy, then give one practical example?"</p>
+            </div>
+            
+            <div class="principle">
+                <h3>3. Specify the Format</h3>
+                <p>Tell the AI how you want the information structured.</p>
+            </div>
+            
+            <div class="example good">
+                <div class="label">Format Specified:</div>
+                <p>"List the top 5 benefits of regular exercise. For each benefit, provide a 1-sentence explanation."</p>
+            </div>
+            
+            <h2>Advanced Techniques</h2>
+            
+            <div class="tip">
+                <strong>Chain-of-Thought Prompting:</strong> Ask the AI to "think step by step" for complex problems.
+            </div>
+            
+            <div class="example good">
+                <div class="label">Chain-of-Thought:</div>
+                <p>"A store has a 25% off sale, and you have an additional 10% coupon. If an item costs $80, what's the final price? Show your work step by step."</p>
+            </div>
+            
+            <div class="tip">
+                <strong>Key Takeaway:</strong> Great prompts are clear, specific, contextual, and well-structured.
+            </div>
+        
+        </div>
+    </div>
+</body>
+</html>

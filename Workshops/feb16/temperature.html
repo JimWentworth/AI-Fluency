@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature - LLM Workshop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>LLM Workshop</h2>
+        <p class="subtitle">University of Illinois</p>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="prompting-basics.html">Prompting Basics</a>
+            <a href="temperature.html">Temperature</a>
+            <a href="fact-vs-creative.html">Fact vs. Creative</a>
+            <a href="llm-web-rag.html">LLM vs. Web vs. RAG</a>
+            <a href="campus-tools.html">Campus Tools</a>
+            <a href="voice-mode.html">Voice Mode</a>
+            <a href="project-rag.html">Project RAG</a>
+            <a href="agent-mode.html">Agent Mode</a>
+            <a href="feedback.html">Feedback</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Temperature</h1>
+            <p class="page-subtitle">Control the creativity and randomness of AI responses</p>
+        </header>
+        
+        <div class="content">
+
+            <p>Temperature is a parameter (usually between 0 and 1) that controls how deterministic or random an AI model's outputs are.</p>
+            
+            <div class="scale">
+                <h3>Temperature Scale</h3>
+                <div class="scale-items">
+                    <div class="scale-item"><strong>0.0</strong><br>Deterministic<br>Predictable</div>
+                    <div class="scale-item"><strong>0.3</strong><br>Mostly Consistent<br>Slight Variation</div>
+                    <div class="scale-item"><strong>0.7</strong><br>Balanced<br>Creative</div>
+                    <div class="scale-item"><strong>1.0</strong><br>Highly Random<br>Very Creative</div>
+                </div>
+            </div>
+            
+            <h2>How It Works</h2>
+            
+            <div class="info-box">
+                <h3>Low Temperature (0.0 - 0.3)</h3>
+                <p><strong>Behavior:</strong> Always picks the most likely next word. Responses are consistent and focused.</p>
+                <p style="margin-top: 10px;"><strong>Best for:</strong> Factual answers, code generation, data extraction, classification tasks</p>
+            </div>
+            
+            <div class="info-box">
+                <h3>Medium Temperature (0.4 - 0.7)</h3>
+                <p><strong>Behavior:</strong> Balances between likely choices and variety.</p>
+                <p style="margin-top: 10px;"><strong>Best for:</strong> General conversation, explanations, summaries</p>
+            </div>
+            
+            <div class="info-box">
+                <h3>High Temperature (0.8 - 1.0)</h3>
+                <p><strong>Behavior:</strong> Considers less-likely word choices. More surprising outputs.</p>
+                <p style="margin-top: 10px;"><strong>Best for:</strong> Creative writing, brainstorming, poetry</p>
+            </div>
+            
+            <h2>Interactive Demo</h2>
+            
+            <div class="demo">
+                <p><strong>Example:</strong> "Complete this sentence: The cat sat on the..."</p>
+                <input type="range" min="0" max="10" value="5" class="slider" id="tempSlider">
+                <p style="text-align: center; font-size: 1.2em; margin: 15px 0;"><strong>Temperature: <span id="tempValue">0.5</span></strong></p>
+                <div id="responseExample" style="background: white; padding: 15px; border: 1px solid #ddd;">
+                    <strong>Possible Completions:</strong>
+                    <ul id="completionsList" style="margin-top: 10px;">
+                        <li>mat (70%)</li>
+                        <li>chair (15%)</li>
+                        <li>windowsill (8%)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <script>
+                const slider = document.getElementById('tempSlider');
+                const tempValue = document.getElementById('tempValue');
+                const completionsList = document.getElementById('completionsList');
+                
+                const responses = {
+                    0: ['mat (100%)'],
+                    1: ['mat (95%)', 'chair (5%)'],
+                    2: ['mat (90%)', 'chair (8%)', 'windowsill (2%)'],
+                    3: ['mat (85%)', 'chair (10%)', 'windowsill (3%)', 'roof (2%)'],
+                    4: ['mat (80%)', 'chair (12%)', 'windowsill (4%)', 'roof (2%)', 'table (2%)'],
+                    5: ['mat (70%)', 'chair (15%)', 'windowsill (8%)', 'roof (4%)', 'table (3%)'],
+                    6: ['mat (60%)', 'chair (15%)', 'windowsill (10%)', 'roof (6%)', 'table (5%)', 'piano (4%)'],
+                    7: ['mat (50%)', 'chair (15%)', 'windowsill (12%)', 'roof (8%)', 'table (6%)', 'piano (5%)', 'keyboard (4%)'],
+                    8: ['mat (40%)', 'chair (15%)', 'windowsill (12%)', 'roof (10%)', 'table (8%)', 'piano (7%)', 'moon (8%)'],
+                    9: ['mat (30%)', 'chair (15%)', 'windowsill (12%)', 'roof (10%)', 'table (9%)', 'piano (8%)', 'moon (8%)', 'cloud (8%)'],
+                    10: ['mat (25%)', 'chair (12%)', 'windowsill (10%)', 'roof (10%)', 'table (8%)', 'piano (8%)', 'moon (9%)', 'cloud (8%)', 'dragon (10%)']
+                };
+                
+                slider.addEventListener('input', function() {
+                    const value = this.value;
+                    const temp = (value / 10).toFixed(1);
+                    tempValue.textContent = temp;
+                    
+                    completionsList.innerHTML = '';
+                    responses[value].forEach(item => {
+                        const li = document.createElement('li');
+                        li.textContent = item;
+                        completionsList.appendChild(li);
+                    });
+                });
+            </script>
+            
+            <div class="tip">
+                <strong>Key Takeaway:</strong> Temperature isn't about "better" or "worse"—it's about matching the tool to your task.
+            </div>
+        
+        </div>
+    </div>
+</body>
+</html>

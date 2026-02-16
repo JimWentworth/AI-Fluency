@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM vs. Web Search vs. RAG - LLM Workshop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>LLM Workshop</h2>
+        <p class="subtitle">University of Illinois</p>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="prompting-basics.html">Prompting Basics</a>
+            <a href="temperature.html">Temperature</a>
+            <a href="fact-vs-creative.html">Fact vs. Creative</a>
+            <a href="llm-web-rag.html">LLM vs. Web vs. RAG</a>
+            <a href="campus-tools.html">Campus Tools</a>
+            <a href="voice-mode.html">Voice Mode</a>
+            <a href="project-rag.html">Project RAG</a>
+            <a href="agent-mode.html">Agent Mode</a>
+            <a href="feedback.html">Feedback</a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>LLM vs. Web Search vs. RAG</h1>
+            <p class="page-subtitle">Choosing the right information retrieval method</p>
+        </header>
+        
+        <div class="content">
+
+            <p>When you need information, there are three main approaches. Each has distinct strengths and ideal use cases.</p>
+            
+            <h2>Three Approaches</h2>
+            
+            <div class="method">
+                <h3>1. Base LLM (Training Knowledge)</h3>
+                <p>The AI model's built-in knowledge from training data.</p>
+                <div class="pros"><strong>Pros:</strong> Instant responses, great for general knowledge, excellent synthesis</div>
+                <div class="cons"><strong>Cons:</strong> Knowledge cutoff, may hallucinate facts, no proprietary data access</div>
+                <p style="margin-top: 15px;"><strong>Best for:</strong> Explanations, creative writing, coding help, conceptual questions</p>
+            </div>
+            
+            <div class="method">
+                <h3>2. Web Search + LLM</h3>
+                <p>Combining search results with LLM processing for current information.</p>
+                <div class="pros"><strong>Pros:</strong> Current information, can cite sources, validates facts</div>
+                <div class="cons"><strong>Cons:</strong> Slower, requires internet, quality depends on search results</div>
+                <p style="margin-top: 15px;"><strong>Best for:</strong> Current events, fact-checking, research, recent developments</p>
+            </div>
+            
+            <div class="method">
+                <h3>3. RAG (Retrieval-Augmented Generation)</h3>
+                <p>LLM searches your documents first, then generates responses.</p>
+                <div class="pros"><strong>Pros:</strong> Access to private documents, highly accurate, cites exact passages</div>
+                <div class="cons"><strong>Cons:</strong> Requires setup, limited to your documents</div>
+                <p style="margin-top: 15px;"><strong>Best for:</strong> Company policies, research papers, technical docs, course materials</p>
+            </div>
+            
+            <h2>Comparison Table</h2>
+            
+            <table>
+                <tr><th>Feature</th><th>Base LLM</th><th>Web Search</th><th>RAG</th></tr>
+                <tr><td>Information Source</td><td>Training data</td><td>Live web</td><td>Your documents</td></tr>
+                <tr><td>Recency</td><td>Outdated</td><td>Current</td><td>As updated</td></tr>
+                <tr><td>Speed</td><td>Fastest</td><td>Medium</td><td>Fast</td></tr>
+                <tr><td>Citations</td><td>Can't cite</td><td>URLs</td><td>Exact passages</td></tr>
+                <tr><td>Private Info</td><td>No</td><td>No</td><td>Yes</td></tr>
+            </table>
+            
+            <h2>How RAG Works</h2>
+            
+            <div class="section">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div><strong>Index Documents:</strong> Documents split into chunks and converted to embeddings</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div><strong>Store:</strong> Embeddings stored in searchable database</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div><strong>Query:</strong> User question converted to embedding</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div><strong>Retrieve:</strong> Find most similar document chunks</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div><strong>Generate:</strong> LLM answers based on retrieved info</div>
+                </div>
+            </div>
+            
+            <div class="tip">
+                <strong>Key Takeaway:</strong> Match the method to your needs. General knowledge → Base LLM. Current events → Web Search. Your documents → RAG.
+            </div>
+        
+        </div>
+    </div>
+</body>
+</html>
