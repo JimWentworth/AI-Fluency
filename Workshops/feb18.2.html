@@ -1,0 +1,1051 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Generative AI Practice Lab — UIUC</title>
+  <meta name="description" content="Activities and exercises for moving from search-engine habits to iterative, disciplined use of generative AI." />
+
+  <style>
+    :root{
+      /* Illinois-inspired palette (not an official logo) */
+      --illini-blue:#13294B;
+      --illini-orange:#FF552E;
+      --illini-orange-2:#E84A27;
+
+      --bg0:#070b14;
+      --bg1:#04060c;
+
+      --panel: rgba(19,41,75,.82);
+      --panel2: rgba(7,16,34,.44);
+
+      --text:#F4F7FF;
+      --muted: rgba(244,247,255,.86);
+      --muted2: rgba(244,247,255,.72);
+
+      --border: rgba(255,255,255,.16);
+      --shadow: 0 14px 36px rgba(0,0,0,.45);
+
+      --radius: 18px;
+      --radius-sm: 14px;
+
+      --max: 1140px;
+      --pad: clamp(14px, 2vw, 20px);
+      --gap: clamp(12px, 2vw, 18px);
+
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+      --focus: 0 0 0 3px rgba(255,255,255,.28), 0 0 0 6px rgba(255,85,46,.60);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+
+    /* Smooth scroll + header offset */
+    html { scroll-behavior: smooth; }
+
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 720px at 12% 10%, rgba(255,85,46,.18), transparent 55%),
+        radial-gradient(1100px 700px at 88% 25%, rgba(19,41,75,.62), transparent 58%),
+        radial-gradient(900px 650px at 50% 100%, rgba(255,85,46,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      line-height:1.55;
+    }
+
+    a{ color: rgba(184,208,255,.95); }
+    a:hover{ color:#fff; }
+    :focus-visible{ outline:none; box-shadow: var(--focus); border-radius: 12px; }
+
+    .skip-link{
+      position:absolute;
+      left:12px; top:12px;
+      transform: translateY(-160%);
+      background: rgba(255,255,255,.96);
+      color:#0b1220;
+      padding:10px 12px;
+      border-radius: 12px;
+      text-decoration:none;
+      z-index:9999;
+      font-weight:800;
+    }
+    .skip-link:focus{ transform: translateY(0); box-shadow: 0 12px 28px rgba(0,0,0,.25); }
+
+    header{
+      position: sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter: blur(10px);
+      background: rgba(7,11,20,.80);
+      border-bottom:1px solid var(--border);
+    }
+
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 14px;
+      padding: 12px 0;
+    }
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      min-width: 300px;
+    }
+    .mark{ display:flex; align-items:center; gap:10px; }
+
+    /* Text-based “I” mark (not official) */
+    .i-block{
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255,85,46,.92), rgba(232,74,39,.92));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      position:relative;
+      flex: 0 0 auto;
+    }
+    .i-block::after{
+      content:"I";
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      color:#fff;
+      font-size: 20px;
+      text-shadow: 0 6px 14px rgba(0,0,0,.22);
+    }
+
+    .brand strong{ font-size: 14px; letter-spacing:.2px; line-height: 1.1; }
+    .brand span{ font-size: 12.5px; color: var(--muted2); line-height: 1.2; }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(19,41,75,.35);
+      color: var(--muted);
+      font-size: 12.5px;
+      width: fit-content;
+      flex-wrap: wrap;
+    }
+    .pill .dot{
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      background: var(--illini-orange);
+      box-shadow: 0 0 0 3px rgba(255,85,46,.18);
+    }
+
+    /* Make pills clickable (activity jump) */
+    .pill-btn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(19,41,75,.35);
+      color: var(--muted);
+      font-size: 12.5px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      cursor: pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .pill-btn:hover{ background: rgba(19,41,75,.45); border-color: rgba(255,255,255,.22); }
+    .pill-btn[aria-pressed="true"]{
+      background: rgba(255,85,46,.20);
+      border-color: rgba(255,85,46,.55);
+      color: rgba(244,247,255,.95);
+    }
+
+    /* Tabs */
+    .tabs{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+      max-width: 780px;
+      padding-top: 2px;
+    }
+    .tab{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(19,41,75,.30);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-size: 13px;
+      line-height: 1;
+      user-select:none;
+      white-space: nowrap;
+      transition: transform .06s ease, background .2s ease, border-color .2s ease;
+    }
+    .tab:hover{
+      background: rgba(19,41,75,.45);
+      border-color: rgba(255,255,255,.22);
+    }
+    .tab:active{ transform: translateY(1px); }
+    .tab[aria-selected="true"]{
+      background: rgba(255,85,46,.20);
+      border-color: rgba(255,85,46,.55);
+    }
+
+    main{ padding: 26px 0 52px; }
+
+    .panel{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(16px, 2.4vw, 26px);
+    }
+
+    .hero{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:left;
+    }
+
+    .hero h1{
+      margin: 0 0 6px;
+      font-size: clamp(30px, 3.8vw, 46px);
+      line-height: 1.10;
+      letter-spacing: .2px;
+    }
+    .hero .sub{
+      margin:0;
+      color: var(--muted);
+      font-size: 15.5px;
+    }
+    .hero .meta{
+      margin-top: 10px;
+      color: var(--muted2);
+      font-size: 13px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--gap);
+      margin-top: 16px;
+    }
+
+    .card{
+      grid-column: span 12;
+      background: var(--panel2);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius-sm);
+      padding: 16px 16px;
+    }
+    @media (min-width: 900px){
+      .card.half{ grid-column: span 6; }
+      .card.third{ grid-column: span 4; }
+      .card.twothird{ grid-column: span 8; }
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing:.2px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--muted);
+      margin-bottom: 10px;
+      width: fit-content;
+    }
+    .kicker::before{
+      content:"";
+      width:8px; height:8px;
+      border-radius:999px;
+      background: var(--illini-orange);
+      box-shadow: 0 0 0 3px rgba(255,85,46,.18);
+    }
+
+    h2{ margin:0 0 10px; font-size:22px; line-height:1.25; }
+    .card h3{ margin:0 0 8px; font-size:16.5px; line-height:1.25; }
+    p{ margin:0 0 10px; color: rgba(244,247,255,.94); }
+    p:last-child{ margin-bottom:0; }
+
+    details{
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      padding: 10px 12px;
+      margin-top: 10px;
+    }
+    summary{
+      cursor:pointer;
+      font-weight: 800;
+      list-style:none;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    details[open]{ background: rgba(255,255,255,.06); }
+    .inside{ margin-top:10px; color: rgba(244,247,255,.92); }
+
+    .note{
+      border-left: 3px solid rgba(255,85,46,.85);
+      padding: 10px 12px;
+      background: rgba(255,85,46,.10);
+      border-radius: 12px;
+      margin-top: 10px;
+      color: rgba(244,247,255,.94);
+    }
+
+    .prompt{
+      margin-top: 10px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 14px;
+      overflow:hidden;
+    }
+    .prompt .bar{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    .prompt .bar strong{ font-size: 13px; letter-spacing: .2px; }
+    .copy-btn{
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(19,41,75,.55);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 7px 10px;
+      cursor:pointer;
+      font-size: 12.5px;
+      white-space: nowrap;
+    }
+    .copy-btn:hover{ background: rgba(19,41,75,.75); }
+
+    pre{
+      margin: 0;
+      padding: 12px;
+      overflow:auto;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(244,247,255,.96);
+      white-space: pre-wrap;
+    }
+
+    .graphic{
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(0,0,0,.18);
+    }
+    .graphic svg{ display:block; width:100%; height:auto; }
+
+    .checkline{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-top: 10px;
+      color: rgba(244,247,255,.92);
+    }
+    .checkline .badge{
+      flex: 0 0 auto;
+      width: 26px; height: 26px;
+      border-radius: 999px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight: 900;
+      background: rgba(255,85,46,.18);
+      border: 1px solid rgba(255,85,46,.45);
+      color: rgba(255,255,255,.96);
+    }
+
+    footer{ margin-top: 18px; color: var(--muted2); font-size: 12.5px; }
+
+    /* Anchor targets should not be hidden under the sticky header */
+    .scroll-target { scroll-margin-top: 110px; }
+
+    @media (prefers-reduced-motion: reduce){
+      html { scroll-behavior: auto; }
+      *{ transition: none !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="brand" aria-label="Site identity">
+          <div class="mark">
+            <div class="i-block" aria-hidden="true"></div>
+            <div>
+              <strong>Generative AI Practice Lab</strong><br>
+              <span>University of Illinois • Activities for faculty, staff, and students</span>
+            </div>
+          </div>
+          <div class="pill" aria-label="Accessibility note">
+            <span class="dot" aria-hidden="true"></span>
+            <span>Keyboard-friendly tabs • Native accordions • High-contrast UI</span>
+          </div>
+        </div>
+
+        <nav class="tabs" role="tablist" aria-label="Practice sections">
+          <button class="tab" role="tab" id="tab-home" aria-selected="true" aria-controls="panel-home">Start</button>
+          <button class="tab" role="tab" id="tab-search" aria-selected="false" aria-controls="panel-search" tabindex="-1">1) Search → Conversation</button>
+          <button class="tab" role="tab" id="tab-usable" aria-selected="false" aria-controls="panel-usable" tabindex="-1">2) Usable, Feedback, Branching</button>
+          <button class="tab" role="tab" id="tab-judgment" aria-selected="false" aria-controls="panel-judgment" tabindex="-1">3) Judgment & Integrity</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" tabindex="-1">
+    <!-- START -->
+    <section class="panel hero" role="tabpanel" id="panel-home" aria-labelledby="tab-home">
+      <div>
+        <h1>Move from “search reflex” to disciplined collaboration</h1>
+        <p class="sub">
+          This site turns your text into practice. Each tab includes a short framing plus activities and copy/paste prompts you can run in ChatGPT, Claude, Gemini, Copilot, or Illinois Chat.
+        </p>
+        <p class="meta">
+          Today: <span id="today-fallback">February 17, 2026</span> • Tip: For workshops, do the activities in pairs—one “driver” and one “verifier.”
+        </p>
+
+        <div class="grid" aria-label="Getting started">
+          <article class="card half">
+            <span class="kicker">How to use</span>
+            <h3>Do one exercise, then debrief</h3>
+            <p>
+              The point is not to get a perfect answer. The point is to practice steering: clarifying intent, adding constraints, asking for alternatives, and checking what matters.
+            </p>
+            <details>
+              <summary>Workshop move: stop calling it “prompting”</summary>
+              <div class="inside">
+                In an academic setting, “prompting” can sound like a trick. Try “iterative specification” or “draft + critique loop.” It sets the expectation that humans remain accountable.
+              </div>
+            </details>
+          </article>
+
+          <article class="card half">
+            <span class="kicker">Ground rule</span>
+            <h3>Separate usefulness from truth</h3>
+            <p>
+              Generative systems can be excellent for ideation and drafting while still being unreliable for factual claims. Build the habit of deciding what kind of output you’re asking for.
+            </p>
+            <div class="checkline">
+              <div class="badge" aria-hidden="true">1</div>
+              <div>Is this a drafting/idea task or a fact/decision task?</div>
+            </div>
+            <div class="checkline">
+              <div class="badge" aria-hidden="true">2</div>
+              <div>What would count as evidence the output is acceptable for your context?</div>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="kicker">Accessibility</span>
+            <h3>Designed for screen readers and keyboard navigation</h3>
+            <p>
+              Tabs use ARIA roles and keyboard controls (Left/Right arrows, Home/End). Accordions use native <code>details</code>/<code>summary</code>. Copy buttons have accessible labels.
+            </p>
+          </article>
+        </div>
+
+        <footer>
+          <p>Illinois branding note: colors are Illinois-inspired; no official mark is used in this file.</p>
+        </footer>
+      </div>
+    </section>
+
+    <!-- TAB 1 -->
+    <section class="panel" role="tabpanel" id="panel-search" aria-labelledby="tab-search" hidden>
+      <h2>1) The Search Engine Reflex → The Conversation Model</h2>
+      <p>
+        Many of us learned technology through search engines: compress the need into keywords, expect a single-turn answer, then judge success by the top result.
+        When people open ChatGPT/Claude/Gemini, they often repeat that pattern. That’s not misuse. It’s muscle memory.
+      </p>
+
+      <div class="grid">
+        <article class="card twothird">
+          <span class="kicker">Graphic</span>
+          <h3>Search query vs iterative conversation</h3>
+          <p>
+            Use this as a quick visual explanation: search optimizes retrieval; generative tools optimize drafting under direction.
+          </p>
+
+          <div class="graphic" role="img" aria-label="Diagram comparing search query model with iterative conversation drafting model">
+            <svg viewBox="0 0 1200 520" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#13294B" stop-opacity="0.92"/>
+                  <stop offset="1" stop-color="#071022" stop-opacity="0.88"/>
+                </linearGradient>
+                <linearGradient id="g2" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="0" stop-color="#FF552E" stop-opacity="0.35"/>
+                  <stop offset="1" stop-color="#FF552E" stop-opacity="0.10"/>
+                </linearGradient>
+              </defs>
+
+              <rect x="0" y="0" width="1200" height="520" fill="rgba(0,0,0,0.12)"/>
+              <!-- Left: Search -->
+              <rect x="40" y="60" width="520" height="400" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.18)"/>
+              <text x="70" y="110" fill="rgba(244,247,255,0.95)" font-size="24" font-weight="800">Search Model</text>
+              <text x="70" y="145" fill="rgba(244,247,255,0.78)" font-size="16">Single-turn request → ranked retrieval</text>
+
+              <rect x="70" y="185" width="460" height="56" rx="14" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)"/>
+              <text x="92" y="220" fill="rgba(244,247,255,0.92)" font-size="16" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas">dark matter explanation</text>
+
+              <path d="M 300 250 C 300 285, 300 285, 300 318" stroke="rgba(255,255,255,0.35)" stroke-width="3" fill="none"/>
+              <polygon points="300,332 292,316 308,316" fill="rgba(255,255,255,0.55)"/>
+
+              <rect x="70" y="342" width="460" height="92" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)"/>
+              <text x="92" y="374" fill="rgba(244,247,255,0.92)" font-size="16" font-weight="700">Results</text>
+              <text x="92" y="402" fill="rgba(244,247,255,0.78)" font-size="14">Scan • sift • select</text>
+
+              <!-- Right: Conversation -->
+              <rect x="640" y="60" width="520" height="400" rx="18" fill="url(#g1)" stroke="rgba(255,255,255,0.18)"/>
+              <text x="670" y="110" fill="rgba(244,247,255,0.95)" font-size="24" font-weight="800">Conversation Model</text>
+              <text x="670" y="145" fill="rgba(244,247,255,0.78)" font-size="16">Draft → feedback → refinement (collaboration)</text>
+
+              <rect x="670" y="175" width="460" height="64" rx="16" fill="rgba(255,85,46,0.14)" stroke="rgba(255,85,46,0.35)"/>
+              <text x="692" y="205" fill="rgba(244,247,255,0.92)" font-size="15" font-weight="700">Prompt</text>
+              <text x="692" y="228" fill="rgba(244,247,255,0.86)" font-size="13">“Give an initial draft for a high school audience.”</text>
+
+              <rect x="670" y="252" width="460" height="64" rx="16" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)"/>
+              <text x="692" y="282" fill="rgba(244,247,255,0.92)" font-size="15" font-weight="700">Draft</text>
+              <text x="692" y="305" fill="rgba(244,247,255,0.78)" font-size="13">A plausible first pass (not final)</text>
+
+              <rect x="670" y="328" width="460" height="64" rx="16" fill="url(#g2)" stroke="rgba(255,85,46,0.35)"/>
+              <text x="692" y="358" fill="rgba(244,247,255,0.92)" font-size="15" font-weight="700">Feedback</text>
+              <text x="692" y="381" fill="rgba(244,247,255,0.86)" font-size="13">“Shorten paragraph 2. Use an analogy. Remove jargon.”</text>
+
+              <path d="M 900 396 C 900 430, 820 438, 790 422" stroke="rgba(255,85,46,0.55)" stroke-width="4" fill="none"/>
+              <polygon points="780,418 798,414 792,430" fill="rgba(255,85,46,0.75)"/>
+              <text x="820" y="452" fill="rgba(244,247,255,0.72)" font-size="13">Repeat as needed</text>
+            </svg>
+          </div>
+
+          <div class="note" role="note">
+            Workshop prompt: Ask participants to describe what “success” means in each model. In conversation, success often requires a second move.
+          </div>
+        </article>
+
+        <article class="card third">
+          <span class="kicker">Key shift</span>
+          <h3>From command → dialogue</h3>
+          <p>
+            Treat the first output as a draft that is waiting for your direction. Your follow-up message is where the leverage is.
+          </p>
+          <details>
+            <summary>Micro-skill: specify one constraint at a time</summary>
+            <div class="inside">
+              Try changing only one variable per turn (audience, tone, length, evidence standard). You’ll learn what actually controls the output.
+            </div>
+          </details>
+        </article>
+
+        <article class="card half">
+          <span class="kicker">Activity</span>
+          <h3>Search-style vs iterative framing</h3>
+          <p>
+            Run both prompts below. Then compare: which one forces the model to wait for your direction instead of guessing your intent?
+          </p>
+
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Search-style expectation</strong>
+              <button class="copy-btn" type="button" aria-label="Copy search-style prompt">Copy</button>
+            </div>
+            <pre><code>Write a two-paragraph explanation of dark matter.</code></pre>
+          </div>
+
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Iterative framing</strong>
+              <button class="copy-btn" type="button" aria-label="Copy iterative prompt">Copy</button>
+            </div>
+            <pre><code>Give me an initial draft explaining dark matter for a high school audience.
+I will tell you what to adjust after you draft it.
+At the end, ask me 3 clarification questions that would improve the next revision.</code></pre>
+          </div>
+
+          <details>
+            <summary>Debrief questions</summary>
+            <div class="inside">
+              Which output made assumptions about your goals? Which one invited you into the process? If the first draft is “fine,” what makes it not yet “yours”?
+            </div>
+          </details>
+        </article>
+
+        <article class="card half">
+          <span class="kicker">Exercise</span>
+          <h3>Three-step refinement loop (fast)</h3>
+          <p>
+            Start with a draft. Then do two rapid iterations: (1) constraint, (2) verification posture.
+          </p>
+
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Step 1: initial draft</strong>
+              <button class="copy-btn" type="button" aria-label="Copy step 1 prompt">Copy</button>
+            </div>
+            <pre><code>Draft a short announcement for a University of Illinois audience about a generative AI workshop.
+Keep it welcoming and specific. End with: “Reply with questions.”</code></pre>
+          </div>
+
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Step 2: add one constraint</strong>
+              <button class="copy-btn" type="button" aria-label="Copy step 2 prompt">Copy</button>
+            </div>
+            <pre><code>Revise with one constraint: remove buzzwords and avoid hype.
+Keep it friendly but concrete.</code></pre>
+          </div>
+
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Step 3: verification posture</strong>
+              <button class="copy-btn" type="button" aria-label="Copy step 3 prompt">Copy</button>
+            </div>
+            <pre><code>Now list anything in the announcement that would require verification (dates, claims, policies).
+For each item, suggest what source I should check.</code></pre>
+          </div>
+        </article>
+      </div>
+
+      <footer>
+        <p>Core claim: generative systems aren’t “search with better grammar.” They’re drafting collaborators that need direction.</p>
+      </footer>
+    </section>
+
+    <!-- TAB 2 -->
+    <section class="panel" role="tabpanel" id="panel-usable" aria-labelledby="tab-usable" hidden>
+      <h2>2) “Usable” vs “Correct” • Feedback • Branching</h2>
+      <p>
+        Generative systems predict plausible continuations. That makes them strong at drafts, outlines, options, and reframes—but unreliable as sources of accuracy.
+        A productive reframe is to ask: not “Is this correct?”, but “Is this usable for my next step?”
+      </p>
+
+      <!-- ACTIVITY JUMP PILLS -->
+      <div class="pill" aria-label="Jump to an activity on this page" style="margin-top:12px;">
+        <span class="dot" aria-hidden="true"></span>
+        <span><strong>Jump to:</strong></span>
+
+        <button type="button" class="pill-btn" data-scrollto="usable-activity-1" aria-pressed="false">
+          Activity 1
+        </button>
+
+        <button type="button" class="pill-btn" data-scrollto="usable-activity-2" aria-pressed="false">
+          Activity 2
+        </button>
+
+        <button type="button" class="pill-btn" data-scrollto="usable-activity-3" aria-pressed="false">
+          Activity 3
+        </button>
+      </div>
+
+      <div class="grid">
+        <article class="card half">
+          <span class="kicker">Reframe</span>
+          <h3>What does “usable” mean here?</h3>
+          <p>
+            “Usable” depends on the task. A brainstorming list can be 70% right and still be valuable. A policy claim needs citations.
+          </p>
+          <details>
+            <summary>Quick rubric (in prose)</summary>
+            <div class="inside">
+              Ask whether the output (a) reduces blank-page friction, (b) fits your audience and constraints, and (c) makes its uncertainty visible when needed.
+              If it can’t do (c), treat it as a draft—not a source.
+            </div>
+          </details>
+        </article>
+
+        <article class="card half">
+          <span class="kicker">Feedback</span>
+          <h3>Buttons are weak; follow-ups are strong</h3>
+          <p>
+            Thumbs up/down can help steer over time, but your real leverage is the follow-up message you write: redirect the approach, add constraints, or ask for alternatives.
+          </p>
+          <div class="note" role="note">
+            If you only say “wrong,” the model learns nothing actionable. If you say “too generic—challenge my assumptions and offer two unconventional angles,” you’ve given it a job.
+          </div>
+        </article>
+
+        <!-- Activity 1 -->
+        <article class="card twothird scroll-target" id="usable-activity-1">
+          <span class="kicker">Activity 1</span>
+          <h3>Turn a mediocre answer into a better one using feedback</h3>
+          <p>
+            Use a topic from your unit. First ask for a generic answer. Then steer it with a directional follow-up that changes stance, depth, or audience.
+          </p>
+
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Generate a generic baseline</strong>
+              <button class="copy-btn" type="button" aria-label="Copy generic baseline prompt">Copy</button>
+            </div>
+            <pre><code>Give me a general explanation of how generative AI impacts higher education.</code></pre>
+          </div>
+
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Directional feedback (make it useful)</strong>
+              <button class="copy-btn" type="button" aria-label="Copy directional feedback prompt">Copy</button>
+            </div>
+            <pre><code>This is too generic. Re-approach it by:
+1) challenging two common assumptions faculty have about generative AI,
+2) offering two unconventional but plausible angles,
+3) writing for a mixed UIUC audience (faculty, staff, students) with no hype.
+End with 3 questions I should ask my unit before adopting any AI workflow.</code></pre>
+          </div>
+
+          <details>
+            <summary>Debrief prompt: separate “better writing” from “better thinking”</summary>
+            <div class="inside">
+              Did the revision improve substance, or just tone? Which parts would require evidence? What would you keep if you were writing this without AI?
+            </div>
+          </details>
+        </article>
+
+        <article class="card third">
+          <span class="kicker">Branching</span>
+          <h3>Split the thread on purpose</h3>
+          <p>
+            Long chats accumulate inertia: the model carries old assumptions forward. Branching gives you parallel prototypes without contaminating the main thread.
+          </p>
+          <details>
+            <summary>When to branch (rule)</summary>
+            <div class="inside">
+              If your next question would reshape the assumptions, framing, or goals, branch. If it’s a refinement within the same goal, stay in the thread.
+            </div>
+          </details>
+        </article>
+
+        <!-- Activity 2 -->
+        <article class="card half scroll-target" id="usable-activity-2">
+          <span class="kicker">Activity 2</span>
+          <h3>Branching drill: two directions, same starting point</h3>
+          <p>
+            Start with one draft, then branch into two versions: one aimed at “efficiency,” one aimed at “risk control.”
+          </p>
+
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Shared starting point</strong>
+              <button class="copy-btn" type="button" aria-label="Copy shared starting point prompt">Copy</button>
+            </div>
+            <pre><code>Draft a one-page guidance note for a university unit on using generative AI responsibly.
+Keep it practical and readable.</code></pre>
+          </div>
+
+          <details>
+            <summary>Branch A: efficiency posture</summary>
+            <div class="inside">
+              <div class="prompt" data-prompt>
+                <div class="bar">
+                  <strong>Copy/paste — Branch A</strong>
+                  <button class="copy-btn" type="button" aria-label="Copy branch A prompt">Copy</button>
+                </div>
+                <pre><code>Rewrite the guidance with an “efficiency-first” posture.
+Focus on quick wins and low-friction practices.
+Still include a short section on what not to do.</code></pre>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>Branch B: risk-control posture</summary>
+            <div class="inside">
+              <div class="prompt" data-prompt>
+                <div class="bar">
+                  <strong>Copy/paste — Branch B</strong>
+                  <button class="copy-btn" type="button" aria-label="Copy branch B prompt">Copy</button>
+                </div>
+                <pre><code>Rewrite the guidance with a “risk-control” posture.
+Prioritize privacy, accuracy, equity, accessibility, and policy alignment.
+Add a short section on verification practices.</code></pre>
+              </div>
+            </div>
+          </details>
+        </article>
+
+        <!-- Activity 3 -->
+        <article class="card half scroll-target" id="usable-activity-3">
+          <span class="kicker">Activity 3</span>
+          <h3>Ask for “what might be missing”</h3>
+          <p>
+            If you only ask for answers, you get answers. If you ask for gaps, you get a thinking partner.
+          </p>
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Missingness prompt</strong>
+              <button class="copy-btn" type="button" aria-label="Copy missingness prompt">Copy</button>
+            </div>
+            <pre><code>Here is my draft plan: [paste].
+What might be missing that could cause failure in a university context?
+Group missing items into: stakeholders, constraints, evidence, and risks.
+Then ask me 5 questions that would clarify those gaps.</code></pre>
+          </div>
+        </article>
+      </div>
+
+      <footer>
+        <p>Core claim: iteration is not surrender. It’s editorial control. You still own relevance, ethics, and correctness.</p>
+      </footer>
+    </section>
+
+    <!-- TAB 3 -->
+    <section class="panel" role="tabpanel" id="panel-judgment" aria-labelledby="tab-judgment" hidden>
+      <h2>3) Human Judgment, Disciplinary Standards, and Academic Integrity</h2>
+      <p>
+        Generative AI can widen possibilities and reorganize chaos into patterns, but it’s still a prediction engine—not an authority, not a subject-matter expert, and not a decision-maker.
+        Productive use depends on your discipline and your ability to evaluate the output.
+      </p>
+
+      <div class="grid">
+        <article class="card half">
+          <span class="kicker">Use AI when the task is…</span>
+          <h3>Generative, organizational, comparative, low-consequence</h3>
+          <p>
+            AI excels when you need ideas, variation, options, counter-approaches, alternative framings, or help structuring content you already understand.
+          </p>
+          <details>
+            <summary>Practice: make AI stay in its lane</summary>
+            <div class="inside">
+              Ask it for multiple versions and to label uncertainty. Then you decide what belongs, what is ethical, and what requires verification.
+            </div>
+          </details>
+        </article>
+
+        <article class="card half">
+          <span class="kicker">Stick to humans when the task is…</span>
+          <h3>Context-dependent, ethically consequential, fact-heavy, decision work</h3>
+          <p>
+            If the work requires deep institutional knowledge, affects students or policy, or depends on accurate claims, the human should lead.
+          </p>
+          <div class="note" role="note">
+            Rule of thumb: Use AI only in domains where you can independently verify the output or where the stakes of getting it wrong are low.
+          </div>
+        </article>
+
+        <article class="card">
+          <span class="kicker">Academic integrity</span>
+          <h3>Not “Was AI used?” but “What was this work supposed to demonstrate?”</h3>
+          <p>
+            AI complicates integrity because it sits between thinking and doing. The key is whether AI performed the thinking or judgment the task was meant to assess or develop.
+          </p>
+          <details>
+            <summary>Scenario exercise (small group)</summary>
+            <div class="inside">
+              Choose one scenario below. Decide: acceptable use, unacceptable use, or “depends.” Then name what disclosure would look like.
+              <div class="checkline"><div class="badge" aria-hidden="true">A</div><div>A student uses AI to brainstorm project topics, then writes their own proposal.</div></div>
+              <div class="checkline"><div class="badge" aria-hidden="true">B</div><div>A student pastes a prompt and submits the generated essay as-is.</div></div>
+              <div class="checkline"><div class="badge" aria-hidden="true">C</div><div>An instructor uses AI to draft rubric language, then revises it based on course outcomes.</div></div>
+              <div class="checkline"><div class="badge" aria-hidden="true">D</div><div>A staff member asks AI to interpret a policy and acts on it without checking the source.</div></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="card half">
+          <span class="kicker">Decision drill</span>
+          <h3>Three gating questions (fast)</h3>
+          <p>
+            Use these before adopting any AI workflow in a unit or course.
+          </p>
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — Gating questions</strong>
+              <button class="copy-btn" type="button" aria-label="Copy gating questions prompt">Copy</button>
+            </div>
+            <pre><code>I am considering using AI for this task: [describe task].
+Answer these questions:
+1) Can I independently verify the output without specialized research? If not, what’s the risk?
+2) Would an error materially harm a person, policy, equity, accessibility, privacy, or institutional credibility?
+3) Am I asking AI to generate something—or to decide something?
+
+Then recommend: use AI, use AI with constraints, or do not use AI.
+Explain the reasoning plainly, and list what evidence I should consult if I proceed.</code></pre>
+          </div>
+        </article>
+
+        <article class="card half">
+          <span class="kicker">Discipline anchoring</span>
+          <h3>Make the tool reflect your standards</h3>
+          <p>
+            Different fields have different norms for evidence, citation, uncertainty, and acceptable approximation. Tell the model what your discipline requires.
+          </p>
+          <div class="prompt" data-prompt>
+            <div class="bar">
+              <strong>Copy/paste — “Disciplinary standard” prompt</strong>
+              <button class="copy-btn" type="button" aria-label="Copy disciplinary standard prompt">Copy</button>
+            </div>
+            <pre><code>Use the standards of my discipline: [name discipline or context].
+When you answer:
+- separate claims from evidence,
+- label uncertainty,
+- avoid invented citations,
+- and suggest how I would verify any factual assertion.
+Now help me draft: [task].</code></pre>
+          </div>
+        </article>
+      </div>
+
+      <footer>
+        <p>Core claim: AI widens possibilities; humans decide validity, ethics, and alignment with institutional and disciplinary standards.</p>
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      // Date (local)
+      const fallback = document.getElementById('today-fallback');
+      if (fallback) {
+        try {
+          const fmt = new Intl.DateTimeFormat(undefined, { year:'numeric', month:'long', day:'numeric' });
+          fallback.textContent = fmt.format(new Date());
+        } catch(e) {}
+      }
+
+      // Tabs (ARIA + keyboard)
+      const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+      if (!tabs.length) return;
+
+      function panelFor(tab){
+        const id = tab.getAttribute('aria-controls');
+        return id ? document.getElementById(id) : null;
+      }
+
+      function setActive(activeTab, opts){
+        const options = opts || {};
+        tabs.forEach(t => {
+          const selected = (t === activeTab);
+          t.setAttribute('aria-selected', selected ? 'true' : 'false');
+          t.tabIndex = selected ? 0 : -1;
+          const p = panelFor(t);
+          if (p) p.hidden = !selected;
+        });
+
+        const p = panelFor(activeTab);
+        if (p) {
+          p.setAttribute('tabindex','-1');
+          try { p.focus({ preventScroll: true }); }
+          catch(e){ try { p.focus(); } catch(e2){} }
+          setTimeout(() => p.removeAttribute('tabindex'), 50);
+        }
+
+        if (!options.noScroll) {
+          try { window.scrollTo(0,0); } catch(e) {}
+        }
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => setActive(tab));
+
+        tab.addEventListener('keydown', (e) => {
+          const idx = tabs.indexOf(tab);
+          let next = null;
+
+          if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
+          if (e.key === 'ArrowLeft')  next = (idx - 1 + tabs.length) % tabs.length;
+          if (e.key === 'Home')       next = 0;
+          if (e.key === 'End')        next = tabs.length - 1;
+
+          if (next !== null) {
+            e.preventDefault();
+            tabs[next].focus();
+            setActive(tabs[next], { noScroll: true });
+          }
+        });
+      });
+
+      // Copy buttons
+      async function copyToClipboard(text){
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        // fallback
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly','');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch(e) {}
+        document.body.removeChild(ta);
+      }
+
+      document.querySelectorAll('.prompt[data-prompt]').forEach(block => {
+        const btn = block.querySelector('.copy-btn');
+        const pre = block.querySelector('pre');
+        if (!btn || !pre) return;
+
+        btn.addEventListener('click', async () => {
+          const text = (pre.innerText || '').trim();
+          const original = btn.textContent;
+          btn.textContent = 'Copying…';
+          try {
+            await copyToClipboard(text);
+            btn.textContent = 'Copied';
+            setTimeout(() => btn.textContent = original, 1200);
+          } catch(e) {
+            btn.textContent = 'Copy failed';
+            setTimeout(() => btn.textContent = original, 1600);
+          }
+        });
+      });
+
+      // Scroll-to-activity pills (jump within the current tab panel)
+      function scrollToId(targetId){
+        const el = document.getElementById(targetId);
+        if (!el) return;
+
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Move focus for screen readers (without losing scroll position)
+        const focusEl = el.querySelector('h3, h2, summary, button, a') || el;
+        focusEl.setAttribute('tabindex','-1');
+        try { focusEl.focus({ preventScroll: true }); } catch(e){ try { focusEl.focus(); } catch(e2){} }
+        setTimeout(() => focusEl.removeAttribute('tabindex'), 250);
+      }
+
+      document.querySelectorAll('[data-scrollto]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-scrollto');
+          if (!id) return;
+
+          // visual state
+          document.querySelectorAll('.pill-btn[aria-pressed="true"]').forEach(b => b.setAttribute('aria-pressed','false'));
+          btn.setAttribute('aria-pressed','true');
+
+          scrollToId(id);
+        });
+      });
+
+      // Ensure first selected tab is applied
+      const initial = tabs.find(t => t.getAttribute('aria-selected') === 'true') || tabs[0];
+      setActive(initial, { noScroll: true });
+    })();
+  </script>
+</body>
+</html>
